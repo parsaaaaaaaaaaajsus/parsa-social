@@ -2,6 +2,7 @@
 #*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 from fastapi import FastAPI
 from pydantic import BaseModel
+from fastapi.responses import FileResponse
 
 app = FastAPI()
 
@@ -23,6 +24,10 @@ def Creat_an_Account(user: User):
     Accounts.append({"user_name": user_name,"name": name})
     return "حساب کاربری شما با موفقیت ساخته شد."
 
-app.get("see-A")
+@app.get("/see-A")
 def see_account():
     return Accounts
+
+@app.get("/")
+def home():
+    return FileResponse("frontend/index.html")
