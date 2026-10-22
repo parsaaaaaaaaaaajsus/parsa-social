@@ -1,282 +1,233 @@
-
+```html
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>حساب کاربری</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ورود و ثبت‌نام</title>
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+<style>
+* {
+    box-sizing: border-box;
+}
 
-        body {
-            margin: 0;
-            min-height: 100vh;
-            background: #10131b;
-            color: #f1f5f9;
-            font-family: Tahoma, Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #10131c;
+    color: white;
+    font-family: Tahoma, sans-serif;
+}
 
-        .card {
-            width: 100%;
-            max-width: 420px;
-            background: #1b202c;
-            border: 1px solid #30394a;
-            border-radius: 18px;
-            padding: 28px;
-        }
+.container {
+    width: 90%;
+    max-width: 390px;
+    padding: 28px;
+    background: #1b2030;
+    border: 1px solid #30384d;
+    border-radius: 18px;
+}
 
-        h1 {
-            font-size: 25px;
-            margin-top: 0;
-        }
+h2 {
+    text-align: center;
+    margin-top: 0;
+}
 
-        .subtitle {
-            color: #9ca8ba;
-            font-size: 14px;
-            line-height: 1.9;
-        }
+.tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 22px;
+}
 
-        label {
-            display: block;
-            margin: 18px 0 8px;
-            font-size: 14px;
-        }
+button {
+    cursor: pointer;
+    font-family: inherit;
+}
 
-        input {
-            width: 100%;
-            padding: 13px;
-            border-radius: 10px;
-            border: 1px solid #394457;
-            background: #111620;
-            color: white;
-            font-size: 15px;
-        }
+.tabs button {
+    flex: 1;
+    padding: 11px;
+    border: none;
+    border-radius: 8px;
+    background: #30384d;
+    color: white;
+}
 
-        button {
-            width: 100%;
-            padding: 13px;
-            margin-top: 20px;
-            border: 0;
-            border-radius: 10px;
-            background: #6366f1;
-            color: white;
-            font-size: 15px;
-            cursor: pointer;
-        }
+.tabs button.active {
+    background: #5865f2;
+}
 
-        button:disabled {
-            opacity: 0.6;
-            cursor: wait;
-        }
+input {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin: 12px 0;
+    border: 1px solid #39435b;
+    border-radius: 8px;
+    background: #111622;
+    color: white;
+    outline: none;
+}
 
-        .secondary {
-            background: #30394a;
-        }
+input:focus {
+    border-color: #7884ff;
+}
 
-        .message {
-            margin-top: 15px;
-            font-size: 14px;
-            line-height: 1.8;
-            overflow-wrap: anywhere;
-        }
+.submit {
+    width: 100%;
+    padding: 12px;
+    margin-top: 8px;
+    border: none;
+    border-radius: 8px;
+    background: #5865f2;
+    color: white;
+    font-size: 15px;
+}
 
-        .profile-row {
-            padding: 14px 0;
-            border-bottom: 1px solid #30394a;
-        }
+#message {
+    margin-top: 16px;
+    text-align: center;
+    line-height: 1.8;
+    overflow-wrap: anywhere;
+}
 
-        .profile-row span {
-            display: block;
-            color: #9ca8ba;
-            font-size: 13px;
-            margin-bottom: 8px;
-        }
-
-        .profile-row strong {
-            overflow-wrap: anywhere;
-        }
-
-        .avatar {
-            width: 76px;
-            height: 76px;
-            display: grid;
-            place-items: center;
-            background: #3730a3;
-            border-radius: 50%;
-            font-size: 32px;
-            margin-bottom: 20px;
-        }
-
-        [hidden] {
-            display: none !important;
-        }
-    </style>
+.hidden {
+    display: none;
+}
+</style>
 </head>
 
 <body>
+<div class="container">
+    <h2 id="title">ساخت حساب کاربری</h2>
 
-    <main class="card">
+    <div class="tabs">
+        <button id="signupTab" class="active" type="button">
+            ثبت‌نام
+        </button>
+        <button id="loginTab" type="button">
+            ورود
+        </button>
+    </div>
 
-        <section id="signup">
-            <h1>ساخت حساب کاربری</h1>
-            <p class="subtitle">
-                حساب خودت رو بساز و وارد صفحهٔ کاربری شو.
-            </p>
+    <form id="signupForm">
+        <input id="name" placeholder="نام شما" required>
+        <input id="signupUsername" placeholder="نام کاربری" required>
+        <input id="signupPassword" type="password"
+               placeholder="رمز عبور" required minlength="8">
+        <input id="confirmPassword" type="password"
+               placeholder="تکرار رمز عبور" required minlength="8">
+        <button class="submit" type="submit">ساخت حساب</button>
+    </form>
 
-            <form id="signupForm">
-                <label for="name">نام شما</label>
-                <input id="name" type="text"
-                       maxlength="60" required
-                       placeholder="نام خود را وارد کنید">
+    <form id="loginForm" class="hidden">
+        <input id="loginUsername" placeholder="نام کاربری" required>
+        <input id="loginPassword" type="password"
+               placeholder="رمز عبور" required>
+        <button class="submit" type="submit">ورود به حساب</button>
+    </form>
 
-                <label for="username">نام کاربری</label>
-                <input id="username" type="text"
-                       maxlength="30" required
-                       placeholder="یک نام کاربری انتخاب کنید">
+    <div id="message" role="status"></div>
+</div>
 
-                <button id="submitBtn" type="submit">
-                    ساخت حساب
-                </button>
-            </form>
+<script>
+const signupForm = document.getElementById("signupForm");
+const loginForm = document.getElementById("loginForm");
+const signupTab = document.getElementById("signupTab");
+const loginTab = document.getElementById("loginTab");
+const title = document.getElementById("title");
+const message = document.getElementById("message");
 
-            <p id="message" class="message" role="status"></p>
-        </section>
+function showSignup() {
+    signupForm.classList.remove("hidden");
+    loginForm.classList.add("hidden");
+    signupTab.classList.add("active");
+    loginTab.classList.remove("active");
+    title.textContent = "ساخت حساب کاربری";
+    message.textContent = "";
+}
 
-        <section id="profile" hidden>
-            <div class="avatar">👤</div>
+function showLogin() {
+    loginForm.classList.remove("hidden");
+    signupForm.classList.add("hidden");
+    loginTab.classList.add("active");
+    signupTab.classList.remove("active");
+    title.textContent = "ورود به حساب";
+    message.textContent = "";
+}
 
-            <h1>حساب کاربری شما</h1>
-            <p class="subtitle">
-                حساب شما با موفقیت ساخته شد.
-            </p>
+signupTab.addEventListener("click", showSignup);
+loginTab.addEventListener("click", showLogin);
 
-            <div class="profile-row">
-                <span>نام</span>
-                <strong id="profileName"></strong>
-            </div>
+signupForm.addEventListener("submit", async function(event) {
+    event.preventDefault();
 
-            <div class="profile-row">
-                <span>نام کاربری</span>
-                <strong id="profileUsername"></strong>
-            </div>
+    const name = document.getElementById("name").value.trim();
+    const username = document.getElementById("signupUsername").value.trim();
+    const password = document.getElementById("signupPassword").value;
+    const confirmPassword = document.getElementById("confirmPassword").value;
 
-            <button class="secondary" id="logoutBtn">
-                خروج از این صفحه
-            </button>
-        </section>
+    if (password !== confirmPassword) {
+        message.textContent = "رمزهای عبور یکسان نیستند.";
+        return;
+    }
 
-    </main>
-
-    <script>
-        const signup = document.getElementById("signup");
-        const profile = document.getElementById("profile");
-        const form = document.getElementById("signupForm");
-        const message = document.getElementById("message");
-        const submitBtn = document.getElementById("submitBtn");
-
-        function showProfile(account) {
-            document.getElementById("profileName").textContent =
-                account.name;
-
-            document.getElementById("profileUsername").textContent =
-                "@" + account.user_name;
-
-            signup.hidden = true;
-            profile.hidden = false;
-        }
-
-        // نمایش دوبارهٔ صفحهٔ حساب در همین مرورگر
-        const savedAccount = localStorage.getItem("myAccount");
-
-        if (savedAccount) {
-            try {
-                showProfile(JSON.parse(savedAccount));
-            } catch {
-                localStorage.removeItem("myAccount");
-            }
-        }
-
-        form.addEventListener("submit", async function(event) {
-            event.preventDefault();
-
-            const name = document.getElementById("name").value.trim();
-            const username = document.getElementById("username")
-                .value.trim();
-
-            if (!name || !username) {
-                message.textContent = "هر دو فیلد را پر کن.";
-                return;
-            }
-
-            submitBtn.disabled = true;
-            message.textContent = "در حال ساخت حساب...";
-
-            try {
-                const response = await fetch("/create-A", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        Name: name,
-                        User_name: username
-                    })
-                });
-
-                const result = await response.json().catch(() => null);
-
-                if (!response.ok) {
-                    throw new Error("سرور درخواست را نپذیرفت.");
-                }
-
-                // بک‌اند فعلی در پاسخ، پیام متنی می‌فرستد.
-                if (typeof result !== "string" ||
-                    !result.includes("با موفقیت ساخته شد")) {
-                    message.textContent =
-                        typeof result === "string"
-                            ? result
-                            : "ساخت حساب موفق نبود.";
-                    return;
-                }
-
-                const account = {
-                    name: name,
-                    user_name: username
-                };
-
-                localStorage.setItem(
-                    "myAccount",
-                    JSON.stringify(account)
-                );
-
-                showProfile(account);
-
-            } catch (error) {
-                message.textContent =
-                    "ارتباط با سرور برقرار نشد. دوباره تلاش کن.";
-            } finally {
-                submitBtn.disabled = false;
-            }
+    try {
+        const response = await fetch("/logup", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({
+                Name: name,
+                User_name: username,
+                PassWord: password
+            })
         });
 
-        document.getElementById("logoutBtn").addEventListener(
-            "click",
-            function() {
-                localStorage.removeItem("myAccount");
-                profile.hidden = true;
-                signup.hidden = false;
-                form.reset();
-                message.textContent = "";
-            }
-        );
-    </script>
+        const result = await response.json().catch(() => null);
+        const text = typeof result === "string"
+            ? result
+            : JSON.stringify(result);
 
+        message.textContent = text || "پاسخ نامعتبر از سرور دریافت شد.";
+
+        if (text && text.includes("با موفقیت ساخته شد")) {
+            signupForm.reset();
+            showLogin();
+            message.textContent = "حساب ساخته شد؛ حالا وارد شو.";
+            document.getElementById("loginUsername").value = username;
+        }
+    } catch {
+        message.textContent = "ارتباط با سرور برقرار نشد.";
+    }
+});
+
+loginForm.addEventListener("submit", async function(event) {
+    event.preventDefault();
+
+    const username = document.getElementById("loginUsername").value.trim();
+    const password = document.getElementById("loginPassword").value;
+
+    try {
+        const response = await fetch(
+            "/login?user_name=" + encodeURIComponent(username) +
+            "&pass_word=" + encodeURIComponent(password),
+            {method: "GET"}
+        );
+
+        const result = await response.json().catch(() => null);
+        const text = typeof result === "string"
+            ? result
+            : JSON.stringify(result);
+
+        message.textContent = text || "پاسخ نامعتبر از سرور دریافت شد.";
+    } catch {
+        message.textContent = "ارتباط با سرور برقرار نشد.";
+    }
+});
+</script>
 </body>
 </html>
+```
