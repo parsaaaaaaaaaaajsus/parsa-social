@@ -2,125 +2,186 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Parsa Social</title>
-  <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: Tahoma, sans-serif;
-      background: #101827;
-      color: white;
-      min-height: 100vh;
-      display: grid;
-      place-items: center;
-      padding: 20px;
-    }
-    main {
-      width: 100%;
-      max-width: 420px;
-      background: #1c283a;
-      padding: 28px;
-      border-radius: 18px;
-    }
-    h1 { font-size: 26px; }
-    p { color: #b9c6d8; line-height: 1.8; }
-    input, button {
-      width: 100%;
-      padding: 13px;
-      margin: 8px 0;
-      border-radius: 9px;
-      font: inherit;
-    }
-    input {
-      background: #101827;
-      color: white;
-      border: 1px solid #3a4860;
-    }
-    button {
-      border: 0;
-      background: #6366f1;
-      color: white;
-      cursor: pointer;
-    }
-    button.secondary { background: #344155; }
-    #message { overflow-wrap: anywhere; }
-    .account {
-      background: #101827;
-      padding: 12px;
-      border-radius: 8px;
-      margin-top: 8px;
-    }
-  </style>
-</head>
-<body>
-  <main>
-    <h1>Parsa Social</h1>
-    <p>حساب خودت رو بساز و به جمع ما بپیوند.</p>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Parsa Social</title>
+<style>
+* { box-sizing: border-box; }
 
-    <form id="signup">
+body {
+  margin: 0;
+  padding: 24px;
+  background: #101827;
+  color: #f1f5f9;
+  font-family: Tahoma, sans-serif;
+}
+
+main {
+  max-width: 600px;
+  margin: 30px auto;
+}
+
+h1 { color: #818cf8; }
+
+section {
+  background: #1e293b;
+  padding: 22px;
+  border-radius: 14px;
+  margin: 18px 0;
+}
+
+input, button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border-radius: 8px;
+  font: inherit;
+}
+
+input {
+  background: #0f172a;
+  border: 1px solid #475569;
+  color: white;
+}
+
+button {
+  background: #6366f1;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.delete { background: #dc2626; }
+
+.account {
+  background: #0f172a;
+  padding: 12px;
+  margin-top: 10px;
+  border-radius: 8px;
+  overflow-wrap: anywhere;
+}
+
+#message { line-height: 1.8; }
+</style>
+</head>
+
+<body>
+<main>
+  <h1>Parsa Social</h1>
+  <p>به شبکهٔ اجتماعی خودت خوش اومدی.</p>
+
+  <section>
+    <h2>ساخت حساب</h2>
+    <form id="createForm">
       <input id="name" placeholder="نام شما" required>
       <input id="username" placeholder="نام کاربری" required>
       <button type="submit">ساخت حساب</button>
     </form>
+  </section>
 
-    <button class="secondary" id="show">مشاهده حساب‌ها</button>
-    <p id="message"></p>
+  <section>
+    <h2>حساب‌های کاربران</h2>
+    <button id="loadAccounts">مشاهده حساب‌ها</button>
     <div id="accounts"></div>
-  </main>
+  </section>
 
-  <script>
-    const API = "https://parsa-social.onrender.com";
-    const message = document.getElementById("message");
+  <section>
+    <h2>حذف حساب</h2>
+    <form id="deleteForm">
+      <input id="deleteUsername"
+             placeholder="نام کاربری حساب" required>
+      <button class="delete" type="submit">حذف حساب</button>
+    </form>
+  </section>
 
-    document.getElementById("signup").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      message.textContent = "در حال ارسال...";
+  <p id="message"></p>
+</main>
 
-      try {
-        const response = await fetch(`${API}/create-A`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            Name: document.getElementById("name").value.trim(),
-            User_name: document.getElementById("username").value.trim()
-          })
-        });
+<script>
+const API = "https://parsa-social.onrender.com";
+const message = document.getElementById("message");
 
-        const data = await response.json();
-        message.textContent =
-          typeof data === "string" ? data :
-          data.detail ? JSON.stringify(data.detail) :
-          JSON.stringify(data);
+document.getElementById("createForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  message.textContent = "در حال ساخت حساب...";
 
-      } catch {
-        message.textContent =
-          "اتصال ناموفق بود؛ ممکن است سرور خاموش باشد یا CORS تنظیم نشده باشد.";
-      }
+  try {
+    const response = await fetch(`${API}/create-A`, {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        Name: document.getElementById("name").value.trim(),
+        User_name: document.getElementById("username").value.trim()
+      })
     });
 
-    document.getElementById("show").addEventListener("click", async () => {
-      const list = document.getElementById("accounts");
-      list.textContent = "در حال دریافت حساب‌ها...";
+    const data = await response.json();
+    message.textContent = data;
 
-      try {
-        const response = await fetch(`${API}/see-A`);
-        if (!response.ok) throw new Error("Request failed");
-        const accounts = await response.json();
+    if (response.ok) {
+      document.getElementById("createForm").reset();
+      loadAccounts();
+    }
+  } catch {
+    message.textContent = "اتصال به سرور ناموفق بود.";
+  }
+});
 
-        list.replaceChildren();
-        accounts.forEach(account => {
-          const item = document.createElement("div");
-          item.className = "account";
-          item.textContent = `${account.name} (@${account.user_name})`;
-          list.appendChild(item);
-        });
-        message.textContent = `${accounts.length} حساب دریافت شد.`;
-      } catch {
-        list.textContent = "دریافت حساب‌ها ناموفق بود.";
-      }
+async function loadAccounts() {
+  const list = document.getElementById("accounts");
+  list.textContent = "در حال دریافت حساب‌ها...";
+
+  try {
+    const response = await fetch(`${API}/see-A`);
+    if (!response.ok) throw new Error();
+
+    const data = await response.json();
+    list.replaceChildren();
+
+    if (data.length === 0) {
+      list.textContent = "هنوز حسابی ساخته نشده.";
+      return;
+    }
+
+    data.forEach(account => {
+      const item = document.createElement("div");
+      item.className = "account";
+      item.textContent = `${account.name} — @${account.user_name}`;
+      list.appendChild(item);
     });
-  </script>
+  } catch {
+    list.textContent = "دریافت حساب‌ها ناموفق بود.";
+  }
+}
+
+document.getElementById("loadAccounts")
+  .addEventListener("click", loadAccounts);
+
+document.getElementById("deleteForm").addEventListener("submit", async e => {
+  e.preventDefault();
+
+  const username =
+    document.getElementById("deleteUsername").value.trim();
+
+  message.textContent = "در حال حذف حساب...";
+
+  try {
+    const response = await fetch(
+      `${API}/delet-A?user_Name=${encodeURIComponent(username)}`,
+      {method: "DELETE"}
+    );
+
+    const data = await response.json();
+    message.textContent = data;
+
+    if (response.ok) {
+      document.getElementById("deleteForm").reset();
+      loadAccounts();
+    }
+  } catch {
+    message.textContent = "حذف حساب ناموفق بود.";
+  }
+});
+</script>
 </body>
 </html>
