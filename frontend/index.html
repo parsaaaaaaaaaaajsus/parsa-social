@@ -7,40 +7,88 @@
 <title>شبکه اجتماعی</title>
 <style>
 * { box-sizing: border-box; }
+
 body {
-    margin: 0; min-height: 100vh;
-    display: flex; justify-content: center; align-items: center;
-    background: #10131c; color: white;
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #10131c;
+    color: white;
     font-family: Tahoma, sans-serif;
 }
+
 .container {
-    width: 90%; max-width: 390px; padding: 28px;
-    background: #1b2030; border: 1px solid #30384d;
+    width: 90%;
+    max-width: 390px;
+    padding: 28px;
+    background: #1b2030;
+    border: 1px solid #30384d;
     border-radius: 18px;
 }
+
 h2 { text-align: center; }
-.tabs { display: flex; gap: 10px; margin-bottom: 20px; }
+
+.tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
 button {
-    cursor: pointer; font-family: inherit;
-    border: 0; border-radius: 8px; padding: 12px;
+    cursor: pointer;
+    font-family: inherit;
+    border: 0;
+    border-radius: 8px;
+    padding: 12px;
 }
-.tabs button { flex: 1; background: #30384d; color: white; }
-.tabs .active, .submit { background: #5865f2; color: white; }
+
+.tabs button {
+    flex: 1;
+    background: #30384d;
+    color: white;
+}
+
+.tabs .active, .submit {
+    background: #5865f2;
+    color: white;
+}
+
 input {
-    display: block; width: 100%; padding: 12px; margin: 12px 0;
-    border: 1px solid #39435b; border-radius: 8px;
-    background: #111622; color: white;
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin: 12px 0;
+    border: 1px solid #39435b;
+    border-radius: 8px;
+    background: #111622;
+    color: white;
 }
-.submit { width: 100%; margin-top: 8px; }
+
+.submit {
+    width: 100%;
+    margin-top: 8px;
+}
+
 .hidden { display: none; }
-#message { text-align: center; margin-top: 16px; line-height: 1.8; }
-#profile { text-align: center; overflow-wrap: anywhere; }
+
+#message {
+    text-align: center;
+    margin-top: 16px;
+    line-height: 1.8;
+    overflow-wrap: anywhere;
+}
+
+#profile { text-align: center; }
 </style>
 </head>
 <body>
+
 <div class="container">
     <div id="auth">
         <h2 id="title">ساخت حساب کاربری</h2>
+
         <div class="tabs">
             <button id="signupTab" class="active" type="button">ثبت‌نام</button>
             <button id="loginTab" type="button">ورود</button>
@@ -49,16 +97,20 @@ input {
         <form id="signupForm">
             <input id="name" placeholder="نام شما" required>
             <input id="signupUsername" placeholder="نام کاربری" required>
-            <input id="signupPassword" type="password" placeholder="رمز عبور" required>
-            <input id="confirmPassword" type="password" placeholder="تکرار رمز عبور" required>
+            <input id="signupPassword" type="password"
+                   placeholder="رمز عبور" required>
+            <input id="confirmPassword" type="password"
+                   placeholder="تکرار رمز عبور" required>
             <button class="submit" type="submit">ساخت حساب</button>
         </form>
 
         <form id="loginForm" class="hidden">
             <input id="loginUsername" placeholder="نام کاربری" required>
-            <input id="loginPassword" type="password" placeholder="رمز عبور" required>
+            <input id="loginPassword" type="password"
+                   placeholder="رمز عبور" required>
             <button class="submit" type="submit">ورود به حساب</button>
         </form>
+
         <div id="message" role="status"></div>
     </div>
 
@@ -132,15 +184,16 @@ signupForm.addEventListener("submit", async function(event) {
 
         const result = await response.json();
 
-        if (!response.ok || typeof result !== "string" ||
+        if (typeof result !== "string" ||
             !result.includes("با موفقیت ساخته شد")) {
             message.textContent = typeof result === "string"
-                ? result : (result.detail || "ثبت‌نام انجام نشد.");
+                ? result : "ثبت‌نام انجام نشد.";
             return;
         }
 
         signupForm.reset();
         enterAccount(name, username);
+
     } catch {
         message.textContent = "ارتباط با سرور برقرار نشد.";
     }
@@ -153,26 +206,26 @@ loginForm.addEventListener("submit", async function(event) {
     const password = document.getElementById("loginPassword").value;
 
     try {
-        const response = await fetch("/login", {
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({
-                User_name: username,
-                PassWord: password
-            })
+        const params = new URLSearchParams({
+            user_name: username,
+            pass_word: password
+        });
+
+        const response = await fetch("/login?" + params.toString(), {
+            method: "POST"
         });
 
         const result = await response.json();
 
-        if (!response.ok || typeof result !== "string" ||
-            !result.includes("با موفقیت به حساب خود وارد شدید")) {
+        if (typeof result === "string" &&
+            result.includes("با موفقیت به حساب خود وارد شدید")) {
+            loginForm.reset();
+            enterAccount(username, username);
+        } else {
             message.textContent = typeof result === "string"
-                ? result : (result.detail || "ورود انجام نشد.");
-            return;
+                ? result : "ورود انجام نشد.";
         }
 
-        loginForm.reset();
-        enterAccount(username, username);
     } catch {
         message.textContent = "ارتباط با سرور برقرار نشد.";
     }
