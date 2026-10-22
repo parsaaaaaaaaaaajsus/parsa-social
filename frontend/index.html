@@ -1,0 +1,126 @@
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Parsa Social</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Tahoma, sans-serif;
+      background: #101827;
+      color: white;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+    }
+    main {
+      width: 100%;
+      max-width: 420px;
+      background: #1c283a;
+      padding: 28px;
+      border-radius: 18px;
+    }
+    h1 { font-size: 26px; }
+    p { color: #b9c6d8; line-height: 1.8; }
+    input, button {
+      width: 100%;
+      padding: 13px;
+      margin: 8px 0;
+      border-radius: 9px;
+      font: inherit;
+    }
+    input {
+      background: #101827;
+      color: white;
+      border: 1px solid #3a4860;
+    }
+    button {
+      border: 0;
+      background: #6366f1;
+      color: white;
+      cursor: pointer;
+    }
+    button.secondary { background: #344155; }
+    #message { overflow-wrap: anywhere; }
+    .account {
+      background: #101827;
+      padding: 12px;
+      border-radius: 8px;
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Parsa Social</h1>
+    <p>حساب خودت رو بساز و به جمع ما بپیوند.</p>
+
+    <form id="signup">
+      <input id="name" placeholder="نام شما" required>
+      <input id="username" placeholder="نام کاربری" required>
+      <button type="submit">ساخت حساب</button>
+    </form>
+
+    <button class="secondary" id="show">مشاهده حساب‌ها</button>
+    <p id="message"></p>
+    <div id="accounts"></div>
+  </main>
+
+  <script>
+    const API = "https://parsa-social.onrender.com";
+    const message = document.getElementById("message");
+
+    document.getElementById("signup").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      message.textContent = "در حال ارسال...";
+
+      try {
+        const response = await fetch(`${API}/create-A`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            Name: document.getElementById("name").value.trim(),
+            User_name: document.getElementById("username").value.trim()
+          })
+        });
+
+        const data = await response.json();
+        message.textContent =
+          typeof data === "string" ? data :
+          data.detail ? JSON.stringify(data.detail) :
+          JSON.stringify(data);
+
+      } catch {
+        message.textContent =
+          "اتصال ناموفق بود؛ ممکن است سرور خاموش باشد یا CORS تنظیم نشده باشد.";
+      }
+    });
+
+    document.getElementById("show").addEventListener("click", async () => {
+      const list = document.getElementById("accounts");
+      list.textContent = "در حال دریافت حساب‌ها...";
+
+      try {
+        const response = await fetch(`${API}/see-A`);
+        if (!response.ok) throw new Error("Request failed");
+        const accounts = await response.json();
+
+        list.replaceChildren();
+        accounts.forEach(account => {
+          const item = document.createElement("div");
+          item.className = "account";
+          item.textContent = `${account.name} (@${account.user_name})`;
+          list.appendChild(item);
+        });
+        message.textContent = `${accounts.length} حساب دریافت شد.`;
+      } catch {
+        list.textContent = "دریافت حساب‌ها ناموفق بود.";
+      }
+    });
+  </script>
+</body>
+</html>
