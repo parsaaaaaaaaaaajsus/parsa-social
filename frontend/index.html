@@ -3,164 +3,108 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ورود و ثبت‌نام</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>شبکه اجتماعی</title>
 <style>
-* {
-    box-sizing: border-box;
-}
-
+* { box-sizing: border-box; }
 body {
-    margin: 0;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #10131c;
-    color: white;
+    margin: 0; min-height: 100vh;
+    display: flex; justify-content: center; align-items: center;
+    background: #10131c; color: white;
     font-family: Tahoma, sans-serif;
 }
-
 .container {
-    width: 90%;
-    max-width: 390px;
-    padding: 28px;
-    background: #1b2030;
-    border: 1px solid #30384d;
+    width: 90%; max-width: 390px; padding: 28px;
+    background: #1b2030; border: 1px solid #30384d;
     border-radius: 18px;
 }
-
-h2 {
-    text-align: center;
-    margin-top: 0;
-}
-
-.tabs {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 22px;
-}
-
+h2 { text-align: center; }
+.tabs { display: flex; gap: 10px; margin-bottom: 20px; }
 button {
-    cursor: pointer;
-    font-family: inherit;
+    cursor: pointer; font-family: inherit;
+    border: 0; border-radius: 8px; padding: 12px;
 }
-
-.tabs button {
-    flex: 1;
-    padding: 11px;
-    border: none;
-    border-radius: 8px;
-    background: #30384d;
-    color: white;
-}
-
-.tabs button.active {
-    background: #5865f2;
-}
-
+.tabs button { flex: 1; background: #30384d; color: white; }
+.tabs .active, .submit { background: #5865f2; color: white; }
 input {
-    display: block;
-    width: 100%;
-    padding: 12px;
-    margin: 12px 0;
-    border: 1px solid #39435b;
-    border-radius: 8px;
-    background: #111622;
-    color: white;
-    outline: none;
+    display: block; width: 100%; padding: 12px; margin: 12px 0;
+    border: 1px solid #39435b; border-radius: 8px;
+    background: #111622; color: white;
 }
-
-input:focus {
-    border-color: #7884ff;
-}
-
-.submit {
-    width: 100%;
-    padding: 12px;
-    margin-top: 8px;
-    border: none;
-    border-radius: 8px;
-    background: #5865f2;
-    color: white;
-    font-size: 15px;
-}
-
-#message {
-    margin-top: 16px;
-    text-align: center;
-    line-height: 1.8;
-    overflow-wrap: anywhere;
-}
-
-.hidden {
-    display: none;
-}
+.submit { width: 100%; margin-top: 8px; }
+.hidden { display: none; }
+#message { text-align: center; margin-top: 16px; line-height: 1.8; }
+#profile { text-align: center; overflow-wrap: anywhere; }
 </style>
 </head>
-
 <body>
 <div class="container">
-    <h2 id="title">ساخت حساب کاربری</h2>
+    <div id="auth">
+        <h2 id="title">ساخت حساب کاربری</h2>
+        <div class="tabs">
+            <button id="signupTab" class="active" type="button">ثبت‌نام</button>
+            <button id="loginTab" type="button">ورود</button>
+        </div>
 
-    <div class="tabs">
-        <button id="signupTab" class="active" type="button">
-            ثبت‌نام
-        </button>
-        <button id="loginTab" type="button">
-            ورود
-        </button>
+        <form id="signupForm">
+            <input id="name" placeholder="نام شما" required>
+            <input id="signupUsername" placeholder="نام کاربری" required>
+            <input id="signupPassword" type="password" placeholder="رمز عبور" required>
+            <input id="confirmPassword" type="password" placeholder="تکرار رمز عبور" required>
+            <button class="submit" type="submit">ساخت حساب</button>
+        </form>
+
+        <form id="loginForm" class="hidden">
+            <input id="loginUsername" placeholder="نام کاربری" required>
+            <input id="loginPassword" type="password" placeholder="رمز عبور" required>
+            <button class="submit" type="submit">ورود به حساب</button>
+        </form>
+        <div id="message" role="status"></div>
     </div>
 
-    <form id="signupForm">
-        <input id="name" placeholder="نام شما" required>
-        <input id="signupUsername" placeholder="نام کاربری" required>
-        <input id="signupPassword" type="password"
-               placeholder="رمز عبور" required minlength="8">
-        <input id="confirmPassword" type="password"
-               placeholder="تکرار رمز عبور" required minlength="8">
-        <button class="submit" type="submit">ساخت حساب</button>
-    </form>
-
-    <form id="loginForm" class="hidden">
-        <input id="loginUsername" placeholder="نام کاربری" required>
-        <input id="loginPassword" type="password"
-               placeholder="رمز عبور" required>
-        <button class="submit" type="submit">ورود به حساب</button>
-    </form>
-
-    <div id="message" role="status"></div>
+    <div id="profile" class="hidden">
+        <h2>حساب کاربری شما</h2>
+        <p id="profileName"></p>
+        <p id="profileUsername"></p>
+        <button id="logout" class="submit" type="button">خروج از حساب</button>
+    </div>
 </div>
 
 <script>
+const auth = document.getElementById("auth");
+const profile = document.getElementById("profile");
 const signupForm = document.getElementById("signupForm");
 const loginForm = document.getElementById("loginForm");
-const signupTab = document.getElementById("signupTab");
-const loginTab = document.getElementById("loginTab");
-const title = document.getElementById("title");
 const message = document.getElementById("message");
 
 function showSignup() {
     signupForm.classList.remove("hidden");
     loginForm.classList.add("hidden");
-    signupTab.classList.add("active");
-    loginTab.classList.remove("active");
-    title.textContent = "ساخت حساب کاربری";
+    document.getElementById("signupTab").classList.add("active");
+    document.getElementById("loginTab").classList.remove("active");
+    document.getElementById("title").textContent = "ساخت حساب کاربری";
     message.textContent = "";
 }
 
 function showLogin() {
     loginForm.classList.remove("hidden");
     signupForm.classList.add("hidden");
-    loginTab.classList.add("active");
-    signupTab.classList.remove("active");
-    title.textContent = "ورود به حساب";
+    document.getElementById("loginTab").classList.add("active");
+    document.getElementById("signupTab").classList.remove("active");
+    document.getElementById("title").textContent = "ورود به حساب";
     message.textContent = "";
 }
 
-signupTab.addEventListener("click", showSignup);
-loginTab.addEventListener("click", showLogin);
+function enterAccount(name, username) {
+    auth.classList.add("hidden");
+    profile.classList.remove("hidden");
+    document.getElementById("profileName").textContent = "نام: " + name;
+    document.getElementById("profileUsername").textContent =
+        "نام کاربری: " + username;
+}
+
+document.getElementById("signupTab").onclick = showSignup;
+document.getElementById("loginTab").onclick = showLogin;
 
 signupForm.addEventListener("submit", async function(event) {
     event.preventDefault();
@@ -168,9 +112,9 @@ signupForm.addEventListener("submit", async function(event) {
     const name = document.getElementById("name").value.trim();
     const username = document.getElementById("signupUsername").value.trim();
     const password = document.getElementById("signupPassword").value;
-    const confirmPassword = document.getElementById("confirmPassword").value;
+    const confirm = document.getElementById("confirmPassword").value;
 
-    if (password !== confirmPassword) {
+    if (password !== confirm) {
         message.textContent = "رمزهای عبور یکسان نیستند.";
         return;
     }
@@ -186,19 +130,17 @@ signupForm.addEventListener("submit", async function(event) {
             })
         });
 
-        const result = await response.json().catch(() => null);
-        const text = typeof result === "string"
-            ? result
-            : JSON.stringify(result);
+        const result = await response.json();
 
-        message.textContent = text || "پاسخ نامعتبر از سرور دریافت شد.";
-
-        if (text && text.includes("با موفقیت ساخته شد")) {
-            signupForm.reset();
-            showLogin();
-            message.textContent = "حساب ساخته شد؛ حالا وارد شو.";
-            document.getElementById("loginUsername").value = username;
+        if (!response.ok || typeof result !== "string" ||
+            !result.includes("با موفقیت ساخته شد")) {
+            message.textContent = typeof result === "string"
+                ? result : (result.detail || "ثبت‌نام انجام نشد.");
+            return;
         }
+
+        signupForm.reset();
+        enterAccount(name, username);
     } catch {
         message.textContent = "ارتباط با سرور برقرار نشد.";
     }
@@ -211,22 +153,36 @@ loginForm.addEventListener("submit", async function(event) {
     const password = document.getElementById("loginPassword").value;
 
     try {
-        const response = await fetch(
-            "/login?user_name=" + encodeURIComponent(username) +
-            "&pass_word=" + encodeURIComponent(password),
-            {method: "GET"}
-        );
+        const response = await fetch("/login", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({
+                User_name: username,
+                PassWord: password
+            })
+        });
 
-        const result = await response.json().catch(() => null);
-        const text = typeof result === "string"
-            ? result
-            : JSON.stringify(result);
+        const result = await response.json();
 
-        message.textContent = text || "پاسخ نامعتبر از سرور دریافت شد.";
+        if (!response.ok || typeof result !== "string" ||
+            !result.includes("با موفقیت به حساب خود وارد شدید")) {
+            message.textContent = typeof result === "string"
+                ? result : (result.detail || "ورود انجام نشد.");
+            return;
+        }
+
+        loginForm.reset();
+        enterAccount(username, username);
     } catch {
         message.textContent = "ارتباط با سرور برقرار نشد.";
     }
 });
+
+document.getElementById("logout").onclick = function() {
+    profile.classList.add("hidden");
+    auth.classList.remove("hidden");
+    showLogin();
+};
 </script>
 </body>
 </html>
