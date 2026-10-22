@@ -31,3 +31,11 @@ def see_account():
 @app.get("/")
 def home():
     return FileResponse("frontend/index.html")
+
+@app.delete("/delet-A")
+def delet_a(user_Name: str):
+    for user in Accounts:
+        if user_Name == user["user_name"]:
+            Accounts.remove(user)
+            return "حذف با موفقیت انجام شد"
+    return "کاربر پیدا نشد"
