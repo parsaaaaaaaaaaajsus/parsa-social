@@ -2,475 +2,564 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>شبکه اجتماعی</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>شبکه اجتماعی</title>
 
-<style>
-* { box-sizing: border-box; }
+    <style>
+        * {
+            box-sizing: border-box;
+        }
 
-body {
-    margin: 0;
-    padding-bottom: 90px;
-    background: #10131c;
-    color: #f4f5fa;
-    font-family: Tahoma, sans-serif;
-}
+        body {
+            margin: 0;
+            font-family: Tahoma, Arial, sans-serif;
+            background: #f3f5f8;
+            color: #202938;
+            padding-bottom: 80px;
+        }
 
-header {
-    padding: 20px;
-    background: #191e2b;
-    border-bottom: 1px solid #30384d;
-}
+        header {
+            background: #ffffff;
+            padding: 18px;
+            text-align: center;
+            font-size: 21px;
+            font-weight: bold;
+            border-bottom: 1px solid #e5e7eb;
+        }
 
-header h2 { margin: 0; }
+        main {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 0 14px;
+        }
 
-main {
-    max-width: 650px;
-    margin: auto;
-    padding: 20px 15px;
-}
+        .card {
+            background: white;
+            padding: 20px;
+            margin-bottom: 16px;
+            border-radius: 15px;
+            box-shadow: 0 3px 12px #00000008;
+        }
 
-.card {
-    background: #1b2030;
-    border: 1px solid #30384d;
-    border-radius: 15px;
-    padding: 18px;
-    margin-bottom: 15px;
-}
+        h2, h3 {
+            margin-top: 0;
+        }
 
-input, textarea {
-    display: block;
-    width: 100%;
-    padding: 12px;
-    margin: 12px 0;
-    background: #111622;
-    color: white;
-    border: 1px solid #39435b;
-    border-radius: 9px;
-    font: inherit;
-}
+        input, textarea {
+            width: 100%;
+            padding: 13px;
+            margin: 7px 0;
+            border: 1px solid #d7dce3;
+            border-radius: 9px;
+            font-family: inherit;
+            font-size: 14px;
+        }
 
-textarea {
-    min-height: 120px;
-    resize: vertical;
-}
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
 
-button {
-    padding: 12px;
-    border: 0;
-    border-radius: 9px;
-    background: #5865f2;
-    color: white;
-    font: inherit;
-    cursor: pointer;
-}
+        button {
+            border: none;
+            border-radius: 9px;
+            padding: 12px 16px;
+            font-family: inherit;
+            font-size: 14px;
+            cursor: pointer;
+        }
 
-button:disabled { opacity: .6; }
-.wide { width: 100%; }
-.secondary { background: #30384d; }
-.hidden { display: none !important; }
+        .primary {
+            background: #2563eb;
+            color: white;
+            width: 100%;
+            margin-top: 8px;
+        }
 
-.tabs {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 20px;
-}
+        .secondary {
+            background: #e8efff;
+            color: #2455bb;
+        }
 
-.tabs button { flex: 1; }
-.tabs .active { background: #5865f2; }
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
 
-.muted {
-    color: #a6aec2;
-    font-size: 13px;
-}
+        .tabs button {
+            flex: 1;
+            background: #e8ebf0;
+        }
 
-#message, #postMessage {
-    line-height: 1.8;
-    overflow-wrap: anywhere;
-}
+        .tabs button.active {
+            background: #2563eb;
+            color: white;
+        }
 
-.post-text {
-    white-space: pre-wrap;
-    overflow-wrap: anywhere;
-    line-height: 1.9;
-}
+        .post {
+            background: white;
+            border: 1px solid #e8ebf0;
+            border-radius: 12px;
+            padding: 16px;
+            margin: 12px 0;
+            overflow-wrap: anywhere;
+        }
 
-.bottom-nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    padding: 12px;
-    background: #191e2b;
-    border-top: 1px solid #30384d;
-}
+        .post h3 {
+            margin-bottom: 10px;
+        }
 
-.bottom-nav button {
-    width: 45%;
-    max-width: 300px;
-}
+        .post-author {
+            color: #64748b;
+            font-size: 12px;
+            margin-bottom: 12px;
+        }
 
-</style>
+        .muted {
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            display: flex;
+            background: white;
+            border-top: 1px solid #e5e7eb;
+            padding: 8px;
+            padding-bottom: max(8px, env(safe-area-inset-bottom));
+        }
+
+        .bottom-nav button {
+            flex: 1;
+            background: white;
+            color: #64748b;
+            padding: 12px 5px;
+        }
+
+        .bottom-nav button.active {
+            color: #2563eb;
+            font-weight: bold;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        #message {
+            white-space: pre-wrap;
+            line-height: 1.8;
+            font-size: 13px;
+        }
+    </style>
 </head>
 
 <body>
 
-<header>
-    <h2 id="headerTitle">شبکه اجتماعی</h2>
-</header>
+<header>شبکه اجتماعی</header>
 
 <main>
-    <!-- ثبت‌نام و ورود -->
+    <p id="message"></p>
+
+    <!-- ثبت نام و ورود -->
     <section id="authPage">
-        <div class="card">
-            <div class="tabs">
-                <button id="signupTab" type="button">ثبت‌نام</button>
-                <button id="loginTab" class="secondary" type="button">ورود</button>
-            </div>
+        <div class="tabs">
+            <button id="signupTab" class="active"
+                onclick="showAuth('signup')">ثبت‌نام</button>
 
-            <form id="signupForm">
-                <h3>ساخت حساب کاربری</h3>
-                <input id="signupName" placeholder="نام شما" required>
-                <input id="signupUsername" placeholder="نام کاربری" required>
-                <input id="signupPassword" type="password"
-                       placeholder="رمز عبور" required>
-                <input id="confirmPassword" type="password"
-                       placeholder="تکرار رمز عبور" required>
-                <button class="wide" type="submit">ثبت‌نام</button>
-            </form>
+            <button id="loginTab"
+                onclick="showAuth('login')">ورود</button>
+        </div>
 
-            <form id="loginForm" class="hidden">
-                <h3>ورود به حساب</h3>
-                <input id="loginUsername" placeholder="نام کاربری" required>
-                <input id="loginPassword" type="password"
-                       placeholder="رمز عبور" required>
-                <button class="wide" type="submit">ورود</button>
-            </form>
+        <div class="card" id="signupForm">
+            <h2>ساخت حساب کاربری</h2>
 
-            <p id="message" role="status"></p>
+            <input id="signupName" placeholder="اسم شما">
+            <input id="signupUsername" placeholder="نام کاربری">
+            <input id="signupPassword" type="password"
+                placeholder="رمز عبور">
+
+            <button class="primary" onclick="signup()">
+                ثبت‌نام
+            </button>
+        </div>
+
+        <div class="card hidden" id="loginForm">
+            <h2>ورود به حساب</h2>
+
+            <input id="loginUsername" placeholder="نام کاربری">
+            <input id="loginPassword" type="password"
+                placeholder="رمز عبور">
+
+            <button class="primary" onclick="login()">
+                ورود
+            </button>
         </div>
     </section>
 
-    <!-- محیط شبکه اجتماعی -->
-    <section id="appPage" class="hidden">
+    <!-- صفحه حساب کاربری -->
+    <section id="profilePage" class="hidden">
+        <div class="card">
+            <h2>حساب کاربری من</h2>
+            <p>اسم: <strong id="profileName"></strong></p>
+            <p>یوزرنیم: <strong id="profileUsername"></strong></p>
 
-        <!-- حساب کاربری -->
-        <section id="accountPage">
+            <button class="secondary" onclick="showMyPosts()">
+                دیدن پست‌های من
+            </button>
+
+            <button class="secondary" onclick="logout()">
+                خروج از حساب
+            </button>
+        </div>
+
+        <div id="myPostsSection" class="hidden">
             <div class="card">
-                <h3>حساب کاربری من</h3>
-                <p id="profileName"></p>
-                <p id="profileUsername" class="muted"></p>
+                <h2>انتشار پست</h2>
 
-                <button id="myPostsButton" class="wide" type="button">
-                    مشاهده پست‌های من
-                </button>
+                <input id="postTitle" placeholder="عنوان پست">
+                <textarea id="postText"
+                    placeholder="چی می‌خوای منتشر کنی؟"></textarea>
 
-                <button id="logoutButton" class="wide secondary"
-                        type="button" style="margin-top:10px">
-                    خروج از حساب
-                </button>
-            </div>
-
-            <div class="card">
-                <h3>انتشار پست جدید</h3>
-                <form id="postForm">
-                    <input id="postTitle" placeholder="عنوان پست" required>
-                    <textarea id="postText"
-                              placeholder="چی توی ذهنته؟" required></textarea>
-                    <button class="wide" type="submit">انتشار پست</button>
-                </form>
-                <p id="postMessage" role="status"></p>
-            </div>
-
-            <div id="myPostsSection" class="hidden">
-                <div class="card">
-                    <h3>پست‌های من</h3>
-                    <div id="myPosts"></div>
-                </div>
-            </div>
-        </section>
-
-        <!-- صفحه عمومی -->
-        <section id="publicPage" class="hidden">
-            <div class="card">
-                <h3>صفحه عمومی</h3>
-                <p class="muted">پست‌های منتشرشده توسط کاربران</p>
-                <button id="refreshPosts" class="secondary" type="button">
-                    تازه‌سازی
+                <button class="primary" onclick="sharePost()">
+                    انتشار
                 </button>
             </div>
-            <div id="publicPosts"></div>
-        </section>
 
+            <div class="card">
+                <h2>پست‌های من</h2>
+                <div id="myPosts"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- صفحه عمومی -->
+    <section id="publicPage" class="hidden">
+        <div class="card">
+            <h2>صفحه عمومی</h2>
+            <p class="muted">پست‌های منتشرشده توسط کاربران</p>
+            <button class="secondary" onclick="loadPublicPosts()">
+                تازه‌سازی پست‌ها
+            </button>
+        </div>
+
+        <div id="publicPosts"></div>
     </section>
 </main>
 
 <!-- نوار پایین -->
 <nav id="bottomNav" class="bottom-nav hidden">
-    <button id="accountTab" type="button">حساب کاربری</button>
-    <button id="publicTab" class="secondary" type="button">
-        صفحه عمومی
-    </button>
+    <button id="profileNav" class="active"
+        onclick="showPage('profile')">حساب کاربری</button>
+
+    <button id="publicNav"
+        onclick="showPage('public')">صفحه عمومی</button>
 </nav>
 
 <script>
-const $ = id => document.getElementById(id);
+    const authPage = document.getElementById("authPage");
+    const profilePage = document.getElementById("profilePage");
+    const publicPage = document.getElementById("publicPage");
+    const bottomNav = document.getElementById("bottomNav");
+    const message = document.getElementById("message");
 
-let currentUser = null;
+    let currentUser = null;
+    let currentName = null;
 
-function showAuth(mode) {
-    const signup = mode === "signup";
-
-    $("signupForm").classList.toggle("hidden", !signup);
-    $("loginForm").classList.toggle("hidden", signup);
-
-    $("signupTab").classList.toggle("active", signup);
-    $("loginTab").classList.toggle("active", !signup);
-    $("signupTab").classList.toggle("secondary", !signup);
-    $("loginTab").classList.toggle("secondary", signup);
-
-    $("message").textContent = "";
-}
-
-function enterApp(name, username) {
-    currentUser = {name, username};
-
-    $("authPage").classList.add("hidden");
-    $("appPage").classList.remove("hidden");
-    $("bottomNav").classList.remove("hidden");
-
-    $("profileName").textContent = "نام: " + name;
-    $("profileUsername").textContent = "نام کاربری: @" + username;
-
-    showTab("account");
-}
-
-function showTab(tab) {
-    const account = tab === "account";
-
-    $("accountPage").classList.toggle("hidden", !account);
-    $("publicPage").classList.toggle("hidden", account);
-
-    $("accountTab").classList.toggle("active", account);
-    $("publicTab").classList.toggle("active", !account);
-    $("accountTab").classList.toggle("secondary", !account);
-    $("publicTab").classList.toggle("secondary", account);
-
-    $("headerTitle").textContent =
-        account ? "حساب کاربری" : "صفحه عمومی";
-
-    if (!account) loadPublicPosts();
-}
-
-$("signupTab").onclick = () => showAuth("signup");
-$("loginTab").onclick = () => showAuth("login");
-$("accountTab").onclick = () => showTab("account");
-$("publicTab").onclick = () => showTab("public");
-$("myPostsButton").onclick = loadMyPosts;
-$("refreshPosts").onclick = loadPublicPosts;
-
-// ثبت‌نام
-$("signupForm").addEventListener("submit", async event => {
-    event.preventDefault();
-
-    const name = $("signupName").value.trim();
-    const username = $("signupUsername").value.trim();
-    const password = $("signupPassword").value;
-    const confirm = $("confirmPassword").value;
-
-    if (password !== confirm) {
-        $("message").textContent = "رمزهای عبور یکسان نیستند.";
-        return;
+    function showMessage(text) {
+        message.textContent = text;
     }
 
-    try {
-        const response = await fetch("/logup", {
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({
-                Name: name,
-                User_name: username,
-                PassWord: password
-            })
-        });
+    function showAuth(type) {
+        document.getElementById("signupForm").classList.toggle(
+            "hidden", type !== "signup"
+        );
 
-        const result = await response.json();
+        document.getElementById("loginForm").classList.toggle(
+            "hidden", type !== "login"
+        );
 
-        if (typeof result === "string" &&
-            result.includes("با موفقیت ساخته شد")) {
-            $("signupForm").reset();
-            enterApp(name, username);
-        } else {
-            $("message").textContent =
-                typeof result === "string" ? result : "ثبت‌نام ناموفق بود.";
+        document.getElementById("signupTab").classList.toggle(
+            "active", type === "signup"
+        );
+
+        document.getElementById("loginTab").classList.toggle(
+            "active", type === "login"
+        );
+
+        showMessage("");
+    }
+
+    async function readResponse(response) {
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(
+                typeof data.detail === "string"
+                    ? data.detail
+                    : "درخواست ناموفق بود."
+            );
         }
-    } catch {
-        $("message").textContent = "ارتباط با سرور برقرار نشد.";
+
+        return data;
     }
-});
 
-// ورود مطابق بک‌اند فعلی تو
-$("loginForm").addEventListener("submit", async event => {
-    event.preventDefault();
+    async function signup() {
+        const Name = document.getElementById("signupName").value.trim();
+        const User_name = document.getElementById(
+            "signupUsername"
+        ).value.trim();
+        const PassWord = document.getElementById(
+            "signupPassword"
+        ).value;
 
-    const username = $("loginUsername").value.trim();
-    const password = $("loginPassword").value;
-
-    try {
-        const params = new URLSearchParams({
-            user_name: username,
-            pass_word: password
-        });
-
-        const response = await fetch("/login?" + params.toString(), {
-            method: "POST"
-        });
-
-        const result = await response.json();
-
-        if (typeof result === "string" &&
-            result.includes("با موفقیت به حساب خود وارد شدید")) {
-            $("loginForm").reset();
-
-            // تابع ورود فعلی نام واقعی کاربر را برنمی‌گرداند.
-            enterApp(username, username);
-        } else {
-            $("message").textContent =
-                typeof result === "string" ? result : "ورود ناموفق بود.";
+        if (!Name || !User_name || !PassWord) {
+            showMessage("لطفاً همه قسمت‌ها را پر کن.");
+            return;
         }
-    } catch {
-        $("message").textContent = "ارتباط با سرور برقرار نشد.";
-    }
-});
 
-// انتشار پست
-$("postForm").addEventListener("submit", async event => {
-    event.preventDefault();
-    if (!currentUser) return;
+        try {
+            const response = await fetch("/logup", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({Name, User_name, PassWord})
+            });
 
-    const title = $("postTitle").value.trim();
-    const text = $("postText").value.trim();
+            const result = await readResponse(response);
 
-    try {
-        const params = new URLSearchParams({
-            user_name: currentUser.username
-        });
-
-        const response = await fetch("/share-post?" + params.toString(), {
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({
-                Title: title,
-                Text: text,
-                Like: 0
-            })
-        });
-
-        const result = await response.json();
-
-        if (typeof result === "string" &&
-            result.includes("با موفقیت منتشر شد")) {
-            $("postForm").reset();
-            $("postMessage").textContent = result;
-            loadMyPosts();
-        } else {
-            $("postMessage").textContent =
-                typeof result === "string" ? result : "انتشار ناموفق بود.";
+            if (typeof result === "string" &&
+                result.includes("با موفقیت")) {
+                openAccount(User_name, Name);
+                showMessage(result);
+            } else {
+                showMessage(
+                    typeof result === "string"
+                        ? result
+                        : "ثبت‌نام ناموفق بود."
+                );
+            }
+        } catch (error) {
+            showMessage("خطا در ثبت‌نام: " + error.message);
         }
-    } catch {
-        $("postMessage").textContent = "ارتباط با سرور برقرار نشد.";
-    }
-});
-
-// ساخت کارت پست؛ از textContent برای نمایش امن متن استفاده می‌کنیم.
-function renderPosts(container, posts) {
-    container.replaceChildren();
-
-    if (!Array.isArray(posts) || posts.length === 0) {
-        const empty = document.createElement("div");
-        empty.className = "card";
-        empty.textContent = "هنوز پستی وجود ندارد.";
-        container.appendChild(empty);
-        return;
     }
 
-    [...posts].reverse().forEach(post => {
-        const card = document.createElement("article");
-        card.className = "card";
+    async function login() {
+        const user_name = document.getElementById(
+            "loginUsername"
+        ).value.trim();
+        const pass_word = document.getElementById(
+            "loginPassword"
+        ).value;
 
-        const author = document.createElement("p");
-        author.className = "muted";
-        author.textContent = "@" + (post.user_name || currentUser.username);
+        if (!user_name || !pass_word) {
+            showMessage("نام کاربری و رمز عبور را وارد کن.");
+            return;
+        }
 
-        const title = document.createElement("h3");
-        title.textContent = post.title || "بدون عنوان";
+        try {
+            const params = new URLSearchParams({
+                user_name,
+                pass_word
+            });
 
-        const body = document.createElement("p");
-        body.className = "post-text";
-        body.textContent = post.text || "";
+            const response = await fetch("/login?" + params.toString(), {
+                method: "POST"
+            });
 
-        card.append(author, title, body);
-        container.appendChild(card);
-    });
-}
+            const result = await readResponse(response);
 
-// دریافت پست‌های خود کاربر
-async function loadMyPosts() {
-    if (!currentUser) return;
+            if (typeof result === "string" &&
+                result.includes("با موفقیت")) {
+                // بک‌اند فعلی نام واقعی کاربر را در پاسخ ورود نمی‌دهد.
+                openAccount(user_name, user_name);
+                showMessage(result);
+            } else {
+                showMessage(
+                    typeof result === "string"
+                        ? result
+                        : "ورود ناموفق بود."
+                );
+            }
+        } catch (error) {
+            showMessage("خطا در ورود: " + error.message);
+        }
+    }
 
-    $("myPostsSection").classList.remove("hidden");
-    $("myPosts").textContent = "در حال دریافت پست‌ها...";
+    function openAccount(username, name) {
+        currentUser = username;
+        currentName = name;
 
-    try {
-        const params = new URLSearchParams({
-            user_name: currentUser.username
+        document.getElementById("profileName").textContent = name;
+        document.getElementById("profileUsername").textContent = username;
+
+        authPage.classList.add("hidden");
+        profilePage.classList.remove("hidden");
+        publicPage.classList.add("hidden");
+        bottomNav.classList.remove("hidden");
+
+        showPage("profile");
+        document.getElementById("myPostsSection").classList.add("hidden");
+    }
+
+    function showPage(page) {
+        if (!currentUser) {
+            showMessage("برای استفاده از سایت باید وارد حساب شوی.");
+            return;
+        }
+
+        profilePage.classList.toggle("hidden", page !== "profile");
+        publicPage.classList.toggle("hidden", page !== "public");
+
+        document.getElementById("profileNav").classList.toggle(
+            "active", page === "profile"
+        );
+
+        document.getElementById("publicNav").classList.toggle(
+            "active", page === "public"
+        );
+
+        showMessage("");
+
+        if (page === "public") {
+            loadPublicPosts();
+        }
+    }
+
+    async function showMyPosts() {
+        document.getElementById("myPostsSection").classList.remove("hidden");
+        await loadMyPosts();
+    }
+
+    async function loadMyPosts() {
+        if (!currentUser) return;
+
+        try {
+            const params = new URLSearchParams({
+                user_name: currentUser
+            });
+
+            const response = await fetch("/my-posts?" + params.toString());
+            const posts = await readResponse(response);
+            renderPosts(posts, "myPosts", false);
+        } catch (error) {
+            showMessage("خطا در دریافت پست‌های شما: " + error.message);
+        }
+    }
+
+    async function loadPublicPosts() {
+        try {
+            const response = await fetch("/posts");
+            const posts = await readResponse(response);
+            renderPosts(posts, "publicPosts", true);
+        } catch (error) {
+            showMessage("خطا در دریافت پست‌های عمومی: " + error.message);
+        }
+    }
+
+    function renderPosts(posts, containerId, showAuthor) {
+        const container = document.getElementById(containerId);
+        container.replaceChildren();
+
+        if (!Array.isArray(posts) || posts.length === 0) {
+            container.textContent = "هنوز پستی منتشر نشده.";
+            return;
+        }
+
+        [...posts].reverse().forEach(post => {
+            const article = document.createElement("article");
+            article.className = "post";
+
+            const title = document.createElement("h3");
+            title.textContent = post.title || "بدون عنوان";
+
+            const text = document.createElement("p");
+            text.textContent = post.text || "";
+
+            article.appendChild(title);
+
+            if (showAuthor) {
+                const author = document.createElement("div");
+                author.className = "post-author";
+                author.textContent = "نویسنده: " + (
+                    post.user_name || "ناشناس"
+                );
+                article.appendChild(author);
+            }
+
+            article.appendChild(text);
+            container.appendChild(article);
         });
-
-        const response = await fetch("/my-posts?" + params.toString());
-        const result = await response.json();
-
-        if (!response.ok) throw new Error();
-
-        renderPosts($("myPosts"), result);
-    } catch {
-        $("myPosts").textContent =
-            "دریافت پست‌ها ناموفق بود. مسیر GET /my-posts را به بک‌اند اضافه کن.";
     }
-}
 
-// دریافت همه پست‌ها
-async function loadPublicPosts() {
-    $("publicPosts").textContent = "در حال دریافت پست‌ها...";
+    async function sharePost() {
+        if (!currentUser) {
+            showMessage("برای انتشار پست ابتدا وارد حساب شو.");
+            return;
+        }
 
-    try {
-        const response = await fetch("/posts");
-        const result = await response.json();
+        const Title = document.getElementById("postTitle").value.trim();
+        const Text = document.getElementById("postText").value.trim();
 
-        if (!response.ok) throw new Error();
+        if (!Title || !Text) {
+            showMessage("عنوان و متن پست را وارد کن.");
+            return;
+        }
 
-        renderPosts($("publicPosts"), result);
-    } catch {
-        $("publicPosts").textContent =
-            "دریافت پست‌ها ناموفق بود. مسیر GET /posts را به بک‌اند اضافه کن.";
+        try {
+            const params = new URLSearchParams({
+                user_name: currentUser
+            });
+
+            const response = await fetch("/share-post?" + params.toString(), {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({
+                    Title,
+                    Text,
+                    Like: 0
+                })
+            });
+
+            const result = await readResponse(response);
+
+            if (typeof result === "string" &&
+                result.includes("با موفقیت")) {
+                document.getElementById("postTitle").value = "";
+                document.getElementById("postText").value = "";
+
+                showMessage(result);
+                await loadMyPosts();
+            } else {
+                showMessage(
+                    typeof result === "string"
+                        ? result
+                        : "انتشار پست ناموفق بود."
+                );
+            }
+        } catch (error) {
+            showMessage("خطا در انتشار پست: " + error.message);
+        }
     }
-}
 
-// خروج از محیط نمایشی
-$("logoutButton").onclick = () => {
-    currentUser = null;
+    function logout() {
+        currentUser = null;
+        currentName = null;
 
-    $("appPage").classList.add("hidden");
-    $("bottomNav").classList.add("hidden");
-    $("authPage").classList.remove("hidden");
-    $("myPostsSection").classList.add("hidden");
+        profilePage.classList.add("hidden");
+        publicPage.classList.add("hidden");
+        bottomNav.classList.add("hidden");
+        authPage.classList.remove("hidden");
 
-    showAuth("login");
-};
+        showMessage("از حساب خارج شدی.");
+        showAuth("login");
+    }
 </script>
+
 </body>
 </html>
 ```
