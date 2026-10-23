@@ -45,10 +45,12 @@ def share_post(post: Post, user_name: str):
     title = post.Title
     text = post.Text
     like = post.Like
+    num_post = len(Posts)
     for user in Accounts:
         if user_name == user["user_name"]:
-            user["my-posts"].append({"title": title, "text": text})
-            Posts.append({"user_name": user_name,"title": title, "text": text})
+            user["my-posts"].append({"title": title, "text": text, "likes":0, "num-p": num_post})
+            Posts.append({"user_name": user_name,"title": title, "text": text, "likes":0, "num-p": num_post})
+
             return "پست شما با موفقیت منتشر شد."
     return "خطا در انتشار پست شما."
 @app.get("/posts")
@@ -64,6 +66,15 @@ def get_my_posts(user_name: str):
 
     return []
 
+@app.post("/like-p")
+def like(num_post: int):
+    for post in Posts:
+        if num_post == post["num-p"]:
+            post["likes"] += 1
+            for user in Accounts:
+                for my_post in user["my-posts"]:
+                    if num_post == my_post["num-p"]:
+                        my_post["likes"] += 1
 
 @app.get("/")
 def home():
