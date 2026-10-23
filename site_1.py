@@ -51,6 +51,19 @@ def share_post(post: Post, user_name: str):
             Posts.append({"user_name": user_name,"title": title, "text": text})
             return "پست شما با موفقیت منتشر شد."
     return "خطا در انتشار پست شما."
+@app.get("/posts")
+def get_posts():
+    return Posts
+
+
+@app.get("/my-posts")
+def get_my_posts(user_name: str):
+    for user in Accounts:
+        if user_name == user["user_name"]:
+            return user["my-posts"]
+
+    return []
+
 
 @app.get("/")
 def home():
