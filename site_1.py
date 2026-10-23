@@ -7,11 +7,17 @@ from fastapi.responses import FileResponse
 app = FastAPI()
 
 Accounts = []
+Posts = []
 
 class User(BaseModel):
     Name: str
     User_name: str
     PassWord: str
+
+class Post(BaseModel):
+    Title: str
+    Text: str
+    Like: int
 
 
 @app.post("/logup")
@@ -23,7 +29,7 @@ def log_up(user: User):
         if user_name == user["user_name"]:
             return "این حساب کاربری از قبل وجود دارد."
 
-    Accounts.append({"user_name": user_name,"name": name, "password": password})
+    Accounts.append({"user_name": user_name,"name": name, "password": password, "my-posts": []})
     return "حساب کاربری شما با موفقیت ساخته شد."
 
 @app.post("/login")
@@ -34,8 +40,19 @@ def log_in(user_name: str, pass_word: str):
         
     return "رمز اشتباه است یا این حساب وجود ندارد"
 
-
+@app.post("/share-post")
+def share_post(post: Post, user_name: str):
+    title = post.Title
+    text = post.Text
+    like = post.Like
+    for user in Accounts:
+        if user_name == user["user_name"]:
+            user["my-posts"].append({"title": title, "text": text})
+            Posts.append({"user_name": user_name,"title": title, "text": text})
+            return "پست شما با موفقیت منتشر شد."
+    return "خطا در انتشار پست شما."
 
 @app.get("/")
 def home():
     return FileResponse("frontend/index.html")
+
