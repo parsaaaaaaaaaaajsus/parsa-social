@@ -23,6 +23,9 @@ class Post(BaseModel):
     Text: str
     Like: int
 
+class Comment(BaseModel):
+    Text: str
+
 
 @app.post("/logup")
 def log_up(user: User, response: Response):
@@ -99,7 +102,7 @@ def log_out(user_name: str, all: bool, response: Response, SEssion: str = Cookie
 
 
 @app.post("/share-post")
-def share_post(post: Post,user__name: str,SEssion: str = Cookie(alias="session_id")):
+def share_post(post: Post, user__name: str, SEssion: str = Cookie(alias="session_id")):
     title = post.Title
     text = post.Text
     like = post.Like
@@ -111,10 +114,29 @@ def share_post(post: Post,user__name: str,SEssion: str = Cookie(alias="session_i
     for user in Accounts:
         if user_name == user["user_name"]:
             user["my-posts"].append({"title": title, "text": text, "likes":[0], "num-p": num_post})
-            Posts.append({"user_name": user_name,"title": title, "text": text, "likes":[0], "num-p": num_post})
+            Posts.append({"user_name": user_name,"title": title, "text": text, "likes":[0], "num-p": num_post, "comment": []})
 
             return "پست شما با موفقیت منتشر شد."
     return "خطا در انتشار پست شما."
+
+
+@app.post("/Comment")
+def comment_for_post(comment: Comment, len_post:int, SEssion: str = Cookie(alias="session_id")):
+    text = comment.Text
+    user_name = Sessions.get(SEssion)
+
+
+
+    if user_name is None:
+        return "نشست نامعتبر است."
+    for user in Accounts:
+        if user_name == user["user_name"]:
+            for i in Posts:
+                if len_post == i["num-p"]:
+                    i["comment"].append({"user_name": user_name, "text": text})
+                    return "کامنت با موفقیت ثبت شد."
+    return "مشکلی پیش امده است."
+
 
 
 @app.get("/posts")
