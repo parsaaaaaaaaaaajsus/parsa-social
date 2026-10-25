@@ -102,6 +102,7 @@ function showPage(id) {
   window.scrollTo({top:0,behavior:'smooth'});
 }
 function showAuth(mode='login') { setAuthMode(mode); showPage('authPage'); }
+function showAuthLogin(){ showAuth('login'); }
 function setAuthMode(mode) {
   authMode=mode;
   $('authTitle').textContent=mode==='login'?'ورود به حساب':'ساخت حساب کاربری';
@@ -137,7 +138,7 @@ function postCard(post, mine=false) {
     <div class="post-head"><div class="avatar">${iconLetter(author)}</div><div><div class="author">${escapeHtml(author)}</div><div class="handle">${post.user_name?'@'+escapeHtml(post.user_name):''}</div></div></div>
     <h2 class="post-title">${escapeHtml(title)}</h2><div class="post-text">${escapeHtml(text)}</div>
     <div class="post-actions">
-      ${mine?'':`<button class="like-btn ${liked?'liked':''}" ${canLike?'':'title="برای لایک وارد حساب شوید"'} onclick="${canLike?`toggleLike(${Number.isFinite(num)?num:-1},this)`:'showAuth(\\'login\\')'}" aria-label="لایک">
+      ${mine?'':`<button class="like-btn ${liked?'liked':''}" ${canLike?'':'title="برای لایک وارد حساب شوید"'} onclick="${canLike?`toggleLike(${Number.isFinite(num)?num:-1},this)`:'showAuth(\'login\')'}" aria-label="لایک">
         <svg viewBox="0 0 24 24"><path d="M20.8 8.8c0 5.2-8.8 10.1-8.8 10.1S3.2 14 3.2 8.8A4.6 4.6 0 0 1 12 6.5a4.6 4.6 0 0 1 8.8 2.3Z"/></svg><span>${liked?'پسندیدم':'لایک'}</span></button>`}
       <span class="like-count">${likes} لایک</span>
     </div>
@@ -182,7 +183,7 @@ async function loadMyPosts() {
 }
 function renderProfile() {
   const target=$('profileContent');
-  if(!currentUser){target.innerHTML='<div class="empty"><strong>وارد حساب نشده‌ای</strong><button class="btn primary" onclick="showAuth(\\'login\\')">ورود</button></div>';return}
+  if(!currentUser){target.innerHTML='<div class="empty"><strong>وارد حساب نشده‌ای</strong><button class="btn primary" onclick="showAuthLogin()">ورود</button></div>';return}
   target.innerHTML=`<div class="profile-card">
     <div class="profile-hero"><div class="avatar profile-avatar">${iconLetter(currentUser.Name)}</div><div><div class="profile-name">${escapeHtml(currentUser.Name)}</div><div class="profile-handle">@${escapeHtml(currentUser.user_name)}</div></div></div>
     <div class="info-title">مشخصات حساب</div>
