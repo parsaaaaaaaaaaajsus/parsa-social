@@ -12,6 +12,8 @@ app = FastAPI()
 Accounts = []
 Posts = []
 Sessions = {}
+#------------------------
+Reactions = ["😂", "👍", "😒", "😢", "🤩", "😐", "😭", "😡"]
 
 class User(BaseModel):
     Name: str
@@ -22,6 +24,7 @@ class Post(BaseModel):
     Title: str
     Text: str
     Like: int
+
 
 class Comment(BaseModel):
     Text: str
@@ -72,7 +75,7 @@ def log_in(user_name: str, pass_word: str, response: Response):
     return "رمز اشتباه است یا این حساب وجود ندارد"
 
 @app.delete("/logout")
-def log_out(user_name: str, all: bool, response: Response, SEssion: str = Cookie(alias="session_id")):
+def log_out(all: bool, response: Response, SEssion: str = Cookie(alias="session_id")):
     user_name = Sessions.get(SEssion)
 
     if user_name is None:
@@ -90,6 +93,7 @@ def log_out(user_name: str, all: bool, response: Response, SEssion: str = Cookie
                     httponly=True,
                     samesite="lax"
                 )
+                return "با موفقیت از حساب‌های خود خارج شدید"
             else:
                 Sessions.pop(SEssion, None)
                 response.delete_cookie(
@@ -99,6 +103,7 @@ def log_out(user_name: str, all: bool, response: Response, SEssion: str = Cookie
                             httponly=True,
                             samesite="lax"
                         )
+                return "با موفقیت از حساب خود خارج شدید"
 
 
 @app.post("/share-post")
@@ -113,8 +118,8 @@ def share_post(post: Post, user__name: str, SEssion: str = Cookie(alias="session
         return "نشست نامعتبر است."
     for user in Accounts:
         if user_name == user["user_name"]:
-            user["my-posts"].append({"title": title, "text": text, "likes":[0], "num-p": num_post})
-            Posts.append({"user_name": user_name,"title": title, "text": text, "likes":[0], "num-p": num_post, "comment": []})
+            user["my-posts"].append({"title": title, "text": text, "likes":[0], "num-p": num_post, "reactions": {}})
+            Posts.append({"user_name": user_name,"title": title, "text": text, "likes":[0], "num-p": num_post, "comment": [], "reactions": {}})
 
             return "پست شما با موفقیت منتشر شد."
     return "خطا در انتشار پست شما."
@@ -131,10 +136,19 @@ def comment_for_post(comment: Comment, len_post:int, SEssion: str = Cookie(alias
         return "نشست نامعتبر است."
     for user in Accounts:
         if user_name == user["user_name"]:
-            for i in Posts:
-                if len_post == i["num-p"]:
-                    i["comment"].append({"user_name": user_name, "text": text})
-                    return "کامنت با موفقیت ثبت شد."
+            for post in Posts:
+                if len_post == post["num-p"]:
+                    post["comment"].append({"user_name": user_name, "text": text})
+                    
+
+                    for owner in Accounts:
+                        if owner["user_name"] == post["user_name"]:
+                            for my_post in owner["my-posts"]:
+                                if len_post == my_post["num-p"]:
+                                    my_post["comment"].append({"user_name": user_name, "text": text})
+                                    return "کامنت با موفقیت ثبت شد."
+
+
     return "مشکلی پیش امده است."
 
 
@@ -145,15 +159,21 @@ def get_posts():
 
 
 @app.get("/my-posts")
-def get_my_posts(user_name: str):
+def get_my_posts(user_name: str, SEssion: str = Cookie(alias="session_id")):
+
+    user_name = Sessions.get(SEssion)
+
+    if user_name is None:
+        return "نشست نامعتبر است."
     for user in Accounts:
         if user_name == user["user_name"]:
             return user["my-posts"]
 
     return []
 
+
 @app.post("/like-p")
-def like(num_post: int, user__name: str, SEssion: str = Cookie(alias="session_id")):
+def like(num_post: int, SEssion: str = Cookie(alias="session_id")):
     user_name = Sessions.get(SEssion)
 
     if user_name is None:
@@ -181,6 +201,32 @@ def like(num_post: int, user__name: str, SEssion: str = Cookie(alias="session_id
                                         my_post["likes"][0] += 1
                                         my_post["likes"].append(user_name)
                                     return "وضعیت لایک تغییر کرد"
+
+
+
+@app.post("/Reaction")
+def reaction(len_post: int, re_action: str, SEssion: str = Cookie(alias="session_id")):
+    user_name = Sessions.get(SEssion)
+
+    if user_name is None:
+        return "نشست نامعتبر است."
+    for user in Accounts:
+        if user_name == user["user_name"]:
+            for post in Posts:
+                if len_post == post["num-p"]:
+                    for re in Reactions:
+                        if re == re_action:
+                            post["reactions"][user_name] = re
+
+
+                            for owner in Accounts:
+                                if owner["user_name"] == post["user_name"]:
+                                    for my_post in owner["my-posts"]:
+                                        if len_post == my_post["num-p"]:
+                                            my_post["reactions"][user_name] = re
+                                            return "ری‌اکشن با موفقیت ثبت شد."
+    return "مشکلی پیش امده است."
+
 
 @app.get("/")
 def home():
