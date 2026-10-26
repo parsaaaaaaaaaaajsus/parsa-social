@@ -1,465 +1,575 @@
-
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>شبکه اجتماعی</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Signala | سیگنالا</title>
+
 <style>
-:root{--bg:#f5f7fb;--card:#fff;--text:#172033;--muted:#778197;--line:#e7ebf2;--blue:#3867f5;--blue2:#244bd0;--pink:#f04475;--shadow:0 12px 35px rgba(28,42,75,.08)}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font-family:Tahoma,"Segoe UI",sans-serif}
-button,input,textarea{font:inherit}
-button{cursor:pointer;border:0}
-.app{min-height:100dvh;padding-bottom:86px}
-.topbar{height:68px;display:flex;align-items:center;justify-content:space-between;padding:0 max(18px,calc((100% - 760px)/2));background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
-.brand{font-size:20px;font-weight:900;letter-spacing:-.5px}
-.brand span{color:var(--blue)}
-.top-actions{display:flex;gap:8px}
-.btn{border-radius:13px;padding:11px 16px;font-weight:700;transition:.18s}
-.btn:active{transform:scale(.97)}
-.primary{background:var(--blue);color:#fff}
-.primary:hover{background:var(--blue2)}
-.soft{background:#eef2ff;color:var(--blue)}
-.plain{background:#f1f3f8;color:var(--text)}
-.danger{background:#fff0f2;color:#cf284f}
-.content{max-width:680px;margin:0 auto;padding:20px 15px}
-.page{display:none}
-.page.active{display:block}
-.page-heading{display:flex;align-items:center;justify-content:space-between;margin:4px 0 18px}
-.page-heading h1{font-size:22px;margin:0}
-.subtitle{color:var(--muted);font-size:13px;margin-top:7px}
-.post-list{display:grid;gap:14px}
-.post-card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:var(--shadow)}
-.post-head{display:flex;align-items:center;gap:10px;margin-bottom:14px}
-.avatar{width:42px;height:42px;border-radius:15px;display:grid;place-items:center;background:linear-gradient(135deg,#dfe7ff,#f4e6ff);color:#3855bd;font-weight:900;flex-shrink:0}
-.author{font-weight:800;font-size:14px}
-.handle{color:var(--muted);font-size:12px;margin-top:4px}
-.post-title{font-weight:900;font-size:17px;margin:0 0 9px;line-height:1.8}
-.post-text{white-space:pre-wrap;line-height:2;font-size:14px;color:#3c465b;overflow-wrap:anywhere}
-.post-actions{display:flex;align-items:center;gap:10px;border-top:1px solid var(--line);padding-top:13px;margin-top:14px;flex-wrap:wrap}
-.like-btn{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:12px;background:#f5f6fa;color:#5d6578;font-weight:800}
-.like-btn svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;transition:transform .18s}
-.like-btn.liked{background:#fff0f4;color:var(--pink)}
-.like-btn.liked svg{fill:var(--pink);stroke:var(--pink)}
-.like-btn:active svg{transform:scale(1.2)}
-.like-count{font-size:13px}
-.empty{background:#fff;border:1px dashed #d7deeb;border-radius:20px;text-align:center;padding:34px 20px;color:var(--muted);line-height:2}
-.empty strong{display:block;color:var(--text);font-size:17px;margin-bottom:6px}
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:10;background:rgba(255,255,255,.94);backdrop-filter:blur(14px);border-top:1px solid var(--line);display:flex;justify-content:center;padding:8px 12px calc(8px + env(safe-area-inset-bottom))}
-.nav-inner{width:min(680px,100%);display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.nav-btn{background:transparent;color:#8992a5;border-radius:14px;padding:8px 10px;display:flex;align-items:center;justify-content:center;gap:8px;font-weight:800}
-.nav-btn svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8}
-.nav-btn.active{background:#eef2ff;color:var(--blue)}
-.plus-btn{width:42px;height:42px;border-radius:14px;background:var(--blue);color:#fff;font-size:27px;display:grid;place-items:center;box-shadow:0 8px 18px #3867f544}
-.profile-card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:var(--shadow)}
-.profile-hero{display:flex;align-items:center;gap:15px;padding-bottom:20px;border-bottom:1px solid var(--line)}
-.profile-avatar{width:66px;height:66px;border-radius:22px;font-size:24px}
-.profile-name{font-size:20px;font-weight:900}
-.profile-handle{color:var(--muted);font-size:13px;margin-top:7px}
-.info-title{font-weight:900;margin:20px 0 12px}
-.info-row{display:flex;justify-content:space-between;gap:12px;padding:13px 0;border-bottom:1px solid #f0f2f7;font-size:14px}
-.info-row:last-child{border:0}
-.info-label{color:var(--muted)}
-.profile-buttons{display:grid;gap:10px;margin-top:18px}
-.full{width:100%}
-.auth-wrap{max-width:460px;margin:20px auto;background:#fff;border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:var(--shadow)}
-.auth-tabs{display:grid;grid-template-columns:1fr 1fr;gap:7px;background:#f3f5fa;padding:5px;border-radius:14px;margin-bottom:20px}
-.auth-tabs button{padding:10px;border-radius:10px;background:transparent;color:var(--muted);font-weight:800}
-.auth-tabs button.active{background:#fff;color:var(--blue);box-shadow:0 3px 10px #1720330b}
-.field{display:grid;gap:8px;margin:13px 0}
-.field label{font-size:13px;font-weight:800}
-.field input,.field textarea{width:100%;border:1px solid #dfe4ee;border-radius:13px;padding:13px 14px;outline:none;background:#fff;color:var(--text)}
-.field textarea{min-height:180px;resize:vertical;line-height:1.9}
-.field input:focus,.field textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px #3867f51c}
-.form-note{color:var(--muted);font-size:12px;line-height:1.9}
-.notice{padding:12px 14px;border-radius:12px;background:#eef7ff;color:#2756a7;margin:12px 0;font-size:13px;line-height:1.8;display:none}
-.notice.show{display:block}
-.screen-header{display:flex;align-items:center;gap:12px;margin-bottom:20px}
-.back-btn{width:42px;height:42px;border-radius:13px;background:#fff;border:1px solid var(--line);font-size:20px}
-.screen-header h1{margin:0;font-size:21px}
-.screen-header p{margin:5px 0 0;color:var(--muted);font-size:12px}
-.composer{background:#fff;border:1px solid var(--line);border-radius:22px;padding:20px;box-shadow:var(--shadow)}
-.composer .field textarea{min-height:220px}
-.hidden{display:none!important}
-.loading{text-align:center;color:var(--muted);padding:28px}
-.small{font-size:12px;color:var(--muted)}
-@media(min-width:600px){.content{padding-top:26px}.post-card{padding:21px}.auth-wrap{margin-top:30px}}
+:root {
+  --bg: #f4f5fb;
+  --card: #fff;
+  --text: #202238;
+  --muted: #777d92;
+  --primary: #6565e8;
+  --soft: #eeeeff;
+  --border: #e7e8f1;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Tahoma, Arial, sans-serif;
+  line-height: 1.8;
+}
+button, input, textarea { font: inherit; }
+button { cursor: pointer; }
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: #ffffffed;
+  border-bottom: 1px solid var(--border);
+}
+.topbar-inner {
+  max-width: 850px;
+  margin: auto;
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.brand { font-size: 22px; font-weight: bold; color: var(--primary); }
+.brand small { display: block; font-size: 11px; color: var(--muted); font-weight: normal; }
+.container { max-width: 700px; margin: 24px auto 100px; padding: 0 14px; }
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 17px;
+  padding: 19px;
+  margin-bottom: 15px;
+  box-shadow: 0 5px 22px #20223808;
+}
+h1 { font-size: 23px; margin: 0 0 6px; }
+h2 { font-size: 18px; margin: 0 0 12px; }
+.muted { color: var(--muted); font-size: 13px; }
+input, textarea {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 11px;
+  margin: 5px 0 12px;
+  background: #fcfcff;
+}
+textarea { min-height: 100px; resize: vertical; }
+button {
+  border: 0;
+  border-radius: 10px;
+  padding: 9px 14px;
+}
+.primary { background: var(--primary); color: white; }
+.secondary { background: #f0f1f8; color: var(--text); }
+.tabs { display: flex; gap: 8px; margin: 18px 0; }
+.tabs button { flex: 1; background: #f0f1f8; }
+.tabs button.active { background: var(--soft); color: var(--primary); }
+.hidden { display: none !important; }
+.notice {
+  display: none;
+  padding: 10px 13px;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  font-size: 13px;
+}
+.notice.show { display: block; background: #e9f8ef; color: #18794e; }
+.notice.error { background: #fff0f1; color: #b4233c; }
+.post-head { display: flex; align-items: center; gap: 10px; }
+.avatar {
+  width: 42px; height: 42px; border-radius: 50%;
+  display: grid; place-items: center;
+  color: var(--primary); background: var(--soft); font-weight: bold;
+}
+.post-title { font-size: 18px; font-weight: bold; margin-top: 15px; }
+.post-text { white-space: pre-wrap; overflow-wrap: anywhere; margin: 7px 0 15px; }
+.reaction-heading { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+.reactions { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 14px; }
+.reaction {
+  background: #f7f8fc;
+  border: 1px solid var(--border);
+  padding: 5px 9px;
+  min-width: 52px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+.reaction.selected { background: var(--soft); border-color: var(--primary); }
+.count { font-size: 12px; color: var(--muted); }
+.post-actions {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  border-top: 1px solid var(--border); padding-top: 12px;
+}
+.comments { margin-top: 13px; border-top: 1px solid var(--border); padding-top: 12px; }
+.comment { background: #f6f7fb; padding: 8px 10px; border-radius: 9px; margin-bottom: 7px; font-size: 13px; }
+.comment strong { margin-left: 6px; }
+.comment-form { display: flex; gap: 7px; margin-top: 10px; }
+.comment-form input { margin: 0; }
+.empty { text-align: center; color: var(--muted); padding: 25px 10px; }
+.bottom-nav {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  display: flex; justify-content: center; gap: 10px;
+  padding: 10px; background: #ffffffed;
+  border-top: 1px solid var(--border);
+}
+.bottom-nav button { min-width: 135px; }
+@media (max-width: 480px) {
+  .card { padding: 14px; }
+  .container { margin-top: 15px; }
+}
 </style>
 </head>
+
 <body>
-<div class="app">
 <header class="topbar">
-  <div class="brand">نقطه<span>.</span></div>
-  <div class="top-actions" id="guestActions">
-    <button class="btn soft" onclick="showAuth('login')">ورود</button>
-    <button class="btn primary" onclick="showAuth('signup')">ثبت‌نام</button>
-  </div>
-  <div class="top-actions hidden" id="memberActions">
-    <button class="btn plain" onclick="logout(false)">خروج</button>
+  <div class="topbar-inner">
+    <div class="brand">
+      Signala
+      <small>ایده‌ها، گفتگوها، آدم‌ها</small>
+    </div>
+    <button id="logoutButton" class="secondary hidden" onclick="logout()">خروج</button>
   </div>
 </header>
 
-<main class="content">
-  <section id="publicPage" class="page active">
-    <div class="page-heading">
-      <div><h1>پست‌های عمومی</h1><div class="subtitle">چیزهایی که دیگران به اشتراک گذاشته‌اند</div></div>
-      <button id="newPostBtn" class="plus-btn hidden" aria-label="پست جدید" title="پست جدید" onclick="openComposer()">+</button>
+<main class="container">
+  <div id="notice" class="notice"></div>
+
+  <section id="auth" class="card">
+    <h1>به سیگنالا خوش اومدی</h1>
+    <p class="muted">وارد حساب شو یا حساب جدید بساز.</p>
+
+    <div class="tabs">
+      <button id="loginTab" class="active" onclick="showAuth('login')">ورود</button>
+      <button id="signupTab" onclick="showAuth('signup')">ثبت‌نام</button>
     </div>
-    <div id="postsList" class="post-list"><div class="loading">در حال دریافت پست‌ها…</div></div>
+
+    <form id="loginForm" onsubmit="login(event)">
+      <input id="loginUsername" placeholder="نام کاربری" required autocomplete="username">
+      <input id="loginPassword" type="password" placeholder="رمز عبور" required autocomplete="current-password">
+      <button class="primary" style="width:100%">ورود به حساب</button>
+    </form>
+
+    <form id="signupForm" class="hidden" onsubmit="signup(event)">
+      <input id="signupName" placeholder="نام نمایشی" required>
+      <input id="signupUsername" placeholder="نام کاربری" required autocomplete="username">
+      <input id="signupPassword" type="password" placeholder="رمز عبور" required autocomplete="new-password">
+      <button class="primary" style="width:100%">ساخت حساب</button>
+    </form>
+
+    <p class="muted" style="text-align:center;margin:15px 0 0">
+      ورود با گوگل در نسخهٔ آینده اضافه می‌شود.
+    </p>
   </section>
 
-  <section id="profilePage" class="page">
-    <div class="page-heading"><div><h1>صفحهٔ کاربری</h1><div class="subtitle">مشخصات حساب شما</div></div></div>
-    <div id="profileContent"></div>
-  </section>
+  <section id="app" class="hidden">
+    <div class="card">
+      <div class="post-head">
+        <div class="avatar">S</div>
+        <div>
+          <strong id="profileName">حساب کاربری</strong>
+          <div id="profileUsername" class="muted"></div>
+        </div>
+      </div>
+    </div>
 
-  <section id="myPostsPage" class="page">
-    <div class="screen-header"><button class="back-btn" onclick="showPage('profilePage')" aria-label="بازگشت">→</button><div><h1>پست‌های من</h1><p>همهٔ پست‌هایی که منتشر کرده‌اید</p></div></div>
-    <div id="myPostsList" class="post-list"></div>
-  </section>
-
-  <section id="authPage" class="page">
-    <div class="auth-wrap">
-      <div class="screen-header"><button class="back-btn" onclick="showPage('publicPage')" aria-label="بازگشت">→</button><div><h1 id="authTitle">ورود به حساب</h1><p>برای لایک‌کردن و انتشار پست وارد شوید</p></div></div>
-      <div class="auth-tabs"><button id="loginTab" class="active" onclick="setAuthMode('login')">ورود</button><button id="signupTab" onclick="setAuthMode('signup')">ثبت‌نام</button></div>
-      <div id="authNotice" class="notice"></div>
-      <form id="authForm">
-        <div id="nameField" class="field hidden"><label for="fullName">نام نمایشی</label><input id="fullName" autocomplete="name" maxlength="60" /></div>
-        <div class="field"><label for="username">نام کاربری</label><input id="username" autocomplete="username" required maxlength="40" /></div>
-        <div class="field"><label for="password">رمز عبور</label><input id="password" type="password" autocomplete="current-password" required minlength="1" /></div>
-        <button id="authSubmit" class="btn primary full" type="submit">ورود</button>
+    <div class="card" id="compose">
+      <h2>چی تو ذهنته؟</h2>
+      <form onsubmit="sharePost(event)">
+        <input id="postTitle" placeholder="عنوان پست" required maxlength="120">
+        <textarea id="postText" placeholder="متنت رو بنویس..." required></textarea>
+        <button class="primary">انتشار پست</button>
       </form>
-      <p class="form-note">با ثبت‌نام، حساب شما ساخته می‌شود و مستقیم به صفحهٔ کاربری می‌روید.</p>
     </div>
-  </section>
 
-  <section id="composerPage" class="page">
-    <div class="screen-header"><button class="back-btn" onclick="showPage('publicPage')" aria-label="بازگشت">→</button><div><h1>پست جدید</h1><p>ایده‌ات را با بقیه به اشتراک بگذار</p></div></div>
-    <div class="composer">
-      <div id="postNotice" class="notice"></div>
-      <form id="postForm">
-        <div class="field"><label for="postTitle">موضوع پست</label><input id="postTitle" required maxlength="150" placeholder="موضوع پست را بنویس…" /></div>
-        <div class="field"><label for="postText">متن پست</label><textarea id="postText" required maxlength="10000" placeholder="چی می‌خواهی بگویی؟"></textarea></div>
-        <button class="btn primary full" type="submit">انتشار پست</button>
-      </form>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin:20px 4px 12px">
+      <h2 id="feedTitle">پست‌های تازه</h2>
+      <button class="secondary" onclick="refreshPosts()">به‌روزرسانی</button>
     </div>
-  </section>
-
-  <section id="commentsPage" class="page">
-    <div class="screen-header"><button class="back-btn" onclick="showPage('publicPage')" aria-label="بازگشت">→</button><div><h1>کامنت‌های پست</h1><p>نظرت را دربارهٔ این پست بنویس</p></div></div>
-    <div id="commentPostPreview"></div>
-    <div class="composer" style="margin-top:14px">
-      <div class="page-heading" style="margin-top:0"><div><h2 style="font-size:17px;margin:0">کامنت‌ها</h2><div class="subtitle">گفت‌وگو دربارهٔ این پست</div></div></div>
-      <div id="commentsList" class="post-list"><div class="loading">در حال دریافت کامنت‌ها…</div></div>
-    </div>
-    <div class="composer" style="margin-top:14px">
-      <div id="commentNotice" class="notice"></div>
-      <form id="commentForm">
-        <div class="field"><label for="commentText">کامنت شما</label><textarea id="commentText" required maxlength="2000" placeholder="نظرت را بنویس…" style="min-height:130px"></textarea></div>
-        <button class="btn primary full" type="submit">ثبت کامنت</button>
-      </form>
-      <p id="commentLoginHint" class="form-note">برای ثبت کامنت باید وارد حساب کاربری شوی.</p>
-    </div>
+    <div id="posts"></div>
   </section>
 </main>
 
-<nav class="bottom-nav" id="bottomNav">
-  <div class="nav-inner">
-    <button id="navPublic" class="nav-btn active" onclick="showPage('publicPage')"><svg viewBox="0 0 24 24"><path d="M3 10.8 12 3l9 7.8"/><path d="M5.5 9.5V21h13V9.5M9 21v-7h6v7"/></svg>عمومی</button>
-    <button id="navProfile" class="nav-btn" onclick="goProfile()"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c.7-4.2 3.4-6.3 8-6.3s7.3 2.1 8 6.3"/></svg>صفحهٔ کاربری</button>
-  </div>
+<nav id="bottomNav" class="bottom-nav hidden">
+  <button id="feedButton" class="primary" onclick="loadPosts()">پست‌های عمومی</button>
+  <button id="myPostsButton" class="secondary" onclick="loadMyPosts()">پست‌های من</button>
 </nav>
-</div>
 
 <script>
-const $ = id => document.getElementById(id);
+const REACTIONS = ["😂", "👍", "😒", "😢", "🤩", "😐", "😭", "😡"];
+
 let currentUser = null;
-let authMode = 'login';
-let currentPage = 'publicPage';
+let currentView = "feed";
 let postsCache = [];
-let activeCommentPost = null;
 
-function showNotice(id, message, isError=false) {
-  const el=$(id);
-  el.textContent=message;
-  el.classList.add('show');
-  el.style.background=isError?'#fff0f2':'#eef7ff';
-  el.style.color=isError?'#b42345':'#2756a7';
-}
-function hideNotice(id){$(id).classList.remove('show')}
-
-function showPage(id) {
-  currentPage=id;
-  document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===id));
-  $('bottomNav').classList.toggle('hidden',id==='authPage'||id==='composerPage'||id==='commentsPage');
-  $('navPublic').classList.toggle('active',id==='publicPage');
-  $('navProfile').classList.toggle('active',id==='profilePage'||id==='myPostsPage');
-  if(id==='publicPage') loadPosts();
-  if(id==='profilePage') renderProfile();
-  if(id==='myPostsPage') loadMyPosts();
-  window.scrollTo({top:0,behavior:'smooth'});
+function showNotice(message, error = false) {
+  const box = document.getElementById("notice");
+  box.textContent = message || "درخواست انجام شد.";
+  box.className = "notice show" + (error ? " error" : "");
+  clearTimeout(showNotice.timer);
+  showNotice.timer = setTimeout(() => box.className = "notice", 3500);
 }
 
-function showAuth(mode='login') {setAuthMode(mode);showPage('authPage')}
-function showAuthLogin(){showAuth('login')}
+async function api(path, options = {}) {
+  const response = await fetch(path, {
+    credentials: "include",
+    ...options
+  });
 
-function setAuthMode(mode) {
-  authMode=mode;
-  $('authTitle').textContent=mode==='login'?'ورود به حساب':'ساخت حساب کاربری';
-  $('loginTab').classList.toggle('active',mode==='login');
-  $('signupTab').classList.toggle('active',mode==='signup');
-  $('nameField').classList.toggle('hidden',mode==='login');
-  $('authSubmit').textContent=mode==='login'?'ورود':'ثبت‌نام و ورود';
-  $('password').autocomplete=mode==='login'?'current-password':'new-password';
-  hideNotice('authNotice');
+  const type = response.headers.get("content-type") || "";
+  const result = type.includes("application/json")
+    ? await response.json()
+    : await response.text();
+
+  if (!response.ok) {
+    throw new Error(typeof result === "string" ? result : "درخواست ناموفق بود.");
+  }
+  return result;
 }
 
-function syncHeader() {
-  $('guestActions').classList.toggle('hidden',!!currentUser);
-  $('memberActions').classList.toggle('hidden',!currentUser);
-  $('newPostBtn').classList.toggle('hidden',!currentUser);
+function showAuth(mode) {
+  const loginMode = mode === "login";
+  document.getElementById("loginForm").classList.toggle("hidden", !loginMode);
+  document.getElementById("signupForm").classList.toggle("hidden", loginMode);
+  document.getElementById("loginTab").classList.toggle("active", loginMode);
+  document.getElementById("signupTab").classList.toggle("active", !loginMode);
 }
 
-function goProfile() {
-  if(!currentUser){showAuth('login');return}
-  showPage('profilePage');
+async function login(event) {
+  event.preventDefault();
+
+  const username = document.getElementById("loginUsername").value.trim();
+  const password = document.getElementById("loginPassword").value;
+
+  try {
+    const result = await api(
+      `/login?user_name=${encodeURIComponent(username)}&pass_word=${encodeURIComponent(password)}`,
+      { method: "POST" }
+    );
+
+    showNotice(result);
+    if (typeof result === "string" && result.includes("موفقیت")) {
+      currentUser = { username, name: username };
+      enterApp();
+    }
+  } catch (error) {
+    showNotice(error.message, true);
+  }
 }
 
-function escapeHtml(value) {
-  return String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-}
-function iconLetter(name){const s=String(name||'?').trim();return escapeHtml(s.slice(0,1).toUpperCase()||'?')}
+async function signup(event) {
+  event.preventDefault();
 
-function postCard(post, mine=false) {
-  const author=post.name||post.user_name||'کاربر';
-  const title=post.title||'بدون موضوع';
-  const text=post.text||'';
-  const likes=Array.isArray(post.likes)?Math.max(0,Number(post.likes[0])||0):Number(post.likes_count)||0;
-  const liked=!!(currentUser&&Array.isArray(post.likes)&&post.likes.slice(1).includes(currentUser.user_name));
-  const num=Number(post['num-p']);
-  const canLike=!!currentUser && !mine;
+  const name = document.getElementById("signupName").value.trim();
+  const username = document.getElementById("signupUsername").value.trim();
+  const password = document.getElementById("signupPassword").value;
 
-  return `<article class="post-card">
-    <div class="post-head"><div class="avatar">${iconLetter(author)}</div><div><div class="author">${escapeHtml(author)}</div><div class="handle">${post.user_name?'@'+escapeHtml(post.user_name):''}</div></div></div>
-    <h2 class="post-title">${escapeHtml(title)}</h2><div class="post-text">${escapeHtml(text)}</div>
-    <div class="post-actions">
-      ${mine?'':`<button class="like-btn ${liked?'liked':''}" ${canLike?'':'title="برای لایک وارد حساب شوید"'} onclick="${canLike?`toggleLike(${Number.isFinite(num)?num:-1},this)`:'showAuthLogin()'}" aria-label="لایک">
-        <svg viewBox="0 0 24 24"><path d="M20.8 8.8c0 5.2-8.8 10.1-8.8 10.1S3.2 14 3.2 8.8A4.6 4.6 0 0 1 12 6.5a4.6 4.6 0 0 1 8.8 2.3Z"/></svg><span>${liked?'پسندیدم':'لایک'}</span></button>`}
-      <span class="like-count">${likes} لایک</span>
-      <button class="btn soft" onclick="openComments(${Number.isFinite(num)?num:-1})" aria-label="کامنت‌ها">کامنت‌ها (${Array.isArray(post.comment)?post.comment.length:0})</button>
-    </div>
-  </article>`;
-}
-
-function openComments(num) {
-  if(!Number.isFinite(num)||num<0)return;
-  activeCommentPost=postsCache.find(p=>Number(p['num-p'])===num)||null;
-  showPage('commentsPage');
-  renderCommentsPage();
-  if(!activeCommentPost) {
-    loadPosts().then(()=>{
-      activeCommentPost=postsCache.find(p=>Number(p['num-p'])===num)||null;
-      renderCommentsPage();
+  try {
+    const result = await api("/logup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        Name: name,
+        User_name: username,
+        PassWord: password
+      })
     });
+
+    showNotice(result);
+
+    if (typeof result === "string" && result.includes("موفقیت")) {
+      currentUser = { username, name };
+      enterApp();
+    }
+  } catch (error) {
+    showNotice(error.message, true);
   }
 }
 
-function renderCommentsPage() {
-  const post=activeCommentPost;
-  if(!post) {
-    $('commentPostPreview').innerHTML='<div class="empty">پست پیدا نشد. به صفحهٔ اصلی برگرد و دوباره امتحان کن.</div>';
-    $('commentsList').innerHTML='';
-    return;
+function enterApp() {
+  document.getElementById("auth").classList.add("hidden");
+  document.getElementById("app").classList.remove("hidden");
+  document.getElementById("bottomNav").classList.remove("hidden");
+  document.getElementById("logoutButton").classList.remove("hidden");
+  document.getElementById("profileName").textContent = currentUser.name;
+  document.getElementById("profileUsername").textContent = "@" + currentUser.username;
+  loadPosts();
+}
+
+async function logout() {
+  try {
+    const result = await api("/logout?all=false", { method: "DELETE" });
+    showNotice(result || "از حساب خارج شدی.");
+  } catch (error) {
+    showNotice(error.message, true);
   }
 
-  $('commentPostPreview').innerHTML=`<article class="post-card">
-    <div class="post-head"><div class="avatar">${iconLetter(post.user_name||'کاربر')}</div><div><div class="author">${escapeHtml(post.name||post.user_name||'کاربر')}</div><div class="handle">${post.user_name?'@'+escapeHtml(post.user_name):''}</div></div></div>
-    <h2 class="post-title">${escapeHtml(post.title||'بدون موضوع')}</h2><div class="post-text">${escapeHtml(post.text||'')}</div>
-  </article>`;
+  currentUser = null;
+  document.getElementById("auth").classList.remove("hidden");
+  document.getElementById("app").classList.add("hidden");
+  document.getElementById("bottomNav").classList.add("hidden");
+  document.getElementById("logoutButton").classList.add("hidden");
+}
 
-  const comments=Array.isArray(post.comment)?post.comment:[];
-  $('commentsList').innerHTML=comments.length?comments.map(c=>{
-    const username=typeof c==='string'?'کاربر':(c.user_name||'کاربر');
-    const text=typeof c==='string'?c:(c.text||'');
-    return `<article class="post-card"><div class="post-head"><div class="avatar">${iconLetter(username)}</div><div><div class="author">${escapeHtml(username)}</div><div class="handle">کامنت</div></div></div><div class="post-text">${escapeHtml(text)}</div></article>`;
-  }).join(''):'<div class="empty"><strong>هنوز کامنتی ثبت نشده</strong>اولین نفری باش که نظر می‌دهد.</div>';
+async function sharePost(event) {
+  event.preventDefault();
 
-  $('commentForm').querySelector('textarea').disabled=!currentUser;
-  $('commentForm').querySelector('button[type="submit"]').disabled=!currentUser;
-  $('commentLoginHint').textContent=currentUser?'کامنتت پس از ثبت زیر همین پست نمایش داده می‌شود.':'برای ثبت کامنت باید وارد حساب کاربری شوی.';
+  const title = document.getElementById("postTitle").value.trim();
+  const text = document.getElementById("postText").value.trim();
+
+  try {
+    const result = await api(
+      `/share-post?user__name=${encodeURIComponent(currentUser.username)}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ Title: title, Text: text, Like: 0 })
+      }
+    );
+
+    showNotice(result);
+    document.getElementById("postTitle").value = "";
+    document.getElementById("postText").value = "";
+    await refreshPosts();
+  } catch (error) {
+    showNotice(error.message, true);
+  }
 }
 
 async function loadPosts() {
-  const target=$('postsList');
-  target.innerHTML='<div class="loading">در حال دریافت پست‌ها…</div>';
-  try {
-    const res=await fetch('/posts');
-    if(!res.ok)throw new Error('دریافت پست‌ها ناموفق بود.');
-    postsCache=await res.json();
-    if(!Array.isArray(postsCache)||!postsCache.length) {
-      target.innerHTML='<div class="empty"><strong>هنوز پستی منتشر نشده</strong>اولین پست‌ها به‌زودی اینجا دیده می‌شوند.</div>';
-      return;
-    }
-    target.innerHTML=postsCache.slice().reverse().map(p=>postCard(p,false)).join('');
-  } catch(e) {
-    target.innerHTML='<div class="empty"><strong>پست‌ها بارگذاری نشدند</strong>اتصال سرور را بررسی کن و دوباره تلاش کن.<br><button class="btn soft" onclick="loadPosts()">تلاش دوباره</button></div>';
-  }
-}
+  currentView = "feed";
+  document.getElementById("feedTitle").textContent = "پست‌های تازه";
+  document.getElementById("feedButton").className = "primary";
+  document.getElementById("myPostsButton").className = "secondary";
 
-async function toggleLike(num,button) {
-  if(!currentUser){showAuth('login');return}
-  if(!Number.isFinite(num)||num<0)return;
-  button.disabled=true;
   try {
-    const res=await fetch(`/like-p?num_post=${encodeURIComponent(num)}&user__name=${encodeURIComponent(currentUser.user_name)}`,{method:'POST',credentials:'same-origin'});
-    const msg=await res.text();
-    if(!res.ok||msg.includes('نشست نامعتبر'))throw new Error(msg||'لایک ثبت نشد.');
-    await loadPosts();
-  } catch(e) {
-    alert('لایک ثبت نشد. دوباره وارد حساب شو و امتحان کن.');
-  } finally {button.disabled=false}
+    const data = await api("/posts");
+    postsCache = Array.isArray(data) ? data : [];
+    renderPosts(postsCache);
+  } catch (error) {
+    showNotice(error.message, true);
+  }
 }
 
 async function loadMyPosts() {
-  const target=$('myPostsList');
-  if(!currentUser){target.innerHTML='<div class="empty">برای دیدن پست‌ها وارد حساب شو.</div>';return}
-  target.innerHTML='<div class="loading">در حال دریافت پست‌ها…</div>';
+  currentView = "mine";
+  document.getElementById("feedTitle").textContent = "پست‌های من";
+  document.getElementById("feedButton").className = "secondary";
+  document.getElementById("myPostsButton").className = "primary";
+
   try {
-    const res=await fetch(`/my-posts?user_name=${encodeURIComponent(currentUser.user_name)}`);
-    const data=await res.json();
-    if(!Array.isArray(data)||!data.length) {
-      target.innerHTML='<div class="empty"><strong>هنوز پستی نداری</strong>از صفحهٔ عمومی می‌توانی پست جدید بسازی.</div>';
+    const data = await api("/my-posts?user_name=" + encodeURIComponent(currentUser.username));
+    if (!Array.isArray(data)) {
+      showNotice(data, true);
       return;
     }
-    target.innerHTML=data.slice().reverse().map(p=>postCard({...p,user_name:currentUser.user_name,name:currentUser.Name},true)).join('');
-  } catch(e) {target.innerHTML='<div class="empty">دریافت پست‌ها ناموفق بود.</div>'}
+    postsCache = data;
+    renderPosts(postsCache);
+  } catch (error) {
+    showNotice(error.message, true);
+  }
 }
 
-function renderProfile() {
-  const target=$('profileContent');
-  if(!currentUser) {
-    target.innerHTML='<div class="empty"><strong>وارد حساب نشده‌ای</strong><button class="btn primary" onclick="showAuthLogin()">ورود</button></div>';
+async function refreshPosts() {
+  if (currentView === "mine") await loadMyPosts();
+  else await loadPosts();
+}
+
+function renderPosts(posts) {
+  const container = document.getElementById("posts");
+  container.replaceChildren();
+
+  if (!posts.length) {
+    const empty = document.createElement("div");
+    empty.className = "card empty";
+    empty.textContent = "هنوز پستی وجود نداره. اولین پست رو منتشر کن!";
+    container.appendChild(empty);
     return;
   }
-  target.innerHTML=`<div class="profile-card">
-    <div class="profile-hero"><div class="avatar profile-avatar">${iconLetter(currentUser.Name)}</div><div><div class="profile-name">${escapeHtml(currentUser.Name)}</div><div class="profile-handle">@${escapeHtml(currentUser.user_name)}</div></div></div>
-    <div class="info-title">مشخصات حساب</div>
-    <div class="info-row"><span class="info-label">نام نمایشی</span><strong>${escapeHtml(currentUser.Name)}</strong></div>
-    <div class="info-row"><span class="info-label">نام کاربری</span><strong>${escapeHtml(currentUser.user_name)}</strong></div>
-    <div class="profile-buttons"><button class="btn primary full" onclick="showPage('myPostsPage')">مشاهدهٔ پست‌های من</button><button class="btn plain full" onclick="logout(false)">خروج از حساب</button><button class="btn soft full" onclick="logout(true)">خروج از همهٔ نشست‌ها</button></div>
-  </div>`;
+
+  [...posts].reverse().forEach(post => container.appendChild(createPost(post)));
 }
 
-$('authForm').addEventListener('submit',async e=>{
-  e.preventDefault();
-  hideNotice('authNotice');
-  const username=$('username').value.trim(),password=$('password').value;
-  const name=$('fullName').value.trim();
-  const submit=$('authSubmit');
-  submit.disabled=true;submit.textContent='لطفاً صبر کن…';
+function createPost(post) {
+  const card = document.createElement("article");
+  card.className = "card";
 
-  try {
-    let res;
-    if(authMode==='signup') {
-      if(!name){showNotice('authNotice','نام نمایشی را وارد کن.',true);return}
-      res=await fetch('/logup',{method:'POST',headers:{'Content-Type':'application/json'},credentials:'same-origin',body:JSON.stringify({Name:name,User_name:username,PassWord:password})});
-    } else {
-      const q=`user_name=${encodeURIComponent(username)}&pass_word=${encodeURIComponent(password)}`;
-      res=await fetch(`/login?${q}`,{method:'POST',credentials:'same-origin'});
-    }
+  const author = post.user_name || currentUser.username;
+  const reactions = post.reactions && typeof post.reactions === "object"
+    ? post.reactions : {};
 
-    const msg=await res.text();
-    if(!res.ok)throw new Error(msg||'درخواست ناموفق بود.');
-    if(msg.includes('از قبل وجود دارد')||msg.includes('رمز اشتباه')||msg.includes('نشست نامعتبر'))throw new Error(msg);
+  const head = document.createElement("div");
+  head.className = "post-head";
 
-    currentUser={Name:authMode==='signup'?name:username,user_name:username};
-    if(authMode==='login') {
-      try {
-        const posts=await (await fetch('/posts')).json();
-        const mine=posts.find(p=>p.user_name===username);
-        if(mine&&mine.name)currentUser.Name=mine.name;
-      } catch(_){}
-    }
-    syncHeader();
-    showPage('profilePage');
-  } catch(err) {
-    showNotice('authNotice',err.message||'خطایی رخ داد.',true);
-  } finally {
-    submit.disabled=false;
-    submit.textContent=authMode==='login'?'ورود':'ثبت‌نام و ورود';
+  const avatar = document.createElement("div");
+  avatar.className = "avatar";
+  avatar.textContent = author.slice(0, 1).toUpperCase();
+
+  const authorInfo = document.createElement("div");
+  const authorName = document.createElement("strong");
+  authorName.textContent = author;
+  const label = document.createElement("div");
+  label.className = "muted";
+  label.textContent = "عضو سیگنالا";
+  authorInfo.append(authorName, label);
+  head.append(avatar, authorInfo);
+  card.appendChild(head);
+
+  if (post.title) {
+    const title = document.createElement("div");
+    title.className = "post-title";
+    title.textContent = post.title;
+    card.appendChild(title);
   }
-});
 
-$('postForm').addEventListener('submit',async e=>{
-  e.preventDefault();
-  hideNotice('postNotice');
-  if(!currentUser){showAuth('login');return}
-  const Title=$('postTitle').value.trim(),Text=$('postText').value.trim();
-  if(!Title||!Text){showNotice('postNotice','موضوع و متن را وارد کن.',true);return}
-  const btn=$('postForm').querySelector('button[type="submit"]');
-  btn.disabled=true;btn.textContent='در حال انتشار…';
+  const body = document.createElement("div");
+  body.className = "post-text";
+  body.textContent = post.text || "";
+  card.appendChild(body);
 
-  try {
-    const res=await fetch(`/share-post?user__name=${encodeURIComponent(currentUser.user_name)}`,{method:'POST',headers:{'Content-Type':'application/json'},credentials:'same-origin',body:JSON.stringify({Title,Text,Like:0})});
-    const msg=await res.text();
-    if(!res.ok||msg.includes('نشست نامعتبر')||msg.includes('خطا در انتشار'))throw new Error(msg||'انتشار پست ناموفق بود.');
-    $('postTitle').value='';$('postText').value='';
-    showPage('publicPage');
-  } catch(err) {
-    showNotice('postNotice',err.message||'انتشار پست ناموفق بود.',true);
-  } finally {
-    btn.disabled=false;btn.textContent='انتشار پست';
-  }
-});
+  const reactionHeading = document.createElement("div");
+  reactionHeading.className = "reaction-heading";
+  reactionHeading.textContent = "واکنش‌ها";
+  card.appendChild(reactionHeading);
 
-$('commentForm').addEventListener('submit',async e=>{
-  e.preventDefault();
-  hideNotice('commentNotice');
-  if(!currentUser){showAuth('login');return}
-  if(!activeCommentPost){showNotice('commentNotice','پست پیدا نشد؛ دوباره تلاش کن.',true);return}
-  const Text=$('commentText').value.trim();
-  if(!Text){showNotice('commentNotice','متن کامنت را بنویس.',true);return}
+  const reactionContainer = document.createElement("div");
+  reactionContainer.className = "reactions";
 
-  const btn=$('commentForm').querySelector('button[type="submit"]');
-  btn.disabled=true;btn.textContent='در حال ثبت…';
+  const myReaction = reactions[currentUser.username];
 
-  try {
-    const num=Number(activeCommentPost['num-p']);
-    const res=await fetch(`/Comment?len_post=${encodeURIComponent(num)}`,{method:'POST',headers:{'Content-Type':'application/json'},credentials:'same-origin',body:JSON.stringify({Text})});
-    const msg=await res.text();
-    if(!res.ok||msg.includes('نشست نامعتبر')||msg.includes('مشکلی پیش'))throw new Error(msg||'ثبت کامنت ناموفق بود.');
-    $('commentText').value='';
-    await loadPosts();
-    activeCommentPost=postsCache.find(p=>Number(p['num-p'])===num)||activeCommentPost;
-    renderCommentsPage();
-    showNotice('commentNotice','کامنت با موفقیت ثبت شد.');
-  } catch(err) {
-    showNotice('commentNotice',err.message||'ثبت کامنت ناموفق بود.',true);
-  } finally {
-    btn.disabled=!currentUser;
-    btn.textContent='ثبت کامنت';
-  }
-});
+  REACTIONS.forEach(emoji => {
+    // شمارش تعداد کاربران دارای این ایموجی از دیکشنری بک‌اند
+    const count = Object.values(reactions).filter(value => value === emoji).length;
 
-function openComposer() {
-  if(!currentUser){showAuth('login');return}
-  $('postTitle').value='';$('postText').value='';
-  hideNotice('postNotice');
-  showPage('composerPage');
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "reaction" + (myReaction === emoji ? " selected" : "");
+    button.title = "واکنش " + emoji;
+
+    const emojiText = document.createElement("span");
+    emojiText.textContent = emoji;
+
+    const countText = document.createElement("span");
+    countText.className = "count";
+    countText.textContent = count;
+
+    button.append(emojiText, countText);
+    button.addEventListener("click", () => sendReaction(post["num-p"], emoji));
+    reactionContainer.appendChild(button);
+  });
+
+  card.appendChild(reactionContainer);
+
+  const actions = document.createElement("div");
+  actions.className = "post-actions";
+
+  const likesCount = Array.isArray(post.likes) ? (Number(post.likes[0]) || 0) : 0;
+  const likeButton = document.createElement("button");
+  likeButton.className = "secondary";
+  likeButton.textContent = `👍 لایک (${likesCount})`;
+  likeButton.addEventListener("click", () => sendLike(post["num-p"]));
+
+  const comments = Array.isArray(post.comment) ? post.comment : [];
+  const commentsButton = document.createElement("button");
+  commentsButton.className = "secondary";
+  commentsButton.textContent = `💬 کامنت (${comments.length})`;
+
+  actions.append(likeButton, commentsButton);
+  card.appendChild(actions);
+
+  const commentSection = document.createElement("section");
+  commentSection.className = "comments hidden";
+
+  comments.forEach(comment => {
+    const item = document.createElement("div");
+    item.className = "comment";
+
+    const name = document.createElement("strong");
+    name.textContent = comment.user_name || "کاربر";
+
+    const text = document.createElement("span");
+    text.textContent = comment.text || "";
+
+    item.append(name, text);
+    commentSection.appendChild(item);
+  });
+
+  const form = document.createElement("form");
+  form.className = "comment-form";
+
+  const input = document.createElement("input");
+  input.placeholder = "کامنت بنویس...";
+  input.required = true;
+
+  const sendButton = document.createElement("button");
+  sendButton.className = "primary";
+  sendButton.textContent = "ارسال";
+
+  form.append(input, sendButton);
+  form.addEventListener("submit", event => {
+    event.preventDefault();
+    sendComment(post["num-p"], input.value.trim());
+  });
+
+  commentSection.appendChild(form);
+  commentsButton.addEventListener("click", () => commentSection.classList.toggle("hidden"));
+  card.appendChild(commentSection);
+
+  return card;
 }
 
-async function logout(all) {
-  if(!currentUser){showAuth('login');return}
+async function sendReaction(postId, emoji) {
   try {
-    const q=`user_name=${encodeURIComponent(currentUser.user_name)}&all=${all}`;
-    await fetch(`/logout?${q}`,{method:'DELETE',credentials:'same-origin'});
-  } catch(e){}
-  currentUser=null;syncHeader();showPage('publicPage');
+    const result = await api(
+      `/Reaction?len_post=${encodeURIComponent(postId)}&re_action=${encodeURIComponent(emoji)}`,
+      { method: "POST" }
+    );
+    showNotice(result);
+    await refreshPosts();
+  } catch (error) {
+    showNotice(error.message, true);
+  }
 }
 
-syncHeader();
-loadPosts();
+async function sendLike(postId) {
+  try {
+    const result = await api(
+      `/like-p?num_post=${encodeURIComponent(postId)}`,
+      { method: "POST" }
+    );
+    showNotice(result);
+    await refreshPosts();
+  } catch (error) {
+    showNotice(error.message, true);
+  }
+}
+
+async function sendComment(postId, text) {
+  if (!text) return;
+
+  try {
+    const result = await api(
+      `/Comment?len_post=${encodeURIComponent(postId)}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ Text: text })
+      }
+    );
+    showNotice(result);
+    await refreshPosts();
+  } catch (error) {
+    showNotice(error.message, true);
+  }
+}
 </script>
 </body>
 </html>
