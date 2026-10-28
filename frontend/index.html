@@ -1,620 +1,897 @@
-
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>سیگنالا | دنیای فناوری</title>
-<style>
-:root {
-  --primary:#6541d9;
-  --primary-light:#f0ebff;
-  --text:#20212a;
-  --muted:#777987;
-  --border:#e9e9ef;
-  --bg:#f6f7fb;
-  --card:#fff;
-}
-*{box-sizing:border-box}
-body{
-  margin:0;background:var(--bg);color:var(--text);
-  font-family:Tahoma,Arial,sans-serif;font-size:14px;line-height:1.9
-}
-button,input,textarea{font:inherit}
-button{cursor:pointer}
-a{color:inherit;text-decoration:none}
-.topbar{
-  background:#fff;border-bottom:1px solid var(--border);
-  position:sticky;top:0;z-index:10
-}
-.top-inner{
-  max-width:1240px;margin:auto;padding:12px 20px;
-  display:flex;align-items:center;gap:25px
-}
-.logo{font-size:26px;font-weight:900;color:var(--primary);white-space:nowrap}
-.logo span{color:#222}
-.search{
-  flex:1;max-width:440px;background:#f4f4f8;border-radius:9px;
-  display:flex;align-items:center;padding:0 12px
-}
-.search input{border:0;background:transparent;outline:0;width:100%;padding:11px}
-.top-actions{display:flex;gap:8px;align-items:center;margin-right:auto}
-.btn{
-  border:0;border-radius:8px;padding:9px 15px;
-  background:var(--primary);color:white;font-weight:bold
-}
-.btn.secondary{background:var(--primary-light);color:var(--primary)}
-.btn.ghost{background:white;color:var(--text);border:1px solid var(--border)}
-.nav{background:#fff;border-bottom:1px solid var(--border)}
-.nav-inner{
-  max-width:1240px;margin:auto;padding:0 20px;
-  display:flex;gap:26px;overflow-x:auto;white-space:nowrap
-}
-.nav button{
-  border:0;background:transparent;padding:12px 0;color:#555;
-  border-bottom:2px solid transparent
-}
-.nav button.active{color:var(--primary);border-color:var(--primary);font-weight:bold}
-.container{max-width:1240px;margin:24px auto;padding:0 20px}
-.page-title{margin:0 0 5px;font-size:23px}
-.subtitle{color:var(--muted);margin:0 0 22px}
-.layout{display:grid;grid-template-columns:minmax(0,1fr) 285px;gap:22px}
-.main{min-width:0}
-.sidebar{display:flex;flex-direction:column;gap:16px}
-.card{
-  background:var(--card);border:1px solid var(--border);
-  border-radius:12px;padding:18px;margin-bottom:16px
-}
-.section-title{
-  font-size:18px;margin:0 0 15px;
-  display:flex;align-items:center;gap:9px
-}
-.section-title:before{
-  content:"";width:4px;height:22px;background:var(--primary);border-radius:5px
-}
-.featured{
-  display:grid;grid-template-columns:1.2fr 1fr;gap:20px;
-  align-items:stretch;margin-bottom:20px
-}
-.featured-art{
-  min-height:240px;border-radius:10px;
-  background:linear-gradient(135deg,#1e1749,#6541d9 55%,#b4a3ff);
-  display:flex;align-items:center;justify-content:center;
-  color:white;font-size:46px;font-weight:900;text-align:center;padding:20px
-}
-.featured-copy{display:flex;flex-direction:column;justify-content:center}
-.tag{color:var(--primary);font-size:12px;font-weight:bold}
-.featured-copy h2{font-size:24px;line-height:1.8;margin:8px 0}
-.muted{color:var(--muted);font-size:12px}
-.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
-.toolbar button{border:1px solid var(--border);background:white;padding:8px 13px;border-radius:8px}
-.toolbar button.active{background:var(--primary-light);color:var(--primary);border-color:#d8ccff}
-.composer textarea,.field{
-  width:100%;padding:12px;border:1px solid var(--border);
-  border-radius:8px;outline:none;background:white
-}
-.composer textarea:focus,.field:focus{border-color:var(--primary)}
-.composer textarea{resize:vertical;min-height:85px;margin:8px 0}
-.composer input{margin-bottom:8px}
-.composer-bottom{display:flex;justify-content:space-between;align-items:center;gap:10px}
-.post{padding:20px}
-.post-head{display:flex;align-items:center;gap:10px;margin-bottom:13px}
-.avatar{
-  width:42px;height:42px;border-radius:50%;display:grid;place-items:center;
-  background:var(--primary-light);color:var(--primary);font-weight:bold;font-size:17px
-}
-.post-head .author{font-weight:bold}
-.post h3{font-size:19px;margin:8px 0}
-.post-text{white-space:pre-wrap;overflow-wrap:anywhere}
-.post-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}
-.action{
-  background:#f6f6fa;border:1px solid transparent;
-  border-radius:8px;padding:6px 10px;color:#555
-}
-.action:hover,.action.selected{background:var(--primary-light);color:var(--primary)}
-.reactions{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
-.reaction{background:#fff;border:1px solid var(--border);border-radius:20px;padding:4px 9px}
-.reaction.selected{border-color:var(--primary);background:var(--primary-light)}
-.comments{border-top:1px solid var(--border);margin-top:15px;padding-top:12px}
-.comment{padding:8px 0;border-bottom:1px solid #f1f1f5}
-.comment strong{margin-left:6px}
-.comment-form{display:flex;gap:8px;margin-top:12px}
-.comment-form input{min-width:0;flex:1}
-.side-link{display:block;padding:8px 0;border-bottom:1px solid #f0f0f4}
-.side-link:last-child{border:0}
-.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.stat{background:#f7f5ff;border-radius:9px;padding:12px}
-.stat strong{display:block;font-size:22px;color:var(--primary)}
-.notice{padding:12px;border-radius:8px;background:#fff4d9;margin-bottom:12px}
-.hidden{display:none!important}
-.empty{text-align:center;padding:30px;color:var(--muted)}
-.footer{text-align:center;color:var(--muted);padding:35px 15px}
-#auth{max-width:440px;margin:65px auto}
-#auth h1{text-align:center}
-#auth .field{margin:6px 0 12px}
-.auth-tabs{display:flex;gap:8px;margin-bottom:18px}
-.auth-tabs button{flex:1}
-@media(max-width:850px){
- .layout{grid-template-columns:1fr}
- .sidebar{display:grid;grid-template-columns:1fr 1fr}
- .featured{grid-template-columns:1fr}
- .featured-art{min-height:170px}
-}
-@media(max-width:560px){
- .top-inner{padding:10px 12px;gap:10px;flex-wrap:wrap}
- .logo{font-size:22px}
- .search{order:3;max-width:none;flex-basis:100%}
- .top-actions{gap:5px}
- .nav-inner{padding:0 12px;gap:18px}
- .container{padding:0 12px;margin-top:16px}
- .sidebar{display:flex}
- .card{padding:14px}
- .featured-copy h2{font-size:20px}
- .post{padding:15px}
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سیگنالا | شبکه اجتماعی</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #f4f6fb;
+            --card: #ffffff;
+            --text: #172033;
+            --muted: #778198;
+            --primary: #635bdb;
+            --border: #e7eaf2;
+        }
+
+        body {
+            margin: 0;
+            font-family: Tahoma, Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        button, input, textarea {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+            border: none;
+        }
+
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: white;
+            border-bottom: 1px solid var(--border);
+            padding: 15px 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .header button, .primary {
+            background: var(--primary);
+            color: white;
+            border-radius: 10px;
+            padding: 10px 15px;
+        }
+
+        .layout {
+            max-width: 1050px;
+            margin: 25px auto;
+            padding: 0 15px;
+            display: grid;
+            grid-template-columns: 230px minmax(0, 1fr);
+            gap: 22px;
+        }
+
+        .sidebar, .composer, .post, .auth-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+        }
+
+        .sidebar {
+            padding: 18px;
+            height: fit-content;
+            position: sticky;
+            top: 85px;
+        }
+
+        .nav-button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 7px;
+            text-align: right;
+            border-radius: 9px;
+            background: transparent;
+            color: var(--text);
+        }
+
+        .nav-button:hover, .nav-button.active {
+            background: #efedff;
+            color: var(--primary);
+        }
+
+        .main {
+            min-width: 0;
+        }
+
+        .composer {
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        input, textarea {
+            width: 100%;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 12px;
+            outline: none;
+            background: #fff;
+            color: var(--text);
+        }
+
+        input:focus, textarea:focus {
+            border-color: var(--primary);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 95px;
+        }
+
+        .composer input {
+            margin-bottom: 10px;
+        }
+
+        .composer textarea {
+            margin-bottom: 12px;
+        }
+
+        .composer-actions {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .post {
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        .avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: #eeecff;
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .username {
+            font-weight: bold;
+        }
+
+        .muted {
+            color: var(--muted);
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .post-title {
+            margin: 0 0 10px;
+            font-size: 19px;
+            overflow-wrap: anywhere;
+        }
+
+        .post-text, .comment-text {
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+            line-height: 1.9;
+        }
+
+        .post-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            border-top: 1px solid var(--border);
+            padding-top: 14px;
+            margin-top: 16px;
+        }
+
+        .action {
+            background: #f4f5fa;
+            padding: 9px 12px;
+            border-radius: 9px;
+            color: #444e65;
+        }
+
+        .action:hover {
+            background: #eae8ff;
+            color: var(--primary);
+        }
+
+        .comments {
+            margin-top: 17px;
+            border-top: 1px solid var(--border);
+            padding-top: 15px;
+        }
+
+        .comment {
+            background: #f7f8fc;
+            border-radius: 12px;
+            padding: 13px;
+            margin-top: 10px;
+        }
+
+        .comment-meta {
+            font-weight: bold;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .comment-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+            margin-top: 8px;
+        }
+
+        .comment-actions button {
+            background: transparent;
+            color: var(--primary);
+            padding: 5px;
+            font-size: 12px;
+        }
+
+        .replies {
+            margin: 12px 0 0 0;
+            padding-right: 12px;
+            border-right: 2px solid #d9d5ff;
+        }
+
+        .reply {
+            padding: 9px;
+            margin-top: 7px;
+            background: white;
+            border-radius: 8px;
+            font-size: 13px;
+        }
+
+        .comment-form, .reply-form {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .comment-form input, .reply-form input {
+            min-width: 0;
+        }
+
+        .comment-form button, .reply-form button {
+            background: var(--primary);
+            color: white;
+            border-radius: 9px;
+            padding: 0 13px;
+        }
+
+        .reaction-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 10px;
+        }
+
+        .reaction-list button {
+            background: white;
+            border: 1px solid var(--border);
+            padding: 6px 8px;
+            border-radius: 8px;
+        }
+
+        .reaction-list button.selected {
+            border-color: var(--primary);
+            background: #eeecff;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 45px 15px;
+            color: var(--muted);
+            background: white;
+            border-radius: 15px;
+        }
+
+        .auth-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, .55);
+            display: grid;
+            place-items: center;
+            padding: 20px;
+            z-index: 20;
+        }
+
+        .auth-card {
+            width: 100%;
+            max-width: 400px;
+            padding: 25px;
+        }
+
+        .auth-card h2 {
+            margin-top: 0;
+        }
+
+        .auth-card input {
+            margin: 7px 0;
+        }
+
+        .auth-card .primary {
+            width: 100%;
+            margin-top: 12px;
+        }
+
+        .auth-switch {
+            background: none;
+            color: var(--primary);
+            margin-top: 15px;
+            padding: 5px 0;
+        }
+
+        .notice {
+            margin: 10px 0;
+            font-size: 13px;
+            line-height: 1.8;
+            color: var(--muted);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @media (max-width: 700px) {
+            .layout {
+                grid-template-columns: 1fr;
+                margin-top: 15px;
+            }
+
+            .sidebar {
+                position: static;
+                display: flex;
+                gap: 6px;
+                padding: 8px;
+                overflow-x: auto;
+            }
+
+            .nav-button {
+                width: auto;
+                white-space: nowrap;
+                margin: 0;
+            }
+
+            .header {
+                padding: 12px 15px;
+            }
+
+            .logo {
+                font-size: 20px;
+            }
+
+            .post, .composer {
+                padding: 15px;
+            }
+        }
+    </style>
 </head>
+
 <body>
 
-<header class="topbar">
-  <div class="top-inner">
-    <a class="logo" href="#" onclick="showPage('home');return false">سیگنالا<span>.</span></a>
-    <label class="search">
-      <span>⌕</span>
-      <input id="search" placeholder="جست‌وجوی مطالب..." oninput="renderPosts()">
-    </label>
-    <div class="top-actions">
-      <button class="btn secondary" id="myButton" onclick="showPage('mine')">پست‌های من</button>
-      <button class="btn" id="authButton" onclick="showAuth()">ورود</button>
-      <button class="btn ghost hidden" id="logoutButton" onclick="logout()">خروج</button>
+<header class="header">
+    <div class="logo">سیگنالا</div>
+    <div>
+        <span id="currentUser" class="muted"></span>
+        <button id="authButton" onclick="showAuth()">ورود / ثبت‌نام</button>
     </div>
-  </div>
 </header>
 
-<nav class="nav">
-  <div class="nav-inner">
-    <button class="active" data-page="home" onclick="showPage('home',this)">صفحهٔ اصلی</button>
-    <button data-page="technology" onclick="showPage('technology',this)">فناوری</button>
-    <button data-page="science" onclick="showPage('science',this)">علم</button>
-    <button data-page="mobile" onclick="showPage('mobile',this)">موبایل</button>
-    <button data-page="computer" onclick="showPage('computer',this)">کامپیوتر</button>
-    <button data-page="gaming" onclick="showPage('gaming',this)">بازی</button>
-    <button data-page="mine" onclick="showPage('mine',this)">مطالب من</button>
-  </div>
-</nav>
-
-<section id="auth" class="card hidden">
-  <h1 class="logo">سیگنالا<span>.</span></h1>
-  <p class="muted" style="text-align:center">وارد دنیای فناوری و گفتگو شو</p>
-  <div class="auth-tabs">
-    <button class="btn" id="loginTab" onclick="setAuthMode('login')">ورود</button>
-    <button class="btn secondary" id="signupTab" onclick="setAuthMode('signup')">ثبت‌نام</button>
-  </div>
-  <form id="authForm">
-    <label>نام کاربری</label>
-    <input class="field" id="username" required autocomplete="username">
-    <div id="nameWrap" class="hidden">
-      <label>نام نمایشی</label>
-      <input class="field" id="displayName" autocomplete="name">
-    </div>
-    <label>رمز عبور</label>
-    <input class="field" id="password" type="password" required autocomplete="current-password">
-    <button class="btn" style="width:100%;margin-top:8px" id="authSubmit">ورود</button>
-  </form>
-  <p id="authMessage" class="muted"></p>
-</section>
-
-<div id="site" class="container">
-  <div id="notice" class="notice hidden"></div>
-  <section class="featured card">
-    <div class="featured-art">SIGNALA<br>TECH</div>
-    <div class="featured-copy">
-      <span class="tag">دنیای فناوری، از نگاه تو</span>
-      <h2>خبرها، ایده‌ها و گفتگوهای دنیای تکنولوژی</h2>
-      <p class="muted">مطالب تازه را بخوان، نظرت را بنویس و محتوای خودت را با دیگران به اشتراک بگذار.</p>
-      <div><button class="btn" onclick="document.getElementById('composer').scrollIntoView({behavior:'smooth'})">انتشار مطلب</button></div>
-    </div>
-  </section>
-
-  <div class="layout">
-    <main class="main">
-      <section id="composer" class="card composer hidden">
-        <h2 class="section-title">مطلب جدید</h2>
-        <form id="postForm">
-          <input class="field" id="postTitle" placeholder="عنوان مطلب" maxlength="180" required>
-          <textarea id="postText" placeholder="چه چیزی می‌خواهی به اشتراک بگذاری؟" required></textarea>
-          <div class="composer-bottom">
-            <span class="muted">محتوای خودت را منتشر کن</span>
-            <button class="btn">انتشار مطلب</button>
-          </div>
-        </form>
-      </section>
-
-      <h1 class="page-title" id="feedTitle">جدیدترین مطالب</h1>
-      <p class="subtitle" id="feedSubtitle">مطالب و گفتگوهای تازهٔ کاربران سیگنالا</p>
-      <div class="toolbar">
-        <button class="active" id="newest" onclick="setSort('newest')">جدیدترین</button>
-        <button id="popular" onclick="setSort('popular')">محبوب‌ترین</button>
-        <button onclick="loadPosts()">به‌روزرسانی</button>
-      </div>
-      <div id="posts"><div class="empty">در حال بارگذاری مطالب...</div></div>
-    </main>
+<div class="layout">
 
     <aside class="sidebar">
-      <section class="card">
-        <h2 class="section-title">دربارهٔ سیگنالا</h2>
-        <p class="muted">جایی برای انتشار مطلب، تبادل نظر و دنبال‌کردن موضوعات مورد علاقه‌ات.</p>
-        <div class="stats">
-          <div class="stat"><strong id="postCount">۰</strong><span>مطلب</span></div>
-          <div class="stat"><strong id="memberStatus">عمومی</strong><span>دسترسی</span></div>
-        </div>
-      </section>
-      <section class="card">
-        <h2 class="section-title">موضوعات</h2>
-        <a class="side-link" href="#" onclick="showPage('technology');return false">▸ فناوری</a>
-        <a class="side-link" href="#" onclick="showPage('science');return false">▸ علم و دانش</a>
-        <a class="side-link" href="#" onclick="showPage('mobile');return false">▸ موبایل</a>
-        <a class="side-link" href="#" onclick="showPage('computer');return false">▸ کامپیوتر</a>
-        <a class="side-link" href="#" onclick="showPage('gaming');return false">▸ بازی و سرگرمی</a>
-      </section>
-      <section class="card">
-        <h2 class="section-title">تعامل با مطالب</h2>
-        <p class="muted">با لایک و ری‌اکشن نظرت را نشان بده یا در بخش دیدگاه‌ها گفتگو کن.</p>
-      </section>
+        <button class="nav-button active" onclick="showFeed()">🏠 صفحه اصلی</button>
+        <button class="nav-button" onclick="showMyPosts()">📝 پست‌های من</button>
+        <button class="nav-button" onclick="refreshPosts()">🔄 بروزرسانی</button>
+        <button class="nav-button" onclick="logout()">🚪 خروج</button>
     </aside>
-  </div>
+
+    <main class="main">
+
+        <section class="composer" id="composer">
+            <h3>چه چیزی در ذهنته؟</h3>
+            <input id="postTitle" placeholder="عنوان پست">
+            <textarea id="postText" placeholder="متن پستت رو بنویس..."></textarea>
+            <div class="composer-actions">
+                <button class="primary" onclick="createPost()">انتشار پست</button>
+            </div>
+        </section>
+
+        <div id="feed">
+            <div class="empty">در حال دریافت پست‌ها...</div>
+        </div>
+
+    </main>
 </div>
 
-<footer class="footer">سیگنالا — دنیای فناوری و گفتگو</footer>
+<div id="authOverlay" class="auth-overlay hidden">
+    <section class="auth-card">
+        <h2 id="authTitle">ورود به سیگنالا</h2>
+
+        <div id="signupFields" class="hidden">
+            <input id="signupName" placeholder="نام نمایشی">
+        </div>
+
+        <input id="authUsername" placeholder="نام کاربری">
+        <input id="authPassword" type="password" placeholder="رمز عبور">
+
+        <button class="primary" onclick="submitAuth()" id="authSubmit">
+            ورود
+        </button>
+
+        <button class="auth-switch" onclick="toggleAuthMode()" id="authSwitch">
+            حساب نداری؟ ثبت‌نام کن
+        </button>
+
+        <button class="auth-switch" onclick="hideAuth()">بستن</button>
+        <div class="notice" id="authNotice"></div>
+    </section>
+</div>
 
 <script>
-const API = "";
-const REACTIONS = ["😂","👍","😒","😢","🤩","😐","😭","😡"];
+    // اگر فرانت‌اند و بک‌اند روی یک دامنه‌اند، همین مقدار مناسب است.
+    const API = window.location.origin;
 
-let currentUser = null;
-let allPosts = [];
-let page = "home";
-let sort = "newest";
-let authMode = "login";
+    const EMOJIS = ["😂", "👍", "😒", "😢", "🤩", "😐", "😭", "😡"];
 
-const $ = id => document.getElementById(id);
+    let authMode = "login";
+    let currentView = "feed";
+    let currentUsername = null;
+    let cachedPosts = [];
 
-async function api(path, options = {}) {
-  const response = await fetch(API + path, {
-    credentials: "include",
-    ...options
-  });
-  const text = await response.text();
-  if (!response.ok) throw new Error(text || "خطا در ارتباط با سرور");
-  try { return JSON.parse(text); } catch { return text; }
-}
+    async function request(path, options = {}) {
+        const response = await fetch(API + path, {
+            credentials: "include",
+            ...options,
+            headers: {
+                ...(options.headers || {})
+            }
+        });
 
-function message(text) {
-  $("notice").textContent = text;
-  $("notice").classList.remove("hidden");
-  window.scrollTo({top:0,behavior:"smooth"});
-}
-function clearMessage() {
-  $("notice").classList.add("hidden");
-}
-function showAuth() {
-  $("site").classList.add("hidden");
-  $("auth").classList.remove("hidden");
-  clearMessage();
-}
-function setAuthMode(mode) {
-  authMode = mode;
-  $("nameWrap").classList.toggle("hidden", mode !== "signup");
-  $("loginTab").className = mode === "login" ? "btn" : "btn secondary";
-  $("signupTab").className = mode === "signup" ? "btn" : "btn secondary";
-  $("authSubmit").textContent = mode === "login" ? "ورود" : "ساخت حساب";
-  $("password").autocomplete = mode === "login" ? "current-password" : "new-password";
-  $("authMessage").textContent = "";
-}
+        const data = await response.json().catch(() => null);
 
-$("authForm").addEventListener("submit", async event => {
-  event.preventDefault();
-  const username = $("username").value.trim();
-  const password = $("password").value;
-  const name = $("displayName").value.trim() || username;
-  $("authSubmit").disabled = true;
-  try {
-    let result;
-    if (authMode === "signup") {
-      result = await api("/logup", {
-        method:"POST",
-        headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({
-          Name:name, User_name:username, PassWord:password
-        })
-      });
-    } else {
-      result = await api("/login?user_name=" + encodeURIComponent(username) +
-        "&pass_word=" + encodeURIComponent(password), {method:"POST"});
+        if (!response.ok) {
+            throw new Error(
+                typeof data === "string" ? data : "درخواست ناموفق بود."
+            );
+        }
+
+        return data;
     }
-    if (typeof result === "string" && /موفقیت|موفق|وارد حساب/.test(result)) {
-      currentUser = {username, name};
-      localStorage.setItem("signala_username", username);
-      localStorage.setItem("signala_name", name);
-      updateAuthUI();
-      $("auth").classList.add("hidden");
-      $("site").classList.remove("hidden");
-      message(result);
-      await loadPosts();
-    } else {
-      $("authMessage").textContent = typeof result === "string" ? result : "پاسخ نامعتبر از سرور";
+
+    function query(params) {
+        return new URLSearchParams(params).toString();
     }
-  } catch (error) {
-    $("authMessage").textContent = error.message;
-  } finally {
-    $("authSubmit").disabled = false;
-  }
-});
 
-function updateAuthUI() {
-  const loggedIn = !!currentUser;
-  $("authButton").classList.toggle("hidden", loggedIn);
-  $("logoutButton").classList.toggle("hidden", !loggedIn);
-  $("composer").classList.toggle("hidden", !loggedIn);
-  $("memberStatus").textContent = loggedIn ? "واردشده" : "عمومی";
-}
-
-async function logout() {
-  try {
-    const result = await api("/logout?all=false", {method:"DELETE"});
-    currentUser = null;
-    localStorage.removeItem("signala_username");
-    localStorage.removeItem("signala_name");
-    updateAuthUI();
-    message(typeof result === "string" ? result : "خارج شدید.");
-  } catch (error) {
-    message("خروج ناموفق بود: " + error.message);
-  }
-}
-
-$("postForm").addEventListener("submit", async event => {
-  event.preventDefault();
-  if (!currentUser) return showAuth();
-  const Title = $("postTitle").value.trim();
-  const Text = $("postText").value.trim();
-  if (!Title || !Text) return;
-  try {
-    const result = await api("/share-post?user__name=" +
-      encodeURIComponent(currentUser.username), {
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({Title, Text, Like:0})
-    });
-    if (typeof result === "string" && /نامعتبر|خطا/.test(result)) {
-      return message(result);
+    function showAuth() {
+        document.getElementById("authOverlay").classList.remove("hidden");
     }
-    $("postTitle").value = "";
-    $("postText").value = "";
-    message("مطلب ارسال شد.");
-    await loadPosts();
-  } catch (error) {
-    message("انتشار مطلب انجام نشد: " + error.message);
-  }
-});
 
-async function loadPosts() {
-  try {
-    const result = await api("/posts");
-    if (!Array.isArray(result)) throw new Error("ساختار پاسخ سرور معتبر نیست");
-    allPosts = result;
-    renderPosts();
-  } catch (error) {
-    $("posts").innerHTML = '<div class="empty">بارگذاری مطالب انجام نشد. اتصال سرور را بررسی کن.</div>';
-  }
-}
-
-function setSort(value) {
-  sort = value;
-  $("newest").classList.toggle("active", value === "newest");
-  $("popular").classList.toggle("active", value === "popular");
-  renderPosts();
-}
-
-function showPage(nextPage, button) {
-  page = nextPage;
-  clearMessage();
-  document.querySelectorAll(".nav button").forEach(b =>
-    b.classList.toggle("active", b.dataset.page === nextPage));
-  if (button) button.classList.add("active");
-  $("feedTitle").textContent = ({
-    home:"جدیدترین مطالب",
-    technology:"فناوری",
-    science:"علم و دانش",
-    mobile:"موبایل",
-    computer:"کامپیوتر",
-    gaming:"بازی و سرگرمی",
-    mine:"مطالب من"
-  })[nextPage] || "مطالب";
-  $("feedSubtitle").textContent = nextPage === "mine"
-    ? "مطالبی که با حساب خودت منتشر کرده‌ای"
-    : "مطالب و گفتگوهای تازهٔ کاربران سیگنالا";
-  renderPosts();
-}
-
-async function loadMine() {
-  if (!currentUser) {
-    showAuth();
-    return;
-  }
-  try {
-    const result = await api("/my-posts?user_name=" +
-      encodeURIComponent(currentUser.username));
-    if (!Array.isArray(result)) throw new Error(
-      typeof result === "string" ? result : "پاسخ نامعتبر"
-    );
-    renderPosts(result);
-  } catch (error) {
-    $("posts").innerHTML = '<div class="empty">' + escapeHTML(error.message) + '</div>';
-  }
-}
-
-function renderPosts(source = allPosts) {
-  if (page === "mine") {
-    loadMine();
-    return;
-  }
-  const query = $("search").value.trim().toLowerCase();
-  let posts = [...source];
-
-  if (query) posts = posts.filter(p =>
-    (p.title || "").toLowerCase().includes(query) ||
-    (p.text || "").toLowerCase().includes(query) ||
-    (p.user_name || "").toLowerCase().includes(query)
-  );
-
-  // دسته‌بندی‌ها فعلاً بر اساس متن پست فیلتر می‌شوند؛
-  // بک‌اند فعلی فیلد category ندارد.
-  const keywords = {
-    technology:["فناوری","تکنولوژی","هوش مصنوعی"],
-    science:["علم","دانش","فضا","فیزیک"],
-    mobile:["موبایل","گوشی","سامسونگ","آیفون"],
-    computer:["کامپیوتر","لپ‌تاپ","پردازنده","ویندوز"],
-    gaming:["بازی","گیم","گیمینگ"]
-  };
-  if (keywords[page]) {
-    posts = posts.filter(p => {
-      const content = ((p.title || "") + " " + (p.text || "")).toLowerCase();
-      return keywords[page].some(word => content.includes(word));
-    });
-  }
-
-  if (sort === "popular") {
-    posts.sort((a,b) => (likeCount(b) - likeCount(a)));
-  } else {
-    posts.sort((a,b) => (Number(b["num-p"]) || 0) - (Number(a["num-p"]) || 0));
-  }
-
-  $("postCount").textContent = toPersianDigits(allPosts.length);
-  $("posts").innerHTML = posts.length
-    ? posts.map(createPost).join("")
-    : '<div class="card empty">مطلبی پیدا نشد.</div>';
-}
-
-function likeCount(post) {
-  return Math.max(0, (post.likes || []).length - 1);
-}
-
-function createPost(post) {
-  const id = Number(post["num-p"]);
-  const reactions = post.reactions || {};
-  const comments = post.comment || [];
-  const title = post.title || "بدون عنوان";
-  const text = post.text || "";
-  const author = post.user_name || (currentUser ? currentUser.username : "کاربر");
-  const likes = post.likes || [0];
-  const liked = !!currentUser && likes.slice(1).includes(currentUser.username);
-
-  const reactionButtons = REACTIONS.map(emoji => {
-    const count = Object.values(reactions).filter(v => v === emoji).length;
-    const selected = currentUser && reactions[currentUser.username] === emoji;
-    return `<button class="reaction ${selected ? "selected" : ""}"
-      onclick="react(${id},'${emoji}')">${emoji} ${toPersianDigits(count)}</button>`;
-  }).join("");
-
-  const commentHTML = comments.map(c => `
-    <div class="comment">
-      <strong>${escapeHTML(c.user_name || "کاربر")}</strong>
-      <span>${escapeHTML(c.text || "")}</span>
-    </div>`).join("");
-
-  return `<article class="card post">
-    <div class="post-head">
-      <div class="avatar">${escapeHTML(author.slice(0,1).toUpperCase())}</div>
-      <div><div class="author">${escapeHTML(author)}</div>
-      <div class="muted">عضو سیگنالا</div></div>
-    </div>
-    <h3>${escapeHTML(title)}</h3>
-    <div class="post-text">${escapeHTML(text)}</div>
-    <div class="reactions">${reactionButtons}</div>
-    <div class="post-actions">
-      <button class="action ${liked ? "selected" : ""}" onclick="likePost(${id})">
-        ${liked ? "♥" : "♡"} لایک ${toPersianDigits(likeCount(post))}
-      </button>
-      <button class="action" onclick="toggleComments(${id})">دیدگاه‌ها (${toPersianDigits(comments.length)})</button>
-    </div>
-    <div id="comments-${id}" class="comments hidden">
-      ${commentHTML || '<div class="muted">هنوز دیدگاهی ثبت نشده.</div>'}
-      <form class="comment-form" onsubmit="sendComment(event,${id})">
-        <input class="field" id="comment-input-${id}" placeholder="دیدگاهت را بنویس..." required>
-        <button class="btn">ارسال</button>
-      </form>
-    </div>
-  </article>`;
-}
-
-async function likePost(id) {
-  if (!currentUser) return showAuth();
-  try {
-    const result = await api("/like-p?num_post=" + id, {method:"POST"});
-    if (typeof result === "string" && /نامعتبر/.test(result)) return message(result);
-    await loadPosts();
-  } catch (error) { message("ثبت لایک انجام نشد: " + error.message); }
-}
-
-async function react(id, emoji) {
-  if (!currentUser) return showAuth();
-  try {
-    const result = await api("/Reaction?len_post=" + id +
-      "&re_action=" + encodeURIComponent(emoji), {method:"POST"});
-    if (typeof result === "string" && /نامعتبر|وجود ندارد|مجاز نیست/.test(result)) {
-      return message(result);
+    function hideAuth() {
+        document.getElementById("authOverlay").classList.add("hidden");
     }
-    await loadPosts();
-  } catch (error) { message("ثبت ری‌اکشن انجام نشد: " + error.message); }
-}
 
-function toggleComments(id) {
-  $("comments-" + id).classList.toggle("hidden");
-}
+    function toggleAuthMode() {
+        authMode = authMode === "login" ? "signup" : "login";
 
-async function sendComment(event, id) {
-  event.preventDefault();
-  if (!currentUser) return showAuth();
-  const input = $("comment-input-" + id);
-  const Text = input.value.trim();
-  if (!Text) return;
-  try {
-    const result = await api("/Comment?len_post=" + id, {
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({Text})
-    });
-    if (typeof result === "string" && /نامعتبر|خطا/.test(result)) {
-      return message(result);
+        document.getElementById("authTitle").textContent =
+            authMode === "login" ? "ورود به سیگنالا" : "ساخت حساب کاربری";
+
+        document.getElementById("authSubmit").textContent =
+            authMode === "login" ? "ورود" : "ثبت‌نام";
+
+        document.getElementById("authSwitch").textContent =
+            authMode === "login"
+                ? "حساب نداری؟ ثبت‌نام کن"
+                : "حساب داری؟ وارد شو";
+
+        document.getElementById("signupFields")
+            .classList.toggle("hidden", authMode !== "signup");
+
+        document.getElementById("authNotice").textContent = "";
     }
-    await loadPosts();
-    $("comments-" + id).classList.remove("hidden");
-  } catch (error) { message("ارسال دیدگاه ناموفق بود: " + error.message); }
-}
 
-function escapeHTML(value) {
-  return String(value).replace(/[&<>"']/g, char => ({
-    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-  })[char]);
-}
-function toPersianDigits(value) {
-  return String(value).replace(/\d/g, d => "۰۱۲۳۴۵۶۷۸۹"[d]);
-}
+    async function submitAuth() {
+        const username = document.getElementById("authUsername").value.trim();
+        const password = document.getElementById("authPassword").value;
+        const name = document.getElementById("signupName").value.trim();
 
-// بازیابی نام کاربر برای نمایش رابط؛ اعتبار نشست همچنان باید از سرور تأیید شود.
-function restoreUser() {
-  const username = localStorage.getItem("signala_username");
-  if (username) {
-    currentUser = {
-      username,
-      name:localStorage.getItem("signala_name") || username
-    };
-  }
-  updateAuthUI();
-}
+        if (!username || !password) {
+            alert("نام کاربری و رمز عبور رو وارد کن.");
+            return;
+        }
 
-restoreUser();
-loadPosts();
+        try {
+            let result;
+
+            if (authMode === "signup") {
+                if (!name) {
+                    alert("نام نمایشی رو وارد کن.");
+                    return;
+                }
+
+                result = await request("/logup", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        Name: name,
+                        User_name: username,
+                        PassWord: password
+                    })
+                });
+            } else {
+                result = await request(
+                    "/login?" + query({
+                        user_name: username,
+                        pass_word: password
+                    }),
+                    { method: "POST" }
+                );
+            }
+
+            document.getElementById("authNotice").textContent =
+                typeof result === "string" ? result : "درخواست انجام شد.";
+
+            if (typeof result === "string" &&
+                (result.includes("موفقیت") || result.includes("ساخته شد"))) {
+                currentUsername = username;
+                updateUserDisplay();
+                hideAuth();
+                await refreshPosts();
+            }
+        } catch (error) {
+            alert("خطا در ارتباط با سرور: " + error.message);
+        }
+    }
+
+    function updateUserDisplay() {
+        document.getElementById("currentUser").textContent =
+            currentUsername ? "@" + currentUsername : "";
+
+        document.getElementById("authButton").textContent =
+            currentUsername ? "حساب من" : "ورود / ثبت‌نام";
+    }
+
+    async function logout() {
+        try {
+            const result = await request("/logout?all=false", {
+                method: "DELETE"
+            });
+
+            alert(result);
+            currentUsername = null;
+            updateUserDisplay();
+            await refreshPosts();
+        } catch (error) {
+            alert("برای خروج باید وارد حساب شده باشی.");
+        }
+    }
+
+    async function createPost() {
+        const title = document.getElementById("postTitle").value.trim();
+        const text = document.getElementById("postText").value.trim();
+
+        if (!title || !text) {
+            alert("عنوان و متن پست رو وارد کن.");
+            return;
+        }
+
+        try {
+            const result = await request("/share-post", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    Title: title,
+                    Text: text,
+                    Like: 0
+                })
+            });
+
+            alert(result);
+            document.getElementById("postTitle").value = "";
+            document.getElementById("postText").value = "";
+            await refreshPosts();
+        } catch (error) {
+            alert("برای انتشار پست وارد حساب شو.");
+        }
+    }
+
+    async function refreshPosts() {
+        try {
+            cachedPosts = await request("/posts");
+            renderPosts(
+                currentView === "mine"
+                    ? cachedPosts.filter(p => p.user_name === currentUsername)
+                    : cachedPosts
+            );
+        } catch (error) {
+            document.getElementById("feed").innerHTML =
+                '<div class="empty">دریافت پست‌ها ناموفق بود. اتصال سرور رو بررسی کن.</div>';
+        }
+    }
+
+    function showFeed() {
+        currentView = "feed";
+        renderPosts(cachedPosts);
+    }
+
+    function showMyPosts() {
+        currentView = "mine";
+
+        if (!currentUsername) {
+            alert("ابتدا وارد حساب خودت شو.");
+            showAuth();
+            return;
+        }
+
+        renderPosts(
+            cachedPosts.filter(p => p.user_name === currentUsername)
+        );
+    }
+
+    function escapeHTML(value) {
+        return String(value ?? "").replace(/[&<>"']/g, char => ({
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#39;"
+        })[char]);
+    }
+
+    function renderPosts(posts) {
+        const feed = document.getElementById("feed");
+
+        if (!posts || posts.length === 0) {
+            feed.innerHTML = '<div class="empty">هنوز پستی وجود نداره.</div>';
+            return;
+        }
+
+        feed.innerHTML = [...posts].reverse().map(post => {
+            const author = escapeHTML(post.user_name);
+            const reactions = post.reactions || {};
+            const comments = post.comment || [];
+            const likes = post.likes || [0];
+
+            const reactionCounts = {};
+            Object.values(reactions).forEach(reaction => {
+                reactionCounts[reaction] = (reactionCounts[reaction] || 0) + 1;
+            });
+
+            const reactionButtons = EMOJIS.map(emoji => `
+                <button class="${reactions[currentUsername] === emoji ? "selected" : ""}"
+                    onclick="reactToPost(${post["num-p"]}, '${emoji}')">
+                    ${emoji} ${reactionCounts[emoji] || ""}
+                </button>
+            `).join("");
+
+            return `
+                <article class="post">
+                    <div class="post-header">
+                        <div class="avatar">${author.charAt(0).toUpperCase()}</div>
+                        <div>
+                            <div class="username">${author}</div>
+                            <div class="muted">پست شماره ${post["num-p"]}</div>
+                        </div>
+                    </div>
+
+                    <h2 class="post-title">${escapeHTML(post.title)}</h2>
+                    <div class="post-text">${escapeHTML(post.text)}</div>
+
+                    <div class="post-actions">
+                        <button class="action"
+                            onclick="likePost(${post["num-p"]})">
+                            👍 لایک (${likes[0] || 0})
+                        </button>
+
+                        <button class="action"
+                            onclick="toggleComments(${post["num-p"]})">
+                            💬 کامنت (${comments.length})
+                        </button>
+
+                        ${currentUsername === author || currentUsername === "Admin"
+                            ? `<button class="action" onclick="deletePost(${post["num-p"]})">🗑 حذف پست</button>`
+                            : ""}
+                    </div>
+
+                    <div class="reaction-list">${reactionButtons}</div>
+
+                    <section class="comments" id="comments-${post["num-p"]}">
+                        <form class="comment-form"
+                            onsubmit="addComment(event, ${post["num-p"]})">
+                            <input name="text" placeholder="نظرت رو بنویس..." required>
+                            <button type="submit">ارسال</button>
+                        </form>
+
+                        ${comments.map(comment => renderComment(post, comment)).join("")}
+                    </section>
+                </article>
+            `;
+        }).join("");
+    }
+
+    function renderComment(post, comment) {
+        const author = escapeHTML(comment.user_name);
+        const reactions = comment.reactions || {};
+        const likes = comment.likes || [0];
+        const replies = comment.reply || [];
+
+        const reactionCounts = {};
+        Object.values(reactions).forEach(emoji => {
+            reactionCounts[emoji] = (reactionCounts[emoji] || 0) + 1;
+        });
+
+        return `
+            <div class="comment">
+                <div class="comment-meta">${author}</div>
+                <div class="comment-text">${escapeHTML(comment.text)}</div>
+
+                <div class="comment-actions">
+                    <button onclick="likeComment(${post["num-p"]}, ${comment["num-c"]})">
+                        👍 لایک (${likes[0] || 0})
+                    </button>
+                </div>
+
+                <div class="reaction-list">
+                    ${EMOJIS.map(emoji => `
+                        <button
+                            class="${reactions[currentUsername] === emoji ? "selected" : ""}"
+                            onclick="reactToComment(${post["num-p"]}, ${comment["num-c"]}, '${emoji}')">
+                            ${emoji} ${reactionCounts[emoji] || ""}
+                        </button>
+                    `).join("")}
+                </div>
+
+                <div class="replies">
+                    ${replies.map(reply => `
+                        <div class="reply">
+                            <strong>${escapeHTML(reply.user_name)}</strong>
+                            <div class="comment-text">${escapeHTML(reply.text)}</div>
+                        </div>
+                    `).join("")}
+                </div>
+
+                <form class="reply-form"
+                    onsubmit="replyToComment(event, ${post["num-p"]}, ${comment["num-c"]})">
+                    <input name="text" placeholder="پاسخ به این کامنت..." required>
+                    <button type="submit">پاسخ</button>
+                </form>
+            </div>
+        `;
+    }
+
+    function toggleComments(postId) {
+        const section = document.getElementById("comments-" + postId);
+        section.classList.toggle("hidden");
+    }
+
+    async function likePost(postId) {
+        await performAction(
+            "/like-p?" + query({ num_post: postId }),
+            "POST"
+        );
+    }
+
+    async function likeComment(postId, commentId) {
+        await performAction(
+            "/like-c?" + query({
+                num_post: postId,
+                len_c: commentId
+            }),
+            "POST"
+        );
+    }
+
+    async function reactToPost(postId, emoji) {
+        await performAction(
+            "/Reaction?" + query({
+                len_post: postId,
+                re_action: emoji
+            }),
+            "POST"
+        );
+    }
+
+    async function reactToComment(postId, commentId, emoji) {
+        await performAction(
+            "/Reaction-comment?" + query({
+                len_post: postId,
+                len_comment: commentId,
+                re_action: emoji
+            }),
+            "POST"
+        );
+    }
+
+    async function addComment(event, postId) {
+        event.preventDefault();
+
+        const form = event.currentTarget;
+        const text = new FormData(form).get("text");
+
+        try {
+            const result = await request(
+                "/Comment?" + query({ len_post: postId }),
+                {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ Text: text })
+                }
+            );
+
+            alert(result);
+            await refreshPosts();
+        } catch (error) {
+            alert("برای کامنت گذاشتن وارد حساب شو.");
+        }
+    }
+
+    async function replyToComment(event, postId, commentId) {
+        event.preventDefault();
+
+        const form = event.currentTarget;
+        const text = new FormData(form).get("text");
+
+        try {
+            const result = await request(
+                "/reply-to-comment?" + query({
+                    len_post: postId,
+                    len_comment: commentId,
+                    text: text
+                }),
+                { method: "POST" }
+            );
+
+            alert(result);
+            await refreshPosts();
+        } catch (error) {
+            alert("ارسال پاسخ ناموفق بود.");
+        }
+    }
+
+    async function deletePost(postId) {
+        if (!confirm("از حذف این پست مطمئنی؟")) return;
+
+        try {
+            const result = await request(
+                "/delet-post?" + query({ len_post: postId }),
+                { method: "DELETE" }
+            );
+
+            alert(result);
+            await refreshPosts();
+        } catch (error) {
+            alert("حذف پست ناموفق بود.");
+        }
+    }
+
+    async function performAction(path, method) {
+        try {
+            const result = await request(path, { method });
+            if (typeof result === "string" &&
+                result.includes("مشکلی")) {
+                alert(result);
+            }
+            await refreshPosts();
+        } catch (error) {
+            alert("این عملیات انجام نشد. وارد حساب شو و دوباره امتحان کن.");
+        }
+    }
+
+    refreshPosts();
 </script>
+
 </body>
 </html>
