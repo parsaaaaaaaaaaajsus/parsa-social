@@ -2,561 +2,145 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>سیگنالا | شبکه اجتماعی</title>
 
 <style>
 :root {
-  --bg: #f5f7fb;
-  --card: #ffffff;
-  --text: #172033;
-  --muted: #778197;
-  --primary: #635bff;
-  --primary-dark: #5148e5;
-  --border: #e7eaf2;
-  --danger: #e5484d;
-  --shadow: 0 5px 24px rgba(25, 35, 65, .055);
-}
-
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  font-family: Tahoma, Arial, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  line-height: 1.8;
-}
-
-button, input, textarea {
-  font: inherit;
-}
-
-button {
-  cursor: pointer;
-}
-
-button:disabled {
-  opacity: .55;
-  cursor: not-allowed;
-}
-
-header {
-  height: 72px;
-  background: var(--card);
-  border-bottom: 1px solid var(--border);
-  position: sticky;
-  top: 0;
-  z-index: 10;
-}
-
-.header-inner {
-  max-width: 1180px;
-  height: 100%;
-  margin: auto;
-  padding: 0 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-}
-
-.logo {
-  font-size: 25px;
-  font-weight: 900;
-  color: var(--primary);
-  letter-spacing: -.8px;
-}
-
-.logo span {
-  color: var(--text);
-}
-
-.header-actions {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
-
-button.primary,
-button.secondary,
-button.danger,
-button.ghost {
-  border: 0;
-  border-radius: 10px;
-  padding: 9px 15px;
-  transition: .15s;
-}
-
-button.primary {
-  background: var(--primary);
-  color: white;
-}
-
-button.primary:hover {
-  background: var(--primary-dark);
-}
-
-button.secondary {
-  background: #efefff;
-  color: var(--primary);
-}
-
-button.danger {
-  background: #fff0f0;
-  color: var(--danger);
-}
-
-button.ghost {
-  background: transparent;
-  color: var(--muted);
-}
-
-button.ghost:hover {
-  background: #f0f1f8;
-}
-
-button.small {
-  font-size: 12px;
-  padding: 5px 9px;
-  border-radius: 8px;
-}
-
-.page {
-  max-width: 1180px;
-  margin: 26px auto;
-  padding: 0 20px;
-  display: grid;
-  grid-template-columns: 240px minmax(0, 1fr) 240px;
-  gap: 22px;
-  align-items: start;
-}
-
-.panel, .post-card, .composer {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  box-shadow: var(--shadow);
-}
-
-.panel {
-  padding: 18px;
-  position: sticky;
-  top: 92px;
-}
-
-.panel h3 {
-  font-size: 15px;
-  margin: 0 0 14px;
-}
-
-.panel p {
-  font-size: 13px;
-  color: var(--muted);
-  margin: 8px 0;
-}
-
-.nav-button {
-  width: 100%;
-  display: block;
-  text-align: right;
-  background: transparent;
-  border: 0;
-  border-radius: 10px;
-  padding: 10px;
-  color: var(--text);
-  margin: 3px 0;
-}
-
-.nav-button:hover,
-.nav-button.active {
-  background: #f0efff;
-  color: var(--primary);
-}
-
-.main-column {
-  min-width: 0;
-}
-
-.welcome {
-  margin-bottom: 18px;
-}
-
-.welcome h1 {
-  margin: 0;
-  font-size: 23px;
-}
-
-.welcome p {
-  color: var(--muted);
-  font-size: 13px;
-  margin: 4px 0 0;
-}
-
-.composer {
-  padding: 18px;
-  margin-bottom: 20px;
-}
-
-.composer h3 {
-  margin: 0 0 12px;
-  font-size: 16px;
-}
-
-input, textarea {
-  width: 100%;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 11px 13px;
-  outline: none;
-  background: #fcfcff;
-  color: var(--text);
-  margin-bottom: 10px;
-}
-
-input:focus, textarea:focus {
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(99, 91, 255, .09);
-}
-
-textarea {
-  resize: vertical;
-  min-height: 100px;
-}
-
-.composer-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-}
-
-.hint {
-  color: var(--muted);
-  font-size: 12px;
-}
-
-.feed-heading {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 0 0 12px;
-}
-
-.feed-heading h2 {
-  font-size: 17px;
-  margin: 0;
-}
-
-.post-card {
-  padding: 18px;
-  margin-bottom: 16px;
-  overflow-wrap: anywhere;
-}
-
-.post-top {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  align-items: flex-start;
-}
-
-.author {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
-
-.avatar {
-  flex-shrink: 0;
-  width: 42px;
-  height: 42px;
-  border-radius: 13px;
-  background: linear-gradient(135deg, #7167ff, #b3aaff);
-  color: white;
-  display: grid;
-  place-items: center;
-  font-weight: bold;
-}
-
-.author-name {
-  font-size: 14px;
-  font-weight: bold;
-}
-
-.author-handle {
-  font-size: 12px;
-  color: var(--muted);
-  direction: ltr;
-  text-align: right;
-}
-
-.post-title {
-  font-size: 18px;
-  margin: 16px 0 5px;
-}
-
-.post-text {
-  font-size: 14px;
-  white-space: pre-wrap;
-  margin: 0 0 15px;
-}
-
-.post-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 7px;
-  padding-top: 12px;
-  border-top: 1px solid var(--border);
-}
-
-.post-actions button {
-  background: #f6f7fb;
-  color: #525d73;
-  border: 0;
-  border-radius: 9px;
-  padding: 7px 10px;
-  font-size: 12px;
-}
-
-.post-actions button:hover {
-  background: #ecebff;
-  color: var(--primary);
-}
-
-.reactions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin: 12px 0;
-}
-
-.reactions button {
-  background: white;
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 4px 9px;
-  font-size: 13px;
-}
-
-.reactions button:hover {
-  background: #f0efff;
-}
-
-.comments {
-  border-top: 1px solid var(--border);
-  margin-top: 14px;
-  padding-top: 12px;
-}
-
-.comments h4 {
-  font-size: 13px;
-  margin: 0 0 10px;
-}
-
-.comment-item {
-  padding: 10px;
-  background: #f8f9fc;
-  border-radius: 10px;
-  margin: 8px 0;
-  font-size: 13px;
-}
-
-.comment-meta {
-  font-weight: bold;
-  margin-bottom: 3px;
-}
-
-.comment-text {
-  white-space: pre-wrap;
-}
-
-.comment-form {
-  display: flex;
-  gap: 8px;
-  margin-top: 12px;
-}
-
-.comment-form input {
-  margin: 0;
-  min-width: 0;
-}
-
-.empty {
-  background: white;
-  border: 1px dashed #d8dbea;
-  border-radius: 15px;
-  padding: 30px 18px;
-  text-align: center;
-  color: var(--muted);
-  font-size: 14px;
-}
-
-.status {
-  border-radius: 10px;
-  padding: 10px 12px;
-  margin: 0 0 14px;
-  font-size: 13px;
-  display: none;
-  overflow-wrap: anywhere;
-}
-
-.status.error {
-  display: block;
-  background: #fff0f0;
-  color: #b4232b;
-}
-
-.status.success {
-  display: block;
-  background: #eafaf0;
-  color: #187744;
-}
-
-.status.info {
-  display: block;
-  background: #eef2ff;
-  color: #4540a5;
-}
-
-footer {
-  max-width: 1180px;
-  margin: 35px auto 0;
-  padding: 20px;
-  text-align: center;
-  font-size: 12px;
-  color: var(--muted);
-}
-
-.modal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 30;
-  background: rgba(12, 18, 35, .55);
-  padding: 20px;
-  align-items: center;
-  justify-content: center;
-}
-
-.modal.open {
-  display: flex;
-}
-
-.modal-box {
-  background: white;
-  border-radius: 18px;
-  width: 100%;
-  max-width: 410px;
-  padding: 24px;
-  box-shadow: 0 20px 70px rgba(0,0,0,.2);
-}
-
-.modal-box h2 {
-  margin: 0 0 6px;
-  font-size: 21px;
-}
-
-.modal-box > p {
-  color: var(--muted);
-  font-size: 13px;
-  margin: 0 0 18px;
-}
-
-.modal-box .primary {
-  width: 100%;
-}
-
-.modal-bottom {
-  text-align: center;
-  font-size: 13px;
-  margin-top: 15px;
-}
-
-.modal-bottom button {
-  color: var(--primary);
-  border: 0;
-  background: none;
-}
-
-.close-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.close-row button {
-  border: 0;
-  background: transparent;
-  font-size: 22px;
-  color: var(--muted);
-}
-
-.hidden {
-  display: none !important;
-}
-
-@media (max-width: 950px) {
-  .page {
-    grid-template-columns: minmax(0, 1fr) 210px;
-  }
-
-  .left-panel {
-    display: none;
-  }
-}
-
-@media (max-width: 650px) {
-  header {
-    height: 62px;
-  }
-
-  .header-inner {
-    padding: 0 12px;
-  }
-
-  .logo {
-    font-size: 21px;
-  }
-
-  .header-actions button {
-    padding: 7px 9px;
-    font-size: 12px;
-  }
-
-  .page {
-    display: block;
-    padding: 0 12px;
-    margin: 18px auto;
-  }
-
-  .right-panel {
-    display: none;
-  }
-
-  .welcome h1 {
-    font-size: 20px;
-  }
-
-  .composer, .post-card {
-    padding: 14px;
-  }
-
-  .post-title {
-    font-size: 16px;
-  }
+  --bg:#f5f7fb;
+  --card:#fff;
+  --text:#172033;
+  --muted:#778197;
+  --primary:#635bff;
+  --border:#e7eaf2;
+  --danger:#e5484d;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:Tahoma,Arial,sans-serif;line-height:1.8
+}
+button,input,textarea{font:inherit}
+button{cursor:pointer}
+button:disabled{opacity:.6;cursor:wait}
+header{
+  height:68px;background:white;border-bottom:1px solid var(--border);
+  position:sticky;top:0;z-index:5
+}
+.header-inner{
+  max-width:1100px;height:100%;margin:auto;padding:0 16px;
+  display:flex;align-items:center;justify-content:space-between;gap:12px
+}
+.logo{font-size:24px;font-weight:bold;color:var(--primary)}
+.header-actions{display:flex;gap:8px;align-items:center}
+button.primary,button.secondary,button.danger,button.ghost{
+  border:0;border-radius:10px;padding:8px 13px
+}
+button.primary{background:var(--primary);color:white}
+button.secondary{background:#efefff;color:var(--primary)}
+button.danger{background:#fff0f0;color:var(--danger)}
+button.ghost{background:transparent;color:var(--muted)}
+.page{
+  max-width:1100px;margin:24px auto;padding:0 16px;
+  display:grid;grid-template-columns:210px minmax(0,1fr) 210px;
+  gap:18px;align-items:start
+}
+.panel,.composer,.post-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:15px;padding:17px;box-shadow:0 4px 20px #17203308
+}
+.panel{position:sticky;top:84px}
+.panel h3{font-size:15px;margin:0 0 10px}
+.panel p{font-size:12px;color:var(--muted)}
+.nav-button{
+  display:block;width:100%;text-align:right;padding:9px;
+  border:0;border-radius:9px;background:transparent;margin:3px 0
+}
+.nav-button.active,.nav-button:hover{background:#efefff;color:var(--primary)}
+.main{min-width:0}
+.welcome h1{font-size:22px;margin:0}
+.welcome p,.hint{font-size:12px;color:var(--muted)}
+.composer{margin:18px 0}
+.composer h3{font-size:16px;margin:0 0 12px}
+input,textarea{
+  width:100%;padding:11px;border:1px solid var(--border);
+  border-radius:10px;margin-bottom:10px;background:#fcfcff;outline:none
+}
+input:focus,textarea:focus{border-color:var(--primary)}
+textarea{resize:vertical;min-height:100px}
+.composer-footer{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.feed-heading{display:flex;justify-content:space-between;align-items:center;margin:16px 0 10px}
+.feed-heading h2{font-size:17px}
+.post-card{margin-bottom:15px;overflow-wrap:anywhere}
+.post-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.author{display:flex;align-items:center;gap:10px}
+.avatar{
+  width:40px;height:40px;display:grid;place-items:center;
+  border-radius:12px;color:white;font-weight:bold;
+  background:linear-gradient(135deg,#7167ff,#b3aaff)
+}
+.author-name{font-size:13px;font-weight:bold}
+.author-handle{font-size:11px;color:var(--muted);direction:ltr;text-align:right}
+.post-title{font-size:17px;margin:15px 0 5px}
+.post-text{font-size:14px;white-space:pre-wrap;margin:0 0 14px}
+.post-actions,.reactions{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+.post-actions{padding-top:12px;border-top:1px solid var(--border)}
+.post-actions button,.reactions button{
+  background:#f5f6fb;color:#4e5870;border:0;border-radius:9px;
+  padding:7px 10px;font-size:12px
+}
+.post-actions button:hover,.reactions button:hover{background:#efefff;color:var(--primary)}
+.comments{border-top:1px solid var(--border);margin-top:13px;padding-top:12px}
+.comments h4{font-size:13px;margin:0 0 8px}
+.comment-item{background:#f7f8fc;border-radius:9px;padding:10px;margin:8px 0;font-size:12px}
+.comment-meta{font-weight:bold}
+.comment-text{white-space:pre-wrap}
+.comment-form{display:flex;gap:7px;margin-top:10px}
+.comment-form input{min-width:0;margin:0}
+.comment-form button{white-space:nowrap}
+.empty{
+  padding:25px 15px;background:white;border:1px dashed #d8dbea;
+  border-radius:13px;text-align:center;color:var(--muted);font-size:13px
+}
+.status{display:none;border-radius:9px;padding:10px;margin:12px 0;font-size:12px;overflow-wrap:anywhere}
+.status.error{display:block;background:#fff0f0;color:#a3222b}
+.status.success{display:block;background:#eafaf0;color:#187744}
+.status.info{display:block;background:#eef2ff;color:#4540a5}
+.modal{
+  display:none;position:fixed;inset:0;background:#10172b99;z-index:20;
+  align-items:center;justify-content:center;padding:16px
+}
+.modal.open{display:flex}
+.modal-box{background:white;border-radius:16px;padding:22px;width:100%;max-width:400px}
+.close-row{display:flex;align-items:center;justify-content:space-between}
+.close-row h2{font-size:20px}
+.close-row button{border:0;background:none;font-size:23px}
+.modal-box p{font-size:12px;color:var(--muted)}
+.modal-box form>button{width:100%}
+.modal-bottom{text-align:center;font-size:12px;margin-top:12px}
+.modal-bottom button{border:0;background:none;color:var(--primary)}
+.hidden{display:none!important}
+footer{text-align:center;color:var(--muted);font-size:11px;padding:25px}
+@media(max-width:900px){
+  .page{grid-template-columns:minmax(0,1fr) 190px}
+  .left-panel{display:none}
+}
+@media(max-width:620px){
+  .page{display:block;padding:0 11px;margin:15px auto}
+  .right-panel{display:none}
+  .header-inner{padding:0 10px}
+  .logo{font-size:20px}
+  .header-actions button{font-size:11px;padding:7px 8px}
+  .panel,.composer,.post-card{padding:13px}
+  .welcome h1{font-size:19px}
 }
 </style>
 </head>
 
 <body>
-
 <header>
   <div class="header-inner">
-    <div class="logo">سیگنالا<span>.</span></div>
-
+    <div class="logo">سیگنالا.</div>
     <div class="header-actions">
       <button class="secondary" id="myPostsButton">پست‌های من</button>
       <button class="primary" id="authButton">ورود / ثبت‌نام</button>
@@ -566,124 +150,74 @@ footer {
 </header>
 
 <div class="page">
-
   <aside class="panel left-panel">
     <h3>منوی سیگنالا</h3>
     <button class="nav-button active" id="feedButton">⌂ صفحه اصلی</button>
     <button class="nav-button" id="myPostsSideButton">▤ پست‌های من</button>
     <button class="nav-button" id="refreshButton">↻ تازه‌سازی</button>
-
-    <hr style="border:0;border-top:1px solid var(--border);margin:16px 0">
-
+    <hr style="border:0;border-top:1px solid var(--border)">
     <h3>درباره سیگنالا</h3>
-    <p>اینجا می‌توانی مطالب و دیدگاه‌هایت را با دیگران به اشتراک بگذاری.</p>
+    <p>ایده‌ها و دیدگاه‌هایت را با دیگران به اشتراک بگذار.</p>
   </aside>
 
-  <main class="main-column">
-
+  <main class="main">
     <section class="welcome">
       <h1 id="welcomeTitle">به سیگنالا خوش آمدی</h1>
-      <p>مطالب تازه را بخوان و دیدگاهت را به اشتراک بگذار.</p>
+      <p>مطالب تازه را بخوان و دیدگاهت را منتشر کن.</p>
     </section>
 
     <div id="status" class="status"></div>
 
-    <section class="composer" id="composer">
+    <section class="composer">
       <h3>چه چیزی در ذهنته؟</h3>
-
       <form id="postForm">
-        <input
-          id="postTitle"
-          type="text"
-          placeholder="عنوان پست"
-          maxlength="180"
-          required
-        >
-
-        <textarea
-          id="postText"
-          placeholder="متنت رو اینجا بنویس..."
-          maxlength="10000"
-          required
-        ></textarea>
-
+        <input id="postTitle" placeholder="عنوان پست" maxlength="180" required>
+        <textarea id="postText" placeholder="متنت رو اینجا بنویس..." maxlength="10000" required></textarea>
         <div class="composer-footer">
-          <span class="hint">برای انتشار باید وارد حساب شوی.</span>
-          <button class="primary" id="publishButton" type="submit">
-            انتشار پست
-          </button>
+          <span class="hint">برای انتشار وارد حساب شو.</span>
+          <button class="primary" id="publishButton">انتشار پست</button>
         </div>
       </form>
     </section>
 
     <div class="feed-heading">
       <h2 id="feedTitle">آخرین پست‌ها</h2>
-      <button class="ghost small" id="reloadPostsButton">↻ بروزرسانی</button>
+      <button class="ghost" id="reloadButton">↻ بروزرسانی</button>
     </div>
 
-    <section id="feed">
-      <div class="empty">در حال دریافت پست‌ها...</div>
-    </section>
-
+    <section id="feed"><div class="empty">در حال دریافت پست‌ها...</div></section>
   </main>
 
   <aside class="panel right-panel">
     <h3>راهنما</h3>
-    <p>برای نوشتن پست، ابتدا وارد حساب کاربری خودت شو.</p>
-    <p>می‌توانی پست‌ها را لایک کنی، واکنش بگذاری و برای آن‌ها کامنت بنویسی.</p>
-    <hr style="border:0;border-top:1px solid var(--border);margin:16px 0">
-    <h3>یادت باشه</h3>
-    <p>اطلاعات ورودت را با دیگران به اشتراک نگذار.</p>
+    <p>برای انتشار پست، لایک و نوشتن کامنت وارد حساب کاربری شو.</p>
+    <hr style="border:0;border-top:1px solid var(--border)">
+    <h3>امنیت حساب</h3>
+    <p>رمز عبورت را با دیگران به اشتراک نگذار.</p>
   </aside>
-
 </div>
 
-<footer>
-  سیگنالا — یک شبکه اجتماعی برای به‌اشتراک‌گذاری ایده‌ها
-</footer>
+<footer>سیگنالا — شبکه‌ای برای به‌اشتراک‌گذاری ایده‌ها</footer>
 
-<!-- پنجره ورود و ثبت‌نام -->
 <div class="modal" id="authModal">
   <div class="modal-box">
-
     <div class="close-row">
       <h2 id="authTitle">ورود به سیگنالا</h2>
-      <button id="closeModalButton" type="button" aria-label="بستن">×</button>
+      <button id="closeModalButton" type="button">×</button>
     </div>
-
-    <p id="authDescription">برای ادامه وارد حساب کاربری‌ات شو.</p>
-
+    <p id="authDescription">برای ادامه وارد حساب شو.</p>
     <form id="authForm">
       <div id="nameField" class="hidden">
         <input id="nameInput" placeholder="نام نمایشی" maxlength="80">
       </div>
-
-      <input
-        id="usernameInput"
-        placeholder="نام کاربری"
-        maxlength="50"
-        autocomplete="username"
-        required
-      >
-
-      <input
-        id="passwordInput"
-        type="password"
-        placeholder="رمز عبور"
-        autocomplete="current-password"
-        required
-      >
-
-      <button class="primary" id="authSubmitButton" type="submit">
-        ورود
-      </button>
+      <input id="usernameInput" placeholder="نام کاربری" maxlength="50" autocomplete="username" required>
+      <input id="passwordInput" type="password" placeholder="رمز عبور" autocomplete="current-password" required>
+      <button class="primary" id="authSubmitButton">ورود</button>
     </form>
-
     <div class="modal-bottom">
       <span id="authSwitchText">حساب نداری؟</span>
       <button id="authSwitchButton" type="button">ثبت‌نام</button>
     </div>
-
     <div id="authStatus" class="status"></div>
   </div>
 </div>
@@ -691,44 +225,45 @@ footer {
 <script>
 "use strict";
 
-/* ---------------- تنظیمات ---------------- */
-
 const API = window.location.origin;
-
 const $ = id => document.getElementById(id);
 
-let authMode = "login";
-let currentView = "feed";
+const REACTIONS = ["😂","👍","😒","😢","🤩","😐","😭","😡"];
+
 let currentUser = null;
+let currentView = "feed";
+let authMode = "login";
 let busy = false;
 
-const REACTIONS = ["😂", "👍", "😒", "😢", "🤩", "😐", "😭", "😡"];
-
-/* ---------------- نمایش پیام ---------------- */
-
 function showStatus(message, type = "info", target = "status") {
-  const element = $(target);
-
-  element.textContent = message;
-  element.className = "status " + type;
+  const el = $(target);
+  el.textContent = message;
+  el.className = "status " + type;
 }
 
 function clearStatus(target = "status") {
-  const element = $(target);
-
-  element.textContent = "";
-  element.className = "status";
+  $(target).textContent = "";
+  $(target).className = "status";
 }
 
-/* ---------------- درخواست به بک‌اند ---------------- */
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, c => ({
+    "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#039;"
+  })[c]);
+}
 
-/*
-  نکته مهم:
-  پاسخ endpointهای FastAPI در این پروژه معمولاً یک رشته JSON است.
-  بنابراین باید آن را با response.json() خواند.
+function messageOf(data) {
+  if (typeof data === "string") return data;
+  if (data && typeof data.detail === "string") return data.detail;
+  if (data && typeof data.message === "string") return data.message;
+  if (data && typeof data.error === "string") return data.error;
+  return JSON.stringify(data);
+}
 
-  پاسخ غیرمنتظره نباید به‌عنوان موفقیت اعلام شود.
-*/
+function isError(data) {
+  return /نشست نامعتبر|خطا|ناموفق|اشتباه است|از قبل وجود دارد|unauthorized|forbidden/i
+    .test(messageOf(data));
+}
 
 async function request(path, options = {}) {
   let response;
@@ -737,160 +272,51 @@ async function request(path, options = {}) {
     response = await fetch(API + path, {
       ...options,
       credentials: "include",
-      headers: {
-        ...(options.headers || {})
-      }
+      headers: { ...(options.headers || {}) }
     });
-  } catch (error) {
-    throw new Error(
-      "ارتباط با سرور برقرار نشد. اتصال اینترنت و وضعیت سرور را بررسی کن."
-    );
+  } catch {
+    throw new Error("ارتباط با سرور برقرار نشد. وضعیت سرور را بررسی کن.");
   }
 
   const contentType = response.headers.get("content-type") || "";
   let data;
 
   try {
-    if (contentType.includes("application/json")) {
-      data = await response.json();
-    } else {
-      data = await response.text();
-    }
-  } catch (error) {
+    data = contentType.includes("application/json")
+      ? await response.json()
+      : await response.text();
+  } catch {
     throw new Error("پاسخ سرور قابل خواندن نیست.");
   }
 
   if (!response.ok) {
-    throw new Error(extractMessage(data) || (
-      "خطای سرور: " + response.status
-    ));
+    throw new Error(messageOf(data) || `خطای سرور (${response.status})`);
   }
 
   return data;
 }
 
-/*
-  پاسخ مورد انتظار برای انتشار پست:
-  "پست شما با موفقیت منتشر شد."
-
-  اگر سرور به‌جای رشته، شیء یا پاسخ دیگری بدهد،
-  آن را به‌اشتباه موفقیت حساب نمی‌کنیم.
-*/
-
-function extractMessage(data) {
-  if (typeof data === "string") {
-    return data;
-  }
-
-  if (data && typeof data.detail === "string") {
-    return data.detail;
-  }
-
-  if (data && typeof data.message === "string") {
-    return data.message;
-  }
-
-  if (data && typeof data.error === "string") {
-    return data.error;
-  }
-
-  try {
-    return JSON.stringify(data);
-  } catch {
-    return "پاسخ نامشخص از سرور دریافت شد.";
-  }
-}
-
-function isErrorMessage(data) {
-  const message = extractMessage(data);
-
-  return /نشست نامعتبر|مشکلی پیش|خطا|اشتباه است|از قبل وجود دارد|ناموفق|unauthorized|forbidden/i
-    .test(message);
-}
-
-function expectSuccess(data, expectedText) {
-  /*
-    در بک‌اند فعلی، عملیات موفق رشته برمی‌گرداند.
-    اگر شکل پاسخ متفاوت باشد، برای جلوگیری از موفقیت کاذب خطا می‌دهیم.
-  */
-
-  if (typeof data !== "string") {
-    throw new Error(
-      "پاسخ سرور با قالب مورد انتظار هماهنگ نیست: " +
-      extractMessage(data)
-    );
-  }
-
-  if (isErrorMessage(data)) {
+function checkResponse(data) {
+  if (typeof data === "string" && isError(data)) {
     throw new Error(data);
   }
-
-  if (expectedText && !data.includes(expectedText)) {
-    throw new Error(
-      "سرور موفقیت عملیات را تأیید نکرد: " + data
-    );
-  }
-
   return data;
-}
-
-/* ---------------- ابزارهای عمومی ---------------- */
-
-function escapeHTML(value) {
-  return String(value ?? "").replace(/[&<>"']/g, character => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#039;"
-  })[character]);
-}
-
-function getPostId(post) {
-  return post["num-p"];
-}
-
-function getPostAuthor(post) {
-  return post.user_name || post.User_name || "";
-}
-
-function getPostTitle(post) {
-  return post.title ?? post.Title ?? "";
-}
-
-function getPostText(post) {
-  return post.text ?? post.Text ?? "";
-}
-
-function getLikes(post) {
-  const likes = post.likes;
-
-  if (Array.isArray(likes)) {
-    return Number(likes[0]) || 0;
-  }
-
-  return Number(likes) || 0;
 }
 
 function requireLogin() {
-  if (currentUser) {
-    return true;
-  }
-
+  if (currentUser) return true;
   openAuth("login");
-  showStatus("برای انجام این کار ابتدا وارد حساب کاربری‌ات شو.", "info");
-
+  showStatus("برای این کار ابتدا وارد حساب شو.", "info");
   return false;
 }
 
-/* ---------------- ورود و ثبت‌نام ---------------- */
+/* ورود و ثبت‌نام */
 
 function openAuth(mode = "login") {
   authMode = mode;
   updateAuthModal();
-
-  $("authModal").classList.add("open");
   clearStatus("authStatus");
+  $("authModal").classList.add("open");
 }
 
 function closeAuth() {
@@ -899,67 +325,39 @@ function closeAuth() {
 
 function updateAuthModal() {
   const signup = authMode === "signup";
-
-  $("authTitle").textContent = signup
-    ? "ساخت حساب کاربری"
-    : "ورود به سیگنالا";
-
+  $("authTitle").textContent = signup ? "ساخت حساب کاربری" : "ورود به سیگنالا";
   $("authDescription").textContent = signup
     ? "اطلاعاتت را وارد کن تا حسابت ساخته شود."
     : "برای ادامه وارد حساب کاربری‌ات شو.";
-
   $("nameField").classList.toggle("hidden", !signup);
   $("nameInput").required = signup;
-
-  $("authSubmitButton").textContent = signup
-    ? "ثبت‌نام"
-    : "ورود";
-
-  $("authSwitchText").textContent = signup
-    ? "قبلاً حساب ساختی؟"
-    : "حساب نداری؟";
-
-  $("authSwitchButton").textContent = signup
-    ? "ورود"
-    : "ثبت‌نام";
-
-  $("passwordInput").autocomplete = signup
-    ? "new-password"
-    : "current-password";
+  $("authSubmitButton").textContent = signup ? "ثبت‌نام" : "ورود";
+  $("authSwitchText").textContent = signup ? "قبلاً حساب ساختی؟" : "حساب نداری؟";
+  $("authSwitchButton").textContent = signup ? "ورود" : "ثبت‌نام";
+  $("passwordInput").autocomplete = signup ? "new-password" : "current-password";
 }
 
-$("authButton").addEventListener("click", () => openAuth("login"));
-
-$("closeModalButton").addEventListener("click", closeAuth);
-
-$("authModal").addEventListener("click", event => {
-  if (event.target === $("authModal")) {
-    closeAuth();
-  }
+$("authButton").onclick = () => openAuth("login");
+$("closeModalButton").onclick = closeAuth;
+$("authModal").addEventListener("click", e => {
+  if (e.target === $("authModal")) closeAuth();
 });
-
-$("authSwitchButton").addEventListener("click", () => {
+$("authSwitchButton").onclick = () => {
   authMode = authMode === "login" ? "signup" : "login";
   updateAuthModal();
   clearStatus("authStatus");
-});
+};
 
-$("authForm").addEventListener("submit", async event => {
-  event.preventDefault();
-
+$("authForm").addEventListener("submit", async e => {
+  e.preventDefault();
   if (busy) return;
 
   const username = $("usernameInput").value.trim();
   const password = $("passwordInput").value;
   const name = $("nameInput").value.trim();
 
-  if (!username || !password) {
-    showStatus("نام کاربری و رمز عبور را وارد کن.", "error", "authStatus");
-    return;
-  }
-
-  if (authMode === "signup" && !name) {
-    showStatus("نام نمایشی را وارد کن.", "error", "authStatus");
+  if (!username || !password || (authMode === "signup" && !name)) {
+    showStatus("همهٔ فیلدهای لازم را کامل کن.", "error", "authStatus");
     return;
   }
 
@@ -972,47 +370,38 @@ $("authForm").addEventListener("submit", async event => {
     if (authMode === "signup") {
       data = await request("/logup", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: {"Content-Type":"application/json"},
         body: JSON.stringify({
           Name: name,
           User_name: username,
           PassWord: password
         })
       });
-
-      expectSuccess(data, "با موفقیت ساخته شد");
+      checkResponse(data);
+      if (!String(data).includes("با موفقیت ساخته شد")) {
+        throw new Error(messageOf(data));
+      }
     } else {
       const params = new URLSearchParams({
         user_name: username,
         pass_word: password
       });
-
-      data = await request("/login?" + params.toString(), {
-        method: "POST"
-      });
-
-      expectSuccess(data, "وارد حساب");
+      data = await request("/login?" + params, {method:"POST"});
+      checkResponse(data);
+      if (!String(data).includes("وارد حساب")) {
+        throw new Error(messageOf(data));
+      }
     }
 
     currentUser = username;
-
     updateHeader();
     closeAuth();
-
     $("authForm").reset();
-
-    showStatus(extractMessage(data), "success");
-
+    showStatus(messageOf(data), "success");
     await loadPosts();
 
   } catch (error) {
-    showStatus(
-      error.message || "ورود یا ثبت‌نام انجام نشد.",
-      "error",
-      "authStatus"
-    );
+    showStatus(error.message, "error", "authStatus");
   } finally {
     busy = false;
     $("authSubmitButton").disabled = false;
@@ -1020,49 +409,36 @@ $("authForm").addEventListener("submit", async event => {
 });
 
 function updateHeader() {
-  if (currentUser) {
-    $("authButton").textContent = "@" + currentUser;
-    $("logoutButton").classList.remove("hidden");
-    $("welcomeTitle").textContent = "خوش اومدی، " + currentUser;
-  } else {
-    $("authButton").textContent = "ورود / ثبت‌نام";
-    $("logoutButton").classList.add("hidden");
-    $("welcomeTitle").textContent = "به سیگنالا خوش آمدی";
-  }
+  $("authButton").textContent = currentUser ? "@" + currentUser : "ورود / ثبت‌نام";
+  $("logoutButton").classList.toggle("hidden", !currentUser);
+  $("welcomeTitle").textContent = currentUser
+    ? "خوش اومدی، " + currentUser
+    : "به سیگنالا خوش آمدی";
 }
 
-/* ---------------- خروج از حساب ---------------- */
+/* خروج */
 
-$("logoutButton").addEventListener("click", async () => {
+$("logoutButton").onclick = async () => {
   try {
-    const params = new URLSearchParams({ all: "false" });
-
-    const data = await request("/logout?" + params.toString(), {
-      method: "DELETE"
-    });
-
-    expectSuccess(data, "خارج شدید");
+    const data = await request("/logout?all=false", {method:"DELETE"});
+    checkResponse(data);
+    if (!String(data).includes("خارج شدید")) throw new Error(messageOf(data));
 
     currentUser = null;
-    updateHeader();
-
     currentView = "feed";
+    updateHeader();
     await loadPosts();
-
-    showStatus(extractMessage(data), "success");
-
+    showStatus(messageOf(data), "success");
   } catch (error) {
     showStatus(error.message, "error");
   }
-});
+};
 
-/* ---------------- انتشار پست ---------------- */
+/* انتشار پست */
 
-$("postForm").addEventListener("submit", async event => {
-  event.preventDefault();
-
+$("postForm").addEventListener("submit", async e => {
+  e.preventDefault();
   if (busy) return;
-
   if (!requireLogin()) return;
 
   const title = $("postTitle").value.trim();
@@ -1076,49 +452,31 @@ $("postForm").addEventListener("submit", async event => {
   busy = true;
   $("publishButton").disabled = true;
   $("publishButton").textContent = "در حال انتشار...";
-
   clearStatus();
 
   try {
     const data = await request("/share-post", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        Title: title,
-        Text: text,
-        Like: 0
-      })
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify({Title:title, Text:text, Like:0})
     });
 
-    /*
-      رفع مشکل اصلی:
-      اول پاسخ واقعی سرور را اعتبارسنجی می‌کنیم.
-      فرم فقط بعد از تأیید پاسخ مورد انتظار پاک می‌شود.
-    */
-
     console.log("پاسخ /share-post:", data, typeof data);
+    checkResponse(data);
 
-    expectSuccess(data, "با موفقیت منتشر شد");
+    if (typeof data !== "string" || !data.includes("با موفقیت منتشر شد")) {
+      throw new Error("سرور انتشار پست را تأیید نکرد: " + messageOf(data));
+    }
 
     $("postForm").reset();
-
     currentView = "feed";
     setActiveNav("feedButton");
-
     await loadPosts();
-
     showStatus("پست با موفقیت منتشر شد.", "success");
 
   } catch (error) {
-    console.error("خطای انتشار پست:", error);
-
-    showStatus(
-      "انتشار پست تأیید نشد: " + error.message,
-      "error"
-    );
-
+    console.error("خطای انتشار:", error);
+    showStatus("انتشار پست انجام نشد: " + error.message, "error");
   } finally {
     busy = false;
     $("publishButton").disabled = false;
@@ -1126,88 +484,75 @@ $("postForm").addEventListener("submit", async event => {
   }
 });
 
-/* ---------------- دریافت پست‌ها ---------------- */
+/* دریافت پست‌ها */
+
+function postId(post) { return post["num-p"]; }
+function postAuthor(post) { return post.user_name || post.User_name || ""; }
+function postTitle(post) { return post.title ?? post.Title ?? ""; }
+function postText(post) { return post.text ?? post.Text ?? ""; }
+function postLikes(post) {
+  return Array.isArray(post.likes) ? Number(post.likes[0]) || 0 : Number(post.likes) || 0;
+}
 
 async function loadPosts() {
-  $("feed").innerHTML =
-    '<div class="empty">در حال دریافت پست‌ها...</div>';
+  $("feed").innerHTML = '<div class="empty">در حال دریافت پست‌ها...</div>';
 
   try {
-    const data = await request("/posts");
-
-    if (!Array.isArray(data)) {
-      throw new Error(
-        "پاسخ /posts آرایه نیست: " + extractMessage(data)
-      );
+    const allPosts = await request("/posts");
+    if (!Array.isArray(allPosts)) {
+      throw new Error("پاسخ فهرست پست‌ها معتبر نیست: " + messageOf(allPosts));
     }
 
-    let posts = [...data];
+    let posts = allPosts;
 
     if (currentView === "mine") {
       if (!requireLogin()) {
         currentView = "feed";
-        return renderPosts([]);
+        return;
       }
 
-      const params = new URLSearchParams({
-        user_name: currentUser
-      });
+      const params = new URLSearchParams({user_name:currentUser});
+      posts = await request("/my-posts?" + params);
 
-      const mine = await request("/my-posts?" + params.toString());
-
-      if (!Array.isArray(mine)) {
-        throw new Error(
-          "پاسخ پست‌های من معتبر نیست: " + extractMessage(mine)
-        );
+      if (!Array.isArray(posts)) {
+        throw new Error("پاسخ پست‌های من معتبر نیست: " + messageOf(posts));
       }
-
-      posts = mine;
     }
 
-    renderPosts(posts);
-
+    renderPosts([...posts].reverse());
   } catch (error) {
     $("feed").innerHTML = "";
-
     const box = document.createElement("div");
     box.className = "empty";
-    box.textContent =
-      "دریافت پست‌ها ناموفق بود: " + error.message;
-
+    box.textContent = "دریافت پست‌ها ناموفق بود: " + error.message;
     $("feed").appendChild(box);
   }
 }
 
-function setActiveNav(activeId) {
-  ["feedButton", "myPostsSideButton"].forEach(id => {
-    $(id).classList.toggle("active", id === activeId);
+function setActiveNav(id) {
+  ["feedButton","myPostsSideButton"].forEach(key => {
+    $(key).classList.toggle("active", key === id);
   });
 }
 
-$("feedButton").addEventListener("click", () => {
+$("feedButton").onclick = () => {
   currentView = "feed";
   $("feedTitle").textContent = "آخرین پست‌ها";
   setActiveNav("feedButton");
   loadPosts();
-});
+};
 
-$("myPostsButton").addEventListener("click", () => {
+$("myPostsButton").onclick = () => {
   if (!requireLogin()) return;
-
   currentView = "mine";
   $("feedTitle").textContent = "پست‌های من";
   setActiveNav("myPostsSideButton");
   loadPosts();
-});
+};
 
-$("myPostsSideButton").addEventListener("click", () => {
-  $("myPostsButton").click();
-});
-
-$("refreshButton").addEventListener("click", loadPosts);
-$("reloadPostsButton").addEventListener("click", loadPosts);
-
-/* ---------------- نمایش پست‌ها ---------------- */
+$("myPostsSideButton").onclick = () => $("myPostsButton").click();
+$("refreshButton").onclick = loadPosts;
+$("reloadButton").onclick = loadPosts;
 
 function renderPosts(posts) {
   $("feed").innerHTML = "";
@@ -1217,94 +562,59 @@ function renderPosts(posts) {
     empty.className = "empty";
     empty.textContent = currentView === "mine"
       ? "هنوز پستی منتشر نکرده‌ای."
-      : "هنوز پستی منتشر نشده است. اولین پست را منتشر کن!";
-
+      : "هنوز پستی منتشر نشده است.";
     $("feed").appendChild(empty);
     return;
   }
 
-  posts.reverse().forEach(post => {
-    $("feed").appendChild(createPostCard(post));
-  });
+  posts.forEach(post => $("feed").appendChild(createPostCard(post)));
 }
 
 function createPostCard(post) {
   const article = document.createElement("article");
   article.className = "post-card";
 
-  const id = getPostId(post);
-  const author = getPostAuthor(post);
-  const title = getPostTitle(post);
-  const text = getPostText(post);
-  const likes = getLikes(post);
-
-  const isMine = currentUser && author === currentUser;
-
-  const comments = Array.isArray(post.comment)
-    ? post.comment
-    : [];
-
+  const id = postId(post);
+  const author = postAuthor(post);
+  const mine = currentUser && currentUser === author;
+  const comments = Array.isArray(post.comment) ? post.comment : [];
   const reactions = post.reactions && typeof post.reactions === "object"
-    ? post.reactions
-    : {};
+    ? post.reactions : {};
 
   article.innerHTML = `
     <div class="post-top">
       <div class="author">
-        <div class="avatar">${escapeHTML(author.slice(0, 1) || "?")}</div>
+        <div class="avatar">${escapeHTML(author.slice(0,1) || "?")}</div>
         <div>
           <div class="author-name">${escapeHTML(author || "کاربر")}</div>
           <div class="author-handle">@${escapeHTML(author || "unknown")}</div>
         </div>
       </div>
-
-      ${isMine ? `
-        <button class="danger small delete-post"
-          data-id="${escapeHTML(id)}">
-          حذف پست
-        </button>
-      ` : ""}
+      ${mine ? `<button class="danger small delete-post" data-id="${escapeHTML(id)}">حذف پست</button>` : ""}
     </div>
 
-    <h3 class="post-title">${escapeHTML(title)}</h3>
-    <p class="post-text">${escapeHTML(text)}</p>
+    <h3 class="post-title">${escapeHTML(postTitle(post))}</h3>
+    <p class="post-text">${escapeHTML(postText(post))}</p>
 
     <div class="post-actions">
-      <button class="like-post" data-id="${escapeHTML(id)}">
-        👍 لایک (${likes})
-      </button>
-
-      <button class="toggle-comments" data-id="${escapeHTML(id)}">
-        💬 کامنت (${Number(post.num_comment) || comments.length})
-      </button>
+      <button class="like-post" data-id="${escapeHTML(id)}">👍 لایک (${postLikes(post)})</button>
+      <button class="toggle-comments" data-id="${escapeHTML(id)}">💬 کامنت (${Number(post.num_comment) || comments.length})</button>
     </div>
 
     <div class="reactions">
-      ${REACTIONS.map(reaction => `
-        <button class="react-post"
-          data-id="${escapeHTML(id)}"
-          data-reaction="${escapeHTML(reaction)}">
-          ${reaction}
-          ${Number(reactions[reaction]) || 0}
+      ${REACTIONS.map(r => `
+        <button class="react-post" data-id="${escapeHTML(id)}" data-reaction="${escapeHTML(r)}">
+          ${r} ${Number(reactions[r]) || 0}
         </button>
       `).join("")}
     </div>
 
     <section class="comments hidden" id="comments-${escapeHTML(id)}">
-      <h4>نظرات</h4>
-
-      <div class="comment-list">
-        ${comments.map(comment => renderComment(comment, id)).join("")}
-      </div>
-
+      <h4>کامنت‌ها</h4>
+      <div class="comment-list">${comments.map(c => renderComment(c)).join("")}</div>
       <form class="comment-form" data-id="${escapeHTML(id)}">
-        <input
-          name="commentText"
-          maxlength="2000"
-          placeholder="نظر خودت را بنویس..."
-          required
-        >
-        <button class="primary small" type="submit">ارسال</button>
+        <input name="commentText" maxlength="2000" placeholder="کامنت بنویس..." required>
+        <button class="primary" type="submit">ارسال</button>
       </form>
     </section>
   `;
@@ -1312,241 +622,141 @@ function createPostCard(post) {
   return article;
 }
 
-function renderComment(comment, postId) {
+function renderComment(comment) {
   if (typeof comment === "string") {
-    return `
-      <div class="comment-item">
-        <div class="comment-text">${escapeHTML(comment)}</div>
-      </div>
-    `;
+    return `<div class="comment-item"><div class="comment-text">${escapeHTML(comment)}</div></div>`;
   }
-
-  const author =
-    comment.user_name ||
-    comment.User_name ||
-    comment.author ||
-    "کاربر";
-
-  const text =
-    comment.text ??
-    comment.Text ??
-    comment.comment ??
-    "";
-
-  const replies = Array.isArray(comment.replies)
-    ? comment.replies
-    : Array.isArray(comment.reply)
-      ? comment.reply
-      : [];
 
   return `
     <div class="comment-item">
-      <div class="comment-meta">${escapeHTML(author)}</div>
-      <div class="comment-text">${escapeHTML(text)}</div>
-
-      ${replies.map(reply => `
-        <div class="comment-item" style="margin-right:14px">
-          <div class="comment-meta">
-            ${escapeHTML(
-              reply.user_name || reply.User_name || "کاربر"
-            )}
-          </div>
-          <div class="comment-text">
-            ${escapeHTML(reply.text ?? reply.Text ?? "")}
-          </div>
-        </div>
-      `).join("")}
+      <div class="comment-meta">${escapeHTML(comment.user_name || comment.User_name || "کاربر")}</div>
+      <div class="comment-text">${escapeHTML(comment.text ?? comment.Text ?? "")}</div>
     </div>
   `;
 }
 
-/* ---------------- لایک پست ---------------- */
+/* لایک پست: نام پارامتر اصلاح‌شده */
 
-/*
-  قرارداد مورد انتظار:
-  POST /like-p?num_p=شناسه
-
-  اگر نام پارامتر در بک‌اند تو متفاوت است،
-  باید این خط با امضای واقعی endpoint هماهنگ شود.
-*/
-
-$("feed").addEventListener("click", async event => {
-  const likeButton = event.target.closest(".like-post");
-
-  if (!likeButton) return;
-  if (!requireLogin()) return;
-
-  const id = likeButton.dataset.id;
-
-  try {
-    const params = new URLSearchParams({ num_p: id });
-
-    const data = await request("/like-p?" + params.toString(), {
-      method: "POST"
-    });
-
-    if (typeof data === "string" && isErrorMessage(data)) {
-      throw new Error(data);
-    }
-
-    await loadPosts();
-
-  } catch (error) {
-    showStatus("لایک انجام نشد: " + error.message, "error");
-  }
-});
-
-/* ---------------- واکنش به پست ---------------- */
-
-$("feed").addEventListener("click", async event => {
-  const button = event.target.closest(".react-post");
-
+$("feed").addEventListener("click", async e => {
+  const button = e.target.closest(".like-post");
   if (!button) return;
   if (!requireLogin()) return;
-
-  const id = button.dataset.id;
-  const reaction = button.dataset.reaction;
-
-  try {
-    const params = new URLSearchParams({
-      num_p: id,
-      reaction: reaction
-    });
-
-    const data = await request("/Reaction?" + params.toString(), {
-      method: "POST"
-    });
-
-    if (typeof data === "string" && isErrorMessage(data)) {
-      throw new Error(data);
-    }
-
-    await loadPosts();
-
-  } catch (error) {
-    showStatus("ثبت واکنش انجام نشد: " + error.message, "error");
-  }
-});
-
-/* ---------------- باز و بسته کردن کامنت‌ها ---------------- */
-
-$("feed").addEventListener("click", event => {
-  const button = event.target.closest(".toggle-comments");
-
-  if (!button) return;
-
-  const id = button.dataset.id;
-  const section = $("comments-" + id);
-
-  if (section) {
-    section.classList.toggle("hidden");
-  }
-});
-
-/* ---------------- ثبت کامنت ---------------- */
-
-/*
-  قرارداد مورد انتظار:
-  POST /Comment?num_p=شناسه
-
-  بدنه:
-  {"Text": "متن کامنت"}
-
-  این قرارداد باید با تعریف واقعی endpoint در بک‌اند یکسان باشد.
-*/
-
-$("feed").addEventListener("submit", async event => {
-  const form = event.target.closest(".comment-form");
-
-  if (!form) return;
-
-  event.preventDefault();
-
-  if (!requireLogin()) return;
-
-  const id = form.dataset.id;
-  const input = form.elements.commentText;
-  const text = input.value.trim();
-
-  if (!text) return;
-
-  const submitButton = form.querySelector("button");
-  submitButton.disabled = true;
-
-  try {
-    const params = new URLSearchParams({ num_p: id });
-
-    const data = await request("/Comment?" + params.toString(), {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ Text: text })
-    });
-
-    if (typeof data === "string" && isErrorMessage(data)) {
-      throw new Error(data);
-    }
-
-    await loadPosts();
-
-    const section = $("comments-" + id);
-    if (section) section.classList.remove("hidden");
-
-    showStatus("کامنت ارسال شد.", "success");
-
-  } catch (error) {
-    showStatus("ارسال کامنت ناموفق بود: " + error.message, "error");
-  } finally {
-    submitButton.disabled = false;
-  }
-});
-
-/* ---------------- حذف پست خود کاربر ---------------- */
-
-/*
-  قرارداد مورد انتظار:
-  DELETE /delet-post?num_p=شناسه
-
-  اگر بک‌اند پارامتر دیگری می‌گیرد، آن را هماهنگ کن.
-*/
-
-$("feed").addEventListener("click", async event => {
-  const button = event.target.closest(".delete-post");
-
-  if (!button) return;
-  if (!requireLogin()) return;
-
-  const id = button.dataset.id;
-
-  if (!confirm("مطمئنی می‌خواهی این پست را حذف کنی؟")) {
-    return;
-  }
 
   button.disabled = true;
 
   try {
-    const params = new URLSearchParams({ num_p: id });
+    const params = new URLSearchParams({len_post:button.dataset.id});
+    const data = await request("/like-p?" + params, {method:"POST"});
+    checkResponse(data);
+    await loadPosts();
+    showStatus(typeof data === "string" ? data : "لایک ثبت شد.", "success");
+  } catch (error) {
+    showStatus("لایک انجام نشد: " + error.message, "error");
+  } finally {
+    button.disabled = false;
+  }
+});
 
-    const data = await request("/delet-post?" + params.toString(), {
-      method: "DELETE"
+/* ری‌اکشن پست: نام پارامتر اصلاح‌شده */
+
+$("feed").addEventListener("click", async e => {
+  const button = e.target.closest(".react-post");
+  if (!button) return;
+  if (!requireLogin()) return;
+
+  button.disabled = true;
+
+  try {
+    const params = new URLSearchParams({
+      len_post: button.dataset.id,
+      re_action: button.dataset.reaction
     });
 
-    if (typeof data === "string" && isErrorMessage(data)) {
+    const data = await request("/Reaction?" + params, {method:"POST"});
+    checkResponse(data);
+    await loadPosts();
+    showStatus(typeof data === "string" ? data : "واکنش ثبت شد.", "success");
+  } catch (error) {
+    showStatus("ثبت ری‌اکشن انجام نشد: " + error.message, "error");
+  } finally {
+    button.disabled = false;
+  }
+});
+
+/* باز و بسته کردن کامنت‌ها */
+
+$("feed").addEventListener("click", e => {
+  const button = e.target.closest(".toggle-comments");
+  if (!button) return;
+
+  const section = $("comments-" + button.dataset.id);
+  if (section) section.classList.toggle("hidden");
+});
+
+/* ارسال کامنت */
+
+$("feed").addEventListener("submit", async e => {
+  const form = e.target.closest(".comment-form");
+  if (!form) return;
+  e.preventDefault();
+
+  if (!requireLogin()) return;
+
+  const text = form.elements.commentText.value.trim();
+  if (!text) return;
+
+  const button = form.querySelector("button");
+  button.disabled = true;
+
+  try {
+    const params = new URLSearchParams({len_post:form.dataset.id});
+    const data = await request("/Comment?" + params, {
+      method: "POST",
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify({Text:text})
+    });
+
+    checkResponse(data);
+    if (typeof data === "string" && !/کامنت|نظر|موفق|ثبت شد/i.test(data)) {
       throw new Error(data);
     }
 
     await loadPosts();
 
-    showStatus("درخواست حذف پست ارسال شد.", "success");
+    const section = $("comments-" + form.dataset.id);
+    if (section) section.classList.remove("hidden");
 
+    showStatus(typeof data === "string" ? data : "کامنت ارسال شد.", "success");
   } catch (error) {
-    showStatus("حذف پست ناموفق بود: " + error.message, "error");
+    showStatus("ارسال کامنت ناموفق بود: " + error.message, "error");
+  } finally {
     button.disabled = false;
   }
 });
 
-/* ---------------- شروع برنامه ---------------- */
+/* حذف پست خود کاربر */
+
+$("feed").addEventListener("click", async e => {
+  const button = e.target.closest(".delete-post");
+  if (!button) return;
+  if (!requireLogin()) return;
+
+  if (!confirm("از حذف این پست مطمئنی؟")) return;
+
+  button.disabled = true;
+
+  try {
+    const params = new URLSearchParams({len_post:button.dataset.id});
+    const data = await request("/delet-post?" + params, {method:"DELETE"});
+    checkResponse(data);
+    await loadPosts();
+    showStatus(typeof data === "string" ? data : "درخواست حذف ارسال شد.", "success");
+  } catch (error) {
+    showStatus("حذف پست ناموفق بود: " + error.message, "error");
+  } finally {
+    button.disabled = false;
+  }
+});
 
 async function startApp() {
   updateHeader();
@@ -1555,6 +765,5 @@ async function startApp() {
 
 startApp();
 </script>
-
 </body>
 </html>
