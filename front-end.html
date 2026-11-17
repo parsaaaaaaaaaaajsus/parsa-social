@@ -2,125 +2,987 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Parsa Social</title>
-  <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: Tahoma, sans-serif;
-      background: #101827;
-      color: white;
-      min-height: 100vh;
-      display: grid;
-      place-items: center;
-      padding: 20px;
-    }
-    main {
-      width: 100%;
-      max-width: 420px;
-      background: #1c283a;
-      padding: 28px;
-      border-radius: 18px;
-    }
-    h1 { font-size: 26px; }
-    p { color: #b9c6d8; line-height: 1.8; }
-    input, button {
-      width: 100%;
-      padding: 13px;
-      margin: 8px 0;
-      border-radius: 9px;
-      font: inherit;
-    }
-    input {
-      background: #101827;
-      color: white;
-      border: 1px solid #3a4860;
-    }
-    button {
-      border: 0;
-      background: #6366f1;
-      color: white;
-      cursor: pointer;
-    }
-    button.secondary { background: #344155; }
-    #message { overflow-wrap: anywhere; }
-    .account {
-      background: #101827;
-      padding: 12px;
-      border-radius: 8px;
-      margin-top: 8px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>شبکه اجتماعی</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #f3f4f6;
+            color: #222;
+            font-family: Tahoma, Arial, sans-serif;
+        }
+
+        button, input, textarea {
+            font-family: inherit;
+        }
+
+        button {
+            cursor: pointer;
+            border: none;
+            border-radius: 8px;
+            padding: 9px 14px;
+            background: #2563eb;
+            color: white;
+        }
+
+        button:hover {
+            opacity: .85;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin: 6px 0;
+            font-size: 14px;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 75px;
+        }
+
+        .container {
+            max-width: 760px;
+            margin: 25px auto;
+            padding: 0 14px;
+        }
+
+        header {
+            background: white;
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        header h2 {
+            margin: 0;
+            color: #2563eb;
+        }
+
+        .card {
+            background: white;
+            padding: 17px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px #00000008;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .muted {
+            color: #888;
+            font-size: 12px;
+        }
+
+        .post-title {
+            margin: 12px 0;
+            font-size: 19px;
+        }
+
+        .post-text {
+            line-height: 2;
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+        }
+
+        .actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 14px;
+        }
+
+        .secondary {
+            background: #e5e7eb;
+            color: #333;
+        }
+
+        .danger {
+            background: #dc2626;
+        }
+
+        .comments {
+            border-top: 1px solid #eee;
+            margin-top: 15px;
+            padding-top: 12px;
+        }
+
+        .comment {
+            background: #f8fafc;
+            border-radius: 9px;
+            padding: 12px;
+            margin: 10px 0;
+        }
+
+        .reply {
+            background: #eef2ff;
+            margin: 9px 0 9px 15px;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .comment-content {
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+            margin: 10px 0;
+        }
+
+        .reaction-list {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .reaction-list button {
+            background: #f1f5f9;
+            color: #222;
+            font-size: 18px;
+            padding: 5px 9px;
+        }
+
+        .message {
+            padding: 10px;
+            border-radius: 8px;
+            margin: 10px 0;
+            background: #e0f2fe;
+            color: #075985;
+        }
+
+        .auth {
+            max-width: 420px;
+            margin: 45px auto;
+        }
+
+        .auth h2 {
+            text-align: center;
+        }
+
+        .form-buttons {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .form-buttons button {
+            flex: 1;
+        }
+
+        .reply-form {
+            margin-top: 10px;
+        }
+
+        .top-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        @media(max-width: 500px) {
+            header {
+                padding: 12px;
+            }
+
+            .container {
+                margin-top: 12px;
+            }
+
+            .card {
+                padding: 13px;
+            }
+        }
+    </style>
 </head>
+
 <body>
-  <main>
-    <h1>Parsa Social</h1>
-    <p>حساب خودت رو بساز و به جمع ما بپیوند.</p>
 
-    <form id="signup">
-      <input id="name" placeholder="نام شما" required>
-      <input id="username" placeholder="نام کاربری" required>
-      <button type="submit">ساخت حساب</button>
-    </form>
+<header>
+    <h2>شبکه اجتماعی</h2>
 
-    <button class="secondary" id="show">مشاهده حساب‌ها</button>
-    <p id="message"></p>
-    <div id="accounts"></div>
-  </main>
+    <div class="top-info">
+        <span id="username" class="muted"></span>
+        <button id="logoutBtn" class="danger hidden" onclick="logout()">
+            خروج
+        </button>
+    </div>
+</header>
 
-  <script>
-    const API = "https://parsa-social.onrender.com";
-    const message = document.getElementById("message");
+<div id="message" class="message hidden"></div>
 
-    document.getElementById("signup").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      message.textContent = "در حال ارسال...";
+<!-- Authentication -->
 
-      try {
-        const response = await fetch(`${API}/create-A`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            Name: document.getElementById("name").value.trim(),
-            User_name: document.getElementById("username").value.trim()
-          })
+<section id="authSection" class="auth card">
+
+    <h2 id="authTitle">ورود به حساب</h2>
+
+    <div id="registerFields" class="hidden">
+        <input id="regName" placeholder="نام نمایشی">
+    </div>
+
+    <input id="authUsername" placeholder="نام کاربری">
+    <input id="authPassword" type="password" placeholder="رمز عبور">
+
+    <button id="authSubmit" onclick="authenticate()" style="width:100%">
+        ورود
+    </button>
+
+    <div class="form-buttons">
+        <button class="secondary" onclick="showAuth('login')">
+            ورود
+        </button>
+
+        <button class="secondary" onclick="showAuth('register')">
+            ثبت‌نام
+        </button>
+    </div>
+
+</section>
+
+
+<!-- Main application -->
+
+<main id="mainSection" class="container hidden">
+
+    <!-- Admin post creation -->
+
+    <section id="createPostSection" class="card hidden">
+        <h3>ساخت پست جدید</h3>
+
+        <input id="newPostTitle" placeholder="عنوان پست">
+
+        <textarea id="newPostText" placeholder="متن پست"></textarea>
+
+        <button onclick="createPost()">انتشار پست</button>
+    </section>
+
+    <h3>آخرین پست‌ها</h3>
+
+    <div id="postsContainer"></div>
+
+</main>
+
+
+<script>
+    const API = "";
+
+    let currentUser = null;
+    let authMode = "login";
+
+    const reactions = ["😂", "👍", "😒", "😢", "🤩", "😐", "😭", "😡"];
+
+
+    // --------------------------------------------------
+    // General functions
+    // --------------------------------------------------
+
+    function escapeHTML(value) {
+        return String(value ?? "").replace(/[&<>"']/g, char => ({
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#039;"
+        })[char]);
+    }
+
+
+    function showMessage(text) {
+        const box = document.getElementById("message");
+
+        box.textContent = text;
+        box.classList.remove("hidden");
+
+        setTimeout(() => {
+            box.classList.add("hidden");
+        }, 4000);
+    }
+
+
+    async function request(path, options = {}) {
+        const response = await fetch(API + path, {
+            credentials: "include",
+            ...options,
+            headers: {
+                ...(options.body ? {
+                    "Content-Type": "application/json"
+                } : {}),
+                ...options.headers
+            }
         });
 
-        const data = await response.json();
-        message.textContent =
-          typeof data === "string" ? data :
-          data.detail ? JSON.stringify(data.detail) :
-          JSON.stringify(data);
+        const contentType = response.headers.get("content-type") || "";
 
-      } catch {
-        message.textContent =
-          "اتصال ناموفق بود؛ ممکن است سرور خاموش باشد یا CORS تنظیم نشده باشد.";
-      }
-    });
+        let data;
 
-    document.getElementById("show").addEventListener("click", async () => {
-      const list = document.getElementById("accounts");
-      list.textContent = "در حال دریافت حساب‌ها...";
+        if (contentType.includes("application/json")) {
+            data = await response.json();
+        } else {
+            data = await response.text();
+        }
 
-      try {
-        const response = await fetch(`${API}/see-A`);
-        if (!response.ok) throw new Error("Request failed");
-        const accounts = await response.json();
+        if (!response.ok) {
+            let error = typeof data === "object"
+                ? data.detail || JSON.stringify(data)
+                : data;
 
-        list.replaceChildren();
-        accounts.forEach(account => {
-          const item = document.createElement("div");
-          item.className = "account";
-          item.textContent = `${account.name} (@${account.user_name})`;
-          list.appendChild(item);
-        });
-        message.textContent = `${accounts.length} حساب دریافت شد.`;
-      } catch {
-        list.textContent = "دریافت حساب‌ها ناموفق بود.";
-      }
-    });
-  </script>
+            throw new Error(error || "خطایی رخ داد.");
+        }
+
+        return data;
+    }
+
+
+    function query(params) {
+        return new URLSearchParams(params).toString();
+    }
+
+
+    function jsonBody(data) {
+        return JSON.stringify(data);
+    }
+
+
+    // --------------------------------------------------
+    // Authentication
+    // --------------------------------------------------
+
+    function showAuth(mode) {
+        authMode = mode;
+
+        document.getElementById("authTitle").textContent =
+            mode === "login" ? "ورود به حساب" : "ساخت حساب کاربری";
+
+        document.getElementById("authSubmit").textContent =
+            mode === "login" ? "ورود" : "ثبت‌نام";
+
+        document.getElementById("registerFields").classList.toggle(
+            "hidden",
+            mode !== "register"
+        );
+    }
+
+
+    async function authenticate() {
+        const username = document.getElementById("authUsername").value.trim();
+        const password = document.getElementById("authPassword").value;
+
+        if (!username || !password) {
+            return showMessage("نام کاربری و رمز عبور را وارد کن.");
+        }
+
+        try {
+            if (authMode === "register") {
+                const name = document.getElementById("regName").value.trim();
+
+                if (!name) {
+                    return showMessage("نام نمایشی را وارد کن.");
+                }
+
+                await request("/logup", {
+                    method: "POST",
+                    body: jsonBody({
+                        Name: name,
+                        User_name: username,
+                        PassWord: password
+                    })
+                });
+
+            } else {
+                await request("/login", {
+                    method: "POST",
+                    body: jsonBody({
+                        User_name: username,
+                        PassWord: password
+                    })
+                });
+            }
+
+            await checkSession();
+
+        } catch (error) {
+            showMessage(error.message);
+        }
+    }
+
+
+    async function checkSession() {
+        try {
+            currentUser = await request("/me");
+
+            document.getElementById("authSection").classList.add("hidden");
+            document.getElementById("mainSection").classList.remove("hidden");
+            document.getElementById("logoutBtn").classList.remove("hidden");
+
+            document.getElementById("username").textContent =
+                currentUser.name + " (@" + currentUser.user_name + ")";
+
+            document.getElementById("createPostSection").classList.toggle(
+                "hidden",
+                currentUser.id !== 1
+            );
+
+            await loadPosts();
+
+        } catch {
+            currentUser = null;
+
+            document.getElementById("authSection").classList.remove("hidden");
+            document.getElementById("mainSection").classList.add("hidden");
+            document.getElementById("logoutBtn").classList.add("hidden");
+        }
+    }
+
+
+    async function logout() {
+        try {
+            await request("/logout?all=false", {
+                method: "DELETE"
+            });
+
+            currentUser = null;
+            await checkSession();
+
+            showMessage("از حساب خارج شدی.");
+
+        } catch (error) {
+            showMessage(error.message);
+        }
+    }
+
+
+    // --------------------------------------------------
+    // Posts
+    // --------------------------------------------------
+
+    async function loadPosts() {
+        try {
+            const posts = await request("/posts");
+
+            const container = document.getElementById("postsContainer");
+
+            container.innerHTML = "";
+
+            if (!posts.length) {
+                container.textContent = "هنوز پستی منتشر نشده است.";
+                return;
+            }
+
+            for (const post of posts) {
+                const comments = await request(
+                    `/posts/${post.id}/comments`
+                );
+
+                container.insertAdjacentHTML(
+                    "beforeend",
+                    renderPost(post, comments)
+                );
+            }
+
+        } catch (error) {
+            showMessage(error.message);
+        }
+    }
+
+
+    function renderPost(post, comments) {
+        const isOwner = currentUser &&
+            (currentUser.id === post.user_id || currentUser.id === 1);
+
+        const likes = post.likes || [];
+        const liked = currentUser && likes.includes(currentUser.id);
+
+        return `
+            <article class="card" id="post-${post.id}">
+
+                <div class="muted">
+                    ${escapeHTML(post.name)}
+                    (@${escapeHTML(post.user_name)})
+                </div>
+
+                <h3 class="post-title">
+                    ${escapeHTML(post.title)}
+                </h3>
+
+                <div class="post-text">
+                    ${escapeHTML(post.text)}
+                </div>
+
+                <div class="actions">
+
+                    <button class="secondary"
+                        onclick="like('post', ${post.id})">
+                        ${liked ? "❤️" : "👍"}
+                        ${likes.length}
+                    </button>
+
+                    ${isOwner ? `
+                        <button class="secondary"
+                            onclick="editPost(${post.id})">
+                            ویرایش
+                        </button>
+
+                        <button class="danger"
+                            onclick="deletePost(${post.id})">
+                            حذف
+                        </button>
+                    ` : ""}
+
+                </div>
+
+                <div class="reaction-list">
+                    ${reactions.map(emoji => `
+                        <button onclick="react(${post.id}, '${emoji}')">
+                            ${emoji}
+                        </button>
+                    `).join("")}
+                </div>
+
+                <section class="comments">
+
+                    <h4>نظرات (${comments.length})</h4>
+
+                    <div id="comments-${post.id}">
+                        ${comments.map(comment =>
+                            renderComment(comment)
+                        ).join("")}
+                    </div>
+
+                    <div class="reply-form">
+                        <textarea
+                            id="comment-input-${post.id}"
+                            placeholder="نظر خود را بنویس...">
+                        </textarea>
+
+                        <button onclick="createComment(${post.id})">
+                            ارسال نظر
+                        </button>
+                    </div>
+
+                </section>
+
+            </article>
+        `;
+    }
+
+
+    async function createPost() {
+        const title = document.getElementById("newPostTitle").value.trim();
+        const text = document.getElementById("newPostText").value.trim();
+
+        if (!title || !text) {
+            return showMessage("عنوان و متن پست را وارد کن.");
+        }
+
+        try {
+            await request("/share-post", {
+                method: "POST",
+                body: jsonBody({
+                    Title: title,
+                    Text: text
+                })
+            });
+
+            document.getElementById("newPostTitle").value = "";
+            document.getElementById("newPostText").value = "";
+
+            showMessage("پست منتشر شد.");
+            await loadPosts();
+
+        } catch (error) {
+            showMessage(error.message);
+        }
+    }
+
+
+    // --------------------------------------------------
+    // Comments and replies
+    // --------------------------------------------------
+
+    function renderComment(comment) {
+        const isOwner = currentUser &&
+            (currentUser.id === comment.user_id || currentUser.id === 1);
+
+        const liked = currentUser &&
+            (comment.likes || []).includes(currentUser.id);
+
+        return `
+            <div class="comment" id="comment-${comment.id}">
+
+                <div class="muted">
+                    ${escapeHTML(comment.name)}
+                    (@${escapeHTML(comment.user_name)})
+                </div>
+
+                <div class="comment-content">
+                    ${escapeHTML(comment.text)}
+                </div>
+
+                <div class="actions">
+
+                    <button class="secondary"
+                        onclick="like('comment', ${comment.id})">
+                        ${liked ? "❤️" : "👍"}
+                        ${(comment.likes || []).length}
+                    </button>
+
+                    <button class="secondary"
+                        onclick="showReplyForm(${comment.id}, null, '${escapeHTML(comment.user_name)}')">
+                        پاسخ
+                    </button>
+
+                    ${isOwner ? `
+                        <button class="secondary"
+                            onclick="editComment(${comment.id})">
+                            ویرایش
+                        </button>
+
+                        <button class="danger"
+                            onclick="deleteComment(${comment.id})">
+                            حذف
+                        </button>
+                    ` : ""}
+
+                </div>
+
+                <div id="reply-form-${comment.id}-root"></div>
+
+                <div class="replies">
+                    ${(comment.replies || []).map(reply =>
+                        renderReply(reply, comment.id)
+                    ).join("")}
+                </div>
+
+            </div>
+        `;
+    }
+
+
+    function renderReply(reply, commentId) {
+        const isOwner = currentUser &&
+            (currentUser.id === reply.user_id || currentUser.id === 1);
+
+        const liked = currentUser &&
+            (reply.likes || []).includes(currentUser.id);
+
+        return `
+            <div class="reply" id="reply-${reply.id}">
+
+                <div class="muted">
+                    ${escapeHTML(reply.name)}
+                    (@${escapeHTML(reply.user_name)})
+                    در پاسخ به
+                    @${escapeHTML(reply.reply_to_user_name)}
+                </div>
+
+                <div class="comment-content">
+                    ${escapeHTML(reply.text)}
+                </div>
+
+                <div class="actions">
+
+                    <button class="secondary"
+                        onclick="like('reply', ${reply.id})">
+                        ${liked ? "❤️" : "👍"}
+                        ${(reply.likes || []).length}
+                    </button>
+
+                    <button class="secondary"
+                        onclick="showReplyForm(${commentId}, ${reply.id}, '${escapeHTML(reply.user_name)}')">
+                        پاسخ
+                    </button>
+
+                    ${isOwner ? `
+                        <button class="secondary"
+                            onclick="editReply(${reply.id})">
+                            ویرایش
+                        </button>
+
+                        <button class="danger"
+                            onclick="deleteReply(${reply.id})">
+                            حذف
+                        </button>
+                    ` : ""}
+
+                </div>
+
+                <div id="reply-form-${commentId}-${reply.id}"></div>
+
+                <div class="replies">
+                    ${(reply.replies || []).map(child =>
+                        renderReply(child, commentId)
+                    ).join("")}
+                </div>
+
+            </div>
+        `;
+    }
+
+
+    async function createComment(postId) {
+        const text = document.getElementById(
+            `comment-input-${postId}`
+        ).value.trim();
+
+        if (!text) return showMessage("متن نظر خالی است.");
+
+        try {
+            await request(`/Comment?post_id=${postId}`, {
+                method: "POST",
+                body: jsonBody({ Text: text })
+            });
+
+            showMessage("نظر ثبت شد.");
+            await loadPosts();
+
+        } catch (error) {
+            showMessage(error.message);
+        }
+    }
+
+
+    function showReplyForm(commentId, replyId, audience) {
+        const target = document.getElementById(
+            `reply-form-${commentId}-${replyId ?? "root"}`
+        );
+
+        target.innerHTML = `
+            <div class="reply-form">
+
+                <textarea id="reply-input-${commentId}-${replyId ?? "root"}"
+                    placeholder="پاسخ به @${escapeHTML(audience)}">
+                </textarea>
+
+                <button onclick="createReply(
+                    ${commentId},
+                    ${replyId === null ? "null" : replyId},
+                    '${escapeHTML(audience)}'
+                )">
+                    ارسال پاسخ
+                </button>
+
+            </div>
+        `;
+    }
+
+
+    async function createReply(commentId, replyId, audience) {
+        const key = replyId ?? "root";
+
+        const text = document.getElementById(
+            `reply-input-${commentId}-${key}`
+        ).value.trim();
+
+        if (!text) return showMessage("متن پاسخ خالی است.");
+
+        const params = {
+            comment_id: commentId,
+            user_name_audience: audience
+        };
+
+        if (replyId !== null) {
+            params.reply_id = replyId;
+        }
+
+        try {
+            await request("/reply-to-comment?" + query(params), {
+                method: "POST",
+                body: jsonBody({ Text: text })
+            });
+
+            showMessage("پاسخ ثبت شد.");
+            await loadPosts();
+
+        } catch (error) {
+            showMessage(error.message);
+        }
+    }
+
+
+    // --------------------------------------------------
+    // Likes and reactions
+    // --------------------------------------------------
+
+    async function like(type, id) {
+        try {
+            await request("/like?" + query({
+                target_type: type,
+                target_id: id
+            }), {
+                method: "POST"
+            });
+
+            await loadPosts();
+
+        } catch (error) {
+            showMessage(error.message);
+        }
+    }
+
+
+    async function react(postId, emoji) {
+        try {
+            await request("/Reaction?" + query({
+                re_action: emoji,
+                target_id: postId
+            }), {
+                method: "POST"
+            });
+
+            await loadPosts();
+
+        } catch (error) {
+            showMessage(error.message);
+        }
+    }
+
+
+    // --------------------------------------------------
+    // Edit functions
+    // --------------------------------------------------
+
+    async function editPost(id) {
+        try {
+            const post = await request(`/posts/${id}`);
+
+            const title = prompt("عنوان جدید:", post.title);
+            if (title === null) return;
+
+            const text = prompt("متن جدید:", post.text);
+            if (text === null) return;
+
+            await request(`/edit-post?post_id=${id}`, {
+                method: "PUT",
+                body: jsonBody({
+                    Title: title,
+                    Text: text
+                })
+            });
+
+            showMessage("پست ویرایش شد.");
+            await loadPosts();
+
+        } catch (error) {
+            showMessage(error.message);
+        }
+    }
+
+
+    async function editComment(id) {
+        try {
+            const comment = await request(`/comments/${id}`);
+
+            const text = prompt("متن جدید:", comment.text);
+            if (text === null) return;
+
+            await request(`/edit-comment?comment_id=${id}`, {
+                method: "PUT",
+                body: jsonBody({ Text: text })
+            });
+
+            showMessage("کامنت ویرایش شد.");
+            await loadPosts();
+
+        } catch (error) {
+            showMessage(error.message);
+        }
+    }
+
+
+    async function editReply(id) {
+        try {
+            const reply = await request(`/replys/${id}`);
+
+            const text = prompt("متن جدید:", reply.text);
+            if (text === null) return;
+
+            await request(`/edit-reply?reply_id=${id}`, {
+                method: "PUT",
+                body: jsonBody({ Text: text })
+            });
+
+            showMessage("ریپلای ویرایش شد.");
+            await loadPosts();
+
+        } catch (error) {
+            showMessage(error.message);
+        }
+    }
+
+
+    // --------------------------------------------------
+    // Delete functions
+    // --------------------------------------------------
+
+    async function deletePost(id) {
+        if (!confirm("این پست و تمام نظرات آن حذف شوند؟")) return;
+
+        try {
+            await request(`/delet-post?post_id=${id}`, {
+                method: "DELETE"
+            });
+
+            showMessage("پست حذف شد.");
+            await loadPosts();
+
+        } catch (error) {
+            showMessage(error.message);
+        }
+    }
+
+
+    async function deleteComment(id) {
+        if (!confirm("این کامنت و تمام پاسخ‌هایش حذف شوند؟")) return;
+
+        try {
+            await request(`/delet-comment?comment_id=${id}`, {
+                method: "DELETE"
+            });
+
+            showMessage("کامنت حذف شد.");
+            await loadPosts();
+
+        } catch (error) {
+            showMessage(error.message);
+        }
+    }
+
+
+    async function deleteReply(id) {
+        if (!confirm("این ریپلای حذف شود؟")) return;
+
+        try {
+            await request(`/delet-reply?reply_id=${id}`, {
+                method: "DELETE"
+            });
+
+            showMessage("ریپلای حذف شد.");
+            await loadPosts();
+
+        } catch (error) {
+            showMessage(error.message);
+        }
+    }
+
+
+    // --------------------------------------------------
+    // Start
+    // --------------------------------------------------
+
+    checkSession();
+
+</script>
+
 </body>
 </html>
