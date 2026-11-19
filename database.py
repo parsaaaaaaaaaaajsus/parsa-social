@@ -1,7 +1,12 @@
-
 import os
+
 import psycopg
+from psycopg.rows import dict_row
 
 
 def get_connection():
-    return psycopg.connect(os.environ["DATABASE_URL"])
+    database_url = os.environ.get("DATABASE_URL")
+    if not database_url:
+        raise RuntimeError("DATABASE_URL environment variable is not set")
+
+    return psycopg.connect(database_url, row_factory=dict_row)
